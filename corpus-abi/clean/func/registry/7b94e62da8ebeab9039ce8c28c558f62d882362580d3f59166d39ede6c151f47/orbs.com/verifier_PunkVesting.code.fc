@@ -1,0 +1,369 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "verifier_PunkVesting.headers.fc";
+#include "verifier_PunkVesting.stdlib.fc";
+#include "verifier_PunkVesting.storage.fc";
+
+;;
+;; Contract PunkVesting functions
+;;
+
+(slice, slice, int, cell, int, cell, int, int) $PunkVesting$_contract_init() impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = (null(), null(), null(), null(), null(), null(), null(), null());
+    $self'owner = __tact_context_get_sender();
+    $self'holdersCount = 0;
+    $self'holdersMap = null();
+    $self'periodsCount = 0;
+    $self'periodsMap = null();
+    $self'percentFactor = 100;
+    $self'vestingRound = 0;
+    return ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound);
+}
+
+cell $global_getTEP74TranserMessage(int $amount, slice $to) impure inline_ref {
+    return end_cell(store_int(store_coins(store_int(__tact_store_address(__tact_store_address(store_coins(store_uint(store_uint(begin_cell(), 260734629, 32), cur_lt(), 64), $amount), $to), $to), 0, 1), 1), 0, 1));
+}
+
+int $Address$_fun_getHash(slice $self) impure inline_ref {
+    var ($self) = $self;
+    var ($parsed'wc, $parsed'hash) = parse_std_addr($self);
+    throw_unless(44310, ($parsed'wc == 0));
+    return $parsed'hash;
+}
+
+((slice, slice, int, cell, int, cell, int, int), tuple) $PunkVesting$_fun_getCurrentPeriod_internal((slice, slice, int, cell, int, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    throw_unless(18919, ($self'vestingRound != 0));
+    int $now = now();
+    int $i = ($self'periodsCount - 1);
+    if (($now < $Period$_get_startTime($Period$_not_null($Period$_load_opt(__tact_dict_get_int_cell($self'periodsMap, 257, 0)))))) {
+        return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), null());
+    }
+    var ($currentPeriod'startTime, $currentPeriod'percent) = $Period$_not_null($Period$_load_opt(__tact_dict_get_int_cell($self'periodsMap, 257, $i)));
+    while (($i >= 1)) {
+        ($currentPeriod'startTime, $currentPeriod'percent) = $Period$_not_null($Period$_load_opt(__tact_dict_get_int_cell($self'periodsMap, 257, $i)));
+        if (($now > $currentPeriod'startTime)) {
+            return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), $Period$_as_optional(($currentPeriod'startTime, $currentPeriod'percent)));
+        } else {
+            $i = ($i - 1);
+        }
+    }
+    ($currentPeriod'startTime, $currentPeriod'percent) = $Period$_not_null($Period$_load_opt(__tact_dict_get_int_cell($self'periodsMap, 257, 0)));
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), $Period$_as_optional(($currentPeriod'startTime, $currentPeriod'percent)));
+}
+
+((slice, slice, int, cell, int, cell, int, int), tuple) $PunkVesting$_fun_getHolderBalance((slice, slice, int, cell, int, cell, int, int) $self, int $key) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), $Balance$_load_opt(__tact_dict_get_int_cell($self'holdersMap, 257, $key)));
+}
+
+((slice, slice, int, cell, int, cell, int, int), int) $PunkVesting$_fun_getAvailableOnPeriod((slice, slice, int, cell, int, cell, int, int) $self, int $starting) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    tuple $currentPeriod = ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_getCurrentPeriod_internal();
+    if (null?($currentPeriod)) {
+        return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), 0);
+    }
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), muldiv($starting, $Period$_get_percent($Period$_not_null($currentPeriod)), $self'percentFactor));
+}
+
+((slice, slice, int, cell, int, cell, int, int), (int, int, int, tuple)) $PunkVesting$_fun_getHolderInfo_internal((slice, slice, int, cell, int, cell, int, int) $self, slice $adr) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    int $key = $Address$_fun_getHash($adr);
+    var ($balance'starting, $balance'current) = $Balance$_not_null($Balance$_load_opt(__tact_dict_get_int_cell($self'holdersMap, 257, $key)));
+    int $onPeriod = ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_getAvailableOnPeriod($balance'starting);
+    int $available = ($onPeriod - ($balance'starting - $balance'current));
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), $HolderInfo$_constructor_common_current_available_currentPeriod($balance'starting, $balance'current, $available, ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_getCurrentPeriod_internal()));
+}
+
+((slice, slice, int, cell, int, cell, int, int), (int, int, int, tuple)) $PunkVesting$_fun_getHolderInfo((slice, slice, int, cell, int, cell, int, int) $self, slice $adr) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_getHolderInfo_internal($adr));
+}
+
+((slice, slice, int, cell, int, cell, int, int), (int, cell)) $PunkVesting$_fun_Periods((slice, slice, int, cell, int, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), $PeriodsSet$_constructor_count_periods($self'periodsCount, $self'periodsMap));
+}
+
+((slice, slice, int, cell, int, cell, int, int), cell) $PunkVesting$_fun_AllHolders((slice, slice, int, cell, int, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), $self'holdersMap);
+}
+
+((slice, slice, int, cell, int, cell, int, int), slice) $PunkVesting$_fun_JettonWallet((slice, slice, int, cell, int, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), $self'jettonWallet);
+}
+
+((slice, slice, int, cell, int, cell, int, int), ()) $PunkVesting$_fun_requireOwner((slice, slice, int, cell, int, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), ());
+}
+
+((slice, slice, int, cell, int, cell, int, int), slice) $PunkVesting$_fun_owner((slice, slice, int, cell, int, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)) = $self;
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), $self'owner);
+}
+
+;;
+;; Receivers of a Contract PunkVesting
+;;
+
+(((slice, slice, int, cell, int, cell, int, int)), ()) $PunkVesting$_internal_binary_SetVestingRound((slice, slice, int, cell, int, cell, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound) = $self;
+    var ($msg'vestingRound) = $msg;
+    ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_requireOwner();
+    throw_unless(32652, ($self'vestingRound == 0));
+    $self'vestingRound = $msg'vestingRound;
+    $self'periodsCount = 35;
+    $self'percentFactor = 100;
+    $self'periodsMap~__tact_dict_set_int_cell(257, 0, $Period$_store_cell($Period$_constructor_startTime_percent(1691173800, 0)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 1, $Period$_store_cell($Period$_constructor_startTime_percent(1693852200, 3)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 2, $Period$_store_cell($Period$_constructor_startTime_percent(1696444200, 6)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 3, $Period$_store_cell($Period$_constructor_startTime_percent(1699122600, 9)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 4, $Period$_store_cell($Period$_constructor_startTime_percent(1701714600, 12)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 5, $Period$_store_cell($Period$_constructor_startTime_percent(1704393000, 15)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 6, $Period$_store_cell($Period$_constructor_startTime_percent(1707071400, 18)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 7, $Period$_store_cell($Period$_constructor_startTime_percent(1709577000, 21)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 8, $Period$_store_cell($Period$_constructor_startTime_percent(1712255400, 24)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 9, $Period$_store_cell($Period$_constructor_startTime_percent(1714847400, 27)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 10, $Period$_store_cell($Period$_constructor_startTime_percent(1717525800, 30)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 11, $Period$_store_cell($Period$_constructor_startTime_percent(1720117800, 33)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 12, $Period$_store_cell($Period$_constructor_startTime_percent(1722796200, 36)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 13, $Period$_store_cell($Period$_constructor_startTime_percent(1725474600, 39)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 14, $Period$_store_cell($Period$_constructor_startTime_percent(1728066600, 42)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 15, $Period$_store_cell($Period$_constructor_startTime_percent(1730745000, 45)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 16, $Period$_store_cell($Period$_constructor_startTime_percent(1733337000, 48)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 17, $Period$_store_cell($Period$_constructor_startTime_percent(1736015400, 51)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 18, $Period$_store_cell($Period$_constructor_startTime_percent(1738693800, 54)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 19, $Period$_store_cell($Period$_constructor_startTime_percent(1741113000, 57)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 20, $Period$_store_cell($Period$_constructor_startTime_percent(1743791400, 60)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 21, $Period$_store_cell($Period$_constructor_startTime_percent(1746383400, 63)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 22, $Period$_store_cell($Period$_constructor_startTime_percent(1749061800, 66)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 23, $Period$_store_cell($Period$_constructor_startTime_percent(1751653800, 69)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 24, $Period$_store_cell($Period$_constructor_startTime_percent(1754332200, 72)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 25, $Period$_store_cell($Period$_constructor_startTime_percent(1757010600, 75)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 26, $Period$_store_cell($Period$_constructor_startTime_percent(1759602600, 78)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 27, $Period$_store_cell($Period$_constructor_startTime_percent(1762281000, 81)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 28, $Period$_store_cell($Period$_constructor_startTime_percent(1764873000, 84)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 29, $Period$_store_cell($Period$_constructor_startTime_percent(1767551400, 87)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 30, $Period$_store_cell($Period$_constructor_startTime_percent(1770229800, 90)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 31, $Period$_store_cell($Period$_constructor_startTime_percent(1772649000, 93)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 32, $Period$_store_cell($Period$_constructor_startTime_percent(1775327400, 96)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 33, $Period$_store_cell($Period$_constructor_startTime_percent(1777919400, 99)));
+    $self'periodsMap~__tact_dict_set_int_cell(257, 34, $Period$_store_cell($Period$_constructor_startTime_percent(1780597800, 100)));
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), ());
+}
+
+(((slice, slice, int, cell, int, cell, int, int)), ()) $PunkVesting$_internal_binary_PutHoldersMsg((slice, slice, int, cell, int, cell, int, int) $self, (int, cell) $msg) impure inline {
+    var ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound) = $self;
+    var ($msg'count, $msg'holders) = $msg;
+    ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_requireOwner();
+    throw_unless(19226, ($self'holdersCount == 0));
+    int $i = 0;
+    repeat ($msg'count) {
+        var ($curHolder'address, $curHolder'starting) = $HolderDto$_not_null($HolderDto$_load_opt(__tact_dict_get_uint_cell($msg'holders, 8, $i)));
+        int $key = $Address$_fun_getHash($curHolder'address);
+        int $currentBalance = $curHolder'starting;
+        if (($self'vestingRound == 4)) {
+            $currentBalance = ($currentBalance - 33350000000000);
+        }
+        if (($self'vestingRound == 5)) {
+            $currentBalance = ($currentBalance - 3071250000000000);
+        }
+        if (($self'vestingRound == 7)) {
+            $currentBalance = ($currentBalance - 1500000000000000);
+        }
+        if (($self'vestingRound == 8)) {
+            $currentBalance = ($currentBalance - 225000000000000);
+        }
+        var ($balance'starting, $balance'current) = $Balance$_constructor_starting_current($curHolder'starting, $currentBalance);
+        $self'holdersMap~__tact_dict_set_int_cell(257, $key, $Balance$_store_cell(($balance'starting, $balance'current)));
+        $self'holdersCount = ($self'holdersCount + 1);
+        $i = ($i + 1);
+    }
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), ());
+}
+
+(((slice, slice, int, cell, int, cell, int, int)), ()) $PunkVesting$_internal_binary_SetOwnerWallet((slice, slice, int, cell, int, cell, int, int) $self, (slice) $msg) impure inline {
+    var ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound) = $self;
+    var ($msg'address) = $msg;
+    ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_requireOwner();
+    throw_unless(49291, null?($self'jettonWallet));
+    $self'jettonWallet = $msg'address;
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), ());
+}
+
+(((slice, slice, int, cell, int, cell, int, int)), ()) %$PunkVesting$_internal_empty((slice, slice, int, cell, int, cell, int, int) $self) impure inline {
+    var ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound) = $self;
+    throw_unless(12383, (~ null?($self'jettonWallet)));
+    throw_unless(18919, ($self'vestingRound != 0));
+    var ($context'bounced, $context'sender, $context'value, $context'raw) = __tact_context_get();
+    int $inCoins = $Context$_get_value(__tact_context_get());
+    throw_unless(28347, (70000000 <= $inCoins));
+    slice $sender = $context'sender;
+    int $key = $Address$_fun_getHash($sender);
+    tuple $balance = ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_getHolderBalance($key);
+    throw_unless(59712, (~ null?($balance)));
+    int $onPeriod = ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_getAvailableOnPeriod($Balance$_get_starting($Balance$_not_null($balance)));
+    int $availableCount = ($onPeriod - ($Balance$_get_starting($Balance$_not_null($balance)) - $Balance$_get_current($Balance$_not_null($balance))));
+    throw_unless(19719, ($availableCount > 0));
+    cell $body = $global_getTEP74TranserMessage($availableCount, $sender);
+    $global_send($SendParameters$_constructor_to_body_value_mode(__tact_not_null($self'jettonWallet), $body, 40000000, 1));
+    $self'holdersMap~__tact_dict_set_int_cell(257, $key, $Balance$_store_cell($Balance$_constructor_starting_current($Balance$_get_starting($Balance$_not_null($balance)), ($Balance$_get_current($Balance$_not_null($balance)) - $availableCount))));
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), ());
+}
+
+(((slice, slice, int, cell, int, cell, int, int)), ()) $PunkVesting$_internal_binary_TopupBalance((slice, slice, int, cell, int, cell, int, int) $self, tuple $msg) impure inline {
+    var ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound) = $self;
+    var $msg = $msg;
+    ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_requireOwner();
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), ());
+}
+
+(((slice, slice, int, cell, int, cell, int, int)), ()) $PunkVesting$_internal_binary_Deploy((slice, slice, int, cell, int, cell, int, int) $self, (int) $deploy) impure inline {
+    var ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound)~$PunkVesting$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'owner, $self'jettonWallet, $self'holdersCount, $self'holdersMap, $self'periodsCount, $self'periodsMap, $self'percentFactor, $self'vestingRound), ());
+}
+
+;;
+;; Get methods of a Contract PunkVesting
+;;
+
+_ %getHolderInfo(slice $$adr) method_id(80015) {
+    slice $adr = __tact_verify_address($$adr);
+    var self = $PunkVesting$_contract_load();
+    var res = self~$PunkVesting$_fun_getHolderInfo($adr);
+    return $HolderInfo$_to_external(res);
+}
+
+_ %Periods() method_id(80750) {
+    var self = $PunkVesting$_contract_load();
+    var res = self~$PunkVesting$_fun_Periods();
+    return $PeriodsSet$_to_external(res);
+}
+
+_ %AllHolders() method_id(84415) {
+    var self = $PunkVesting$_contract_load();
+    var res = self~$PunkVesting$_fun_AllHolders();
+    return res;
+}
+
+_ %JettonWallet() method_id(69301) {
+    var self = $PunkVesting$_contract_load();
+    var res = self~$PunkVesting$_fun_JettonWallet();
+    return res;
+}
+
+_ %owner() method_id(83229) {
+    var self = $PunkVesting$_contract_load();
+    var res = self~$PunkVesting$_fun_owner();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmNQfJbzZ5HpqSNzSL8mHHkoccdf6Sa9cMKc9kTUEAAxyx";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract PunkVesting
+;;
+
+((slice, slice, int, cell, int, cell, int, int), int) $PunkVesting$_contract_router_internal((slice, slice, int, cell, int, cell, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive SetVestingRound message
+    if (op == 295483321) {
+        var msg = in_msg~$SetVestingRound$_load();
+        self~$PunkVesting$_internal_binary_SetVestingRound(msg);
+        return (self, true);
+    }
+    
+    ;; Receive PutHoldersMsg message
+    if (op == 1290691142) {
+        var msg = in_msg~$PutHoldersMsg$_load();
+        self~$PunkVesting$_internal_binary_PutHoldersMsg(msg);
+        return (self, true);
+    }
+    
+    ;; Receive SetOwnerWallet message
+    if (op == 4115377794) {
+        var msg = in_msg~$SetOwnerWallet$_load();
+        self~$PunkVesting$_internal_binary_SetOwnerWallet(msg);
+        return (self, true);
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (slice_bits(in_msg) <= 32)) {
+        self~%$PunkVesting$_internal_empty();
+        return (self, true);
+    }
+    
+    ;; Receive TopupBalance message
+    if (op == 1925566434) {
+        var msg = in_msg~$TopupBalance$_load();
+        self~$PunkVesting$_internal_binary_TopupBalance(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$PunkVesting$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $PunkVesting$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$PunkVesting$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $PunkVesting$_contract_store(self);
+}

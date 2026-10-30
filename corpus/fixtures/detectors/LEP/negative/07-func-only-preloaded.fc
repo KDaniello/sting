@@ -1,0 +1,5 @@
+;; `preload` reads without moving the cursor, so `end_parse` after it would throw
+;; on any slice carrying anything at all.
+int peek_op(slice in_msg_body) {
+  return in_msg_body.preload_uint(32);
+}

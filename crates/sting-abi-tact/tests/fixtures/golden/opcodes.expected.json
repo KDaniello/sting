@@ -1,0 +1,631 @@
+{
+  "ir_schema_version": "0.2",
+  "source_language": "tact",
+  "extraction_tier": "compiled",
+  "contract_name": "Tester",
+  "metadata": {
+    "author": null,
+    "version": null,
+    "description": null
+  },
+  "storage": 14,
+  "types": [
+    {
+      "name": "DataSize",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cells",
+            "ty": 15
+          },
+          {
+            "name": "bits",
+            "ty": 15
+          },
+          {
+            "name": "refs",
+            "ty": 15
+          }
+        ]
+      }
+    },
+    {
+      "name": "SignedBundle",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "signature",
+            "ty": 16
+          },
+          {
+            "name": "signedData",
+            "ty": 17
+          }
+        ]
+      }
+    },
+    {
+      "name": "StateInit",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "code",
+            "ty": 18
+          },
+          {
+            "name": "data",
+            "ty": 18
+          }
+        ]
+      }
+    },
+    {
+      "name": "Context",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bounceable",
+            "ty": 19
+          },
+          {
+            "name": "sender",
+            "ty": 20
+          },
+          {
+            "name": "value",
+            "ty": 15
+          },
+          {
+            "name": "raw",
+            "ty": 21
+          }
+        ]
+      }
+    },
+    {
+      "name": "SendParameters",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mode",
+            "ty": 15
+          },
+          {
+            "name": "body",
+            "ty": 22
+          },
+          {
+            "name": "code",
+            "ty": 22
+          },
+          {
+            "name": "data",
+            "ty": 22
+          },
+          {
+            "name": "value",
+            "ty": 15
+          },
+          {
+            "name": "to",
+            "ty": 20
+          },
+          {
+            "name": "bounce",
+            "ty": 19
+          }
+        ]
+      }
+    },
+    {
+      "name": "MessageParameters",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mode",
+            "ty": 15
+          },
+          {
+            "name": "body",
+            "ty": 22
+          },
+          {
+            "name": "value",
+            "ty": 15
+          },
+          {
+            "name": "to",
+            "ty": 20
+          },
+          {
+            "name": "bounce",
+            "ty": 19
+          }
+        ]
+      }
+    },
+    {
+      "name": "DeployParameters",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mode",
+            "ty": 15
+          },
+          {
+            "name": "body",
+            "ty": 22
+          },
+          {
+            "name": "value",
+            "ty": 15
+          },
+          {
+            "name": "bounce",
+            "ty": 19
+          },
+          {
+            "name": "init",
+            "ty": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "StdAddress",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "workchain",
+            "ty": 23
+          },
+          {
+            "name": "address",
+            "ty": 24
+          }
+        ]
+      }
+    },
+    {
+      "name": "VarAddress",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "workchain",
+            "ty": 25
+          },
+          {
+            "name": "address",
+            "ty": 21
+          }
+        ]
+      }
+    },
+    {
+      "name": "BasechainAddress",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "hash",
+            "ty": 26
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bin",
+      "description": null,
+      "prefix": {
+        "prefix_num": 2,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Oct",
+      "description": null,
+      "prefix": {
+        "prefix_num": 8,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Dec",
+      "description": null,
+      "prefix": {
+        "prefix_num": 10,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Hex",
+      "description": null,
+      "prefix": {
+        "prefix_num": 16,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Tester$Data",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 257,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "bits",
+        "width": 512
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "remaining"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "bool"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "address"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "slice"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 18
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 8,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 256,
+        "signed": false
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 15
+      }
+    }
+  ],
+  "incoming_internal": [
+    {
+      "ty": 10
+    },
+    {
+      "ty": 11
+    },
+    {
+      "ty": 12
+    },
+    {
+      "ty": 13
+    }
+  ],
+  "incoming_external": [],
+  "outgoing": [],
+  "get_methods": [],
+  "errors": [
+    {
+      "kind": "named",
+      "name": "Stack underflow",
+      "code": 2
+    },
+    {
+      "kind": "named",
+      "name": "Stack overflow",
+      "code": 3
+    },
+    {
+      "kind": "named",
+      "name": "Integer overflow",
+      "code": 4
+    },
+    {
+      "kind": "named",
+      "name": "Integer out of expected range",
+      "code": 5
+    },
+    {
+      "kind": "named",
+      "name": "Invalid opcode",
+      "code": 6
+    },
+    {
+      "kind": "named",
+      "name": "Type check error",
+      "code": 7
+    },
+    {
+      "kind": "named",
+      "name": "Cell overflow",
+      "code": 8
+    },
+    {
+      "kind": "named",
+      "name": "Cell underflow",
+      "code": 9
+    },
+    {
+      "kind": "named",
+      "name": "Dictionary error",
+      "code": 10
+    },
+    {
+      "kind": "named",
+      "name": "'Unknown' error",
+      "code": 11
+    },
+    {
+      "kind": "named",
+      "name": "Fatal error",
+      "code": 12
+    },
+    {
+      "kind": "named",
+      "name": "Out of gas error",
+      "code": 13
+    },
+    {
+      "kind": "named",
+      "name": "Virtualization error",
+      "code": 14
+    },
+    {
+      "kind": "named",
+      "name": "Action list is invalid",
+      "code": 32
+    },
+    {
+      "kind": "named",
+      "name": "Action list is too long",
+      "code": 33
+    },
+    {
+      "kind": "named",
+      "name": "Action is invalid or not supported",
+      "code": 34
+    },
+    {
+      "kind": "named",
+      "name": "Invalid source address in outbound message",
+      "code": 35
+    },
+    {
+      "kind": "named",
+      "name": "Invalid destination address in outbound message",
+      "code": 36
+    },
+    {
+      "kind": "named",
+      "name": "Not enough Toncoin",
+      "code": 37
+    },
+    {
+      "kind": "named",
+      "name": "Not enough extra currencies",
+      "code": 38
+    },
+    {
+      "kind": "named",
+      "name": "Outbound message does not fit into a cell after rewriting",
+      "code": 39
+    },
+    {
+      "kind": "named",
+      "name": "Cannot process a message",
+      "code": 40
+    },
+    {
+      "kind": "named",
+      "name": "Library reference is null",
+      "code": 41
+    },
+    {
+      "kind": "named",
+      "name": "Library change action error",
+      "code": 42
+    },
+    {
+      "kind": "named",
+      "name": "Exceeded maximum number of cells in the library or the maximum depth of the Merkle tree",
+      "code": 43
+    },
+    {
+      "kind": "named",
+      "name": "Account state size exceeded limits",
+      "code": 50
+    },
+    {
+      "kind": "named",
+      "name": "Null reference exception",
+      "code": 128
+    },
+    {
+      "kind": "named",
+      "name": "Invalid serialization prefix",
+      "code": 129
+    },
+    {
+      "kind": "named",
+      "name": "Invalid incoming message",
+      "code": 130
+    },
+    {
+      "kind": "named",
+      "name": "Constraints error",
+      "code": 131
+    },
+    {
+      "kind": "named",
+      "name": "Access denied",
+      "code": 132
+    },
+    {
+      "kind": "named",
+      "name": "Contract stopped",
+      "code": 133
+    },
+    {
+      "kind": "named",
+      "name": "Invalid argument",
+      "code": 134
+    },
+    {
+      "kind": "named",
+      "name": "Code of a contract was not found",
+      "code": 135
+    },
+    {
+      "kind": "named",
+      "name": "Invalid standard address",
+      "code": 136
+    },
+    {
+      "kind": "named",
+      "name": "Not a basechain address",
+      "code": 138
+    },
+    {
+      "kind": "named",
+      "name": "Incorrect message opcode: octal literal",
+      "code": 2156
+    },
+    {
+      "kind": "named",
+      "name": "Incorrect message opcode: hex literal",
+      "code": 32860
+    },
+    {
+      "kind": "named",
+      "name": "Incorrect message opcode: binary literal",
+      "code": 53588
+    },
+    {
+      "kind": "named",
+      "name": "Incorrect message opcode: decimal literal",
+      "code": 56243
+    }
+  ],
+  "confidence": null,
+  "field_confidence": null
+}

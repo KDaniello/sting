@@ -1,0 +1,4 @@
+defect_class: UTA
+location: { file: "03-only-credit-side-checked.tolk", line: 6, column: 5 }
+description: "the mirror shape: only `toBalance` (the credited side) is validated afterwards, `fromBalance` (the debited side) is never checked — confirms the detector does not assume which side is conventionally checked"
+source: "sting's own addition (not a TONScanner code, docs/PROJECT_REVIEW.md direction 5) — a synthetic mirror of the real asymmetric-check shape found on hacktheton.com's token_level, exercising the other direction"

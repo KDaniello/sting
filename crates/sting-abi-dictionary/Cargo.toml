@@ -1,0 +1,20 @@
+[package]
+name = "sting-abi-dictionary"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+sting-abi-core = { workspace = true }
+sting-emulator = { workspace = true }
+sting-emulator-sys = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }

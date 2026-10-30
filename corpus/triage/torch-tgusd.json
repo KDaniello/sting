@@ -1,0 +1,2109 @@
+{
+  "source": {
+    "name": "torch-core/torch-tgusd-contract",
+    "url": "https://github.com/torch-core/torch-tgusd-contract",
+    "programme": "Torch Finance Bug Bounty",
+    "programme_url": "https://github.com/torch-core/bug-bounty",
+    "scope": "all code under the contracts folder in the Telegram USD repo",
+    "commit": "e643ad49d13a593bfcce442a408d83de447634cf",
+    "nature": "production, inside a published bug bounty scope",
+    "license": "MIT",
+    "files_tolk": 49,
+    "lines_tolk": 5405,
+    "fetched": "2026-08-23",
+    "run": "cargo run -p sting-hunt -- --cache target/hunt --json corpus/hunt/first-run.json",
+    "note": "Read in place, never vendored. Only the review enters this repository."
+  },
+  "round": 8,
+  "totals": {
+    "findings": 205,
+    "by_detector": {
+      "LEP": 24,
+      "DEPR": 177,
+      "AC": 4
+    },
+    "classes": {
+      "lep-on-non-consuming-slice-use": 22,
+      "deprecated-stdlib-name": 157,
+      "lep-trailing-data-in-message-body": 2,
+      "auth-inside-delegated-method": 4,
+      "removed-stdlib-name": 20
+    },
+    "new_classes_this_round": [
+      "removed-stdlib-name",
+      "lep-on-non-consuming-slice-use",
+      "lep-trailing-data-in-message-body"
+    ]
+  },
+  "findings": [
+    {
+      "detector": "LEP",
+      "file": "contracts/common/guard.tolk",
+      "line": 13,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/common/guard.tolk",
+      "line": 26,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/common/guard.tolk",
+      "line": 51,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/log.tolk",
+      "line": 4,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/log.tolk",
+      "line": 5,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/log.tolk",
+      "line": 6,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/log.tolk",
+      "line": 7,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/log.tolk",
+      "line": 12,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/log.tolk",
+      "line": 21,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/log.tolk",
+      "line": 29,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 4,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 8,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 9,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 10,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 12,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 13,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 14,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 17,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 18,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 19,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 20,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 21,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 22,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 23,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 24,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 25,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 26,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 27,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 28,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 29,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 30,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 31,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 32,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 33,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 34,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 35,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 38,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 39,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 40,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 41,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 42,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 43,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 44,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 45,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 46,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 47,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 48,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 49,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 52,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 55,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 56,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 57,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/op-codes.tolk",
+      "line": 58,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/common/recipient.tolk",
+      "line": 1,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/send.tolk",
+      "line": 74,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/send.tolk",
+      "line": 73,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/send.tolk",
+      "line": 118,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/send.tolk",
+      "line": 117,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/send.tolk",
+      "line": 129,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/send.tolk",
+      "line": 128,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 79,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 78,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 115,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 114,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 128,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 127,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 139,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 138,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 150,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 149,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 162,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 161,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 171,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 181,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/common/serdes.tolk",
+      "line": 180,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/redeem-account/guard.tolk",
+      "line": 13,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/redeem-account/guard.tolk",
+      "line": 26,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/redeem-account/main.tolk",
+      "line": 28,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/redeem-account/main.tolk",
+      "line": 28,
+      "verdict": "true_positive",
+      "cls": "lep-trailing-data-in-message-body",
+      "action": "exploitability not established",
+      "round": 8,
+      "note": "ctxBody is a real message body: routeInternal loads the opcode and the query id from it and every branch returns without asserting the end, so trailing data a caller attaches is silently ignored. True by the detector's own contract. Exploitability is NOT established — the body is never rehashed or forwarded whole — and nothing is reported to the programme on this basis."
+    },
+    {
+      "detector": "AC",
+      "file": "contracts/redeem-account/main.tolk",
+      "line": 221,
+      "verdict": "documented_limit",
+      "cls": "auth-inside-delegated-method",
+      "action": "confirmed again on production code",
+      "round": 8,
+      "note": "Every op branch of routeInternal opens with a constraint on ctxSender, written either as requireX(ctxSender, ...) or as ctxSender.isSliceBitsEqual(...) with a throw on mismatch. AC sees only the entrypoint body and one delegation hop by bare name. The one branch that mutates nothing and guards nothing, tgusd-staking OP_PROVIDE_CURRENT_QUOTE, is a public quote endpoint by design: it assigns no storage field and forwards the caller's own value. Fifth through eighth confirmation of a class already past its threshold."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/main.tolk",
+      "line": 31,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/main.tolk",
+      "line": 106,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/main.tolk",
+      "line": 190,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/main.tolk",
+      "line": 194,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/main.tolk",
+      "line": 196,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/main.tolk",
+      "line": 209,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/serdes.tolk",
+      "line": 36,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/serdes.tolk",
+      "line": 35,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/storage.tolk",
+      "line": 14,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/redeem-account/storage.tolk",
+      "line": 30,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-engine/balance.tolk",
+      "line": 31,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-engine/guard.tolk",
+      "line": 27,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-engine/guard.tolk",
+      "line": 40,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-engine/guard.tolk",
+      "line": 167,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-engine/guard.tolk",
+      "line": 195,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 8,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 9,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 10,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 11,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 12,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 13,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 14,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 15,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 16,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 17,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 18,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 19,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 20,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 21,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 22,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 23,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 24,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 29,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 40,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 50,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 61,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 70,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 80,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 91,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 113,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 124,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 135,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 144,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 153,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 162,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/log.tolk",
+      "line": 171,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "AC",
+      "file": "contracts/tgusd-engine/main.tolk",
+      "line": 914,
+      "verdict": "documented_limit",
+      "cls": "auth-inside-delegated-method",
+      "action": "confirmed again on production code",
+      "round": 8,
+      "note": "Every op branch of routeInternal opens with a constraint on ctxSender, written either as requireX(ctxSender, ...) or as ctxSender.isSliceBitsEqual(...) with a throw on mismatch. AC sees only the entrypoint body and one delegation hop by bare name. The one branch that mutates nothing and guards nothing, tgusd-staking OP_PROVIDE_CURRENT_QUOTE, is a public quote endpoint by design: it assigns no storage field and forwards the caller's own value. Fifth through eighth confirmation of a class already past its threshold."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/main.tolk",
+      "line": 40,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/main.tolk",
+      "line": 486,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/main.tolk",
+      "line": 750,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/main.tolk",
+      "line": 754,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/main.tolk",
+      "line": 756,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/main.tolk",
+      "line": 841,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/main.tolk",
+      "line": 902,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 12,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 217,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 216,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 226,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 225,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 234,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 247,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 246,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 256,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/serdes.tolk",
+      "line": 255,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/storage.tolk",
+      "line": 19,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-engine/storage.tolk",
+      "line": 46,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-staking/guard.tolk",
+      "line": 12,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-staking/guard.tolk",
+      "line": 26,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-staking/guard.tolk",
+      "line": 40,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-staking/guard.tolk",
+      "line": 77,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-staking/guard.tolk",
+      "line": 90,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-staking/guard.tolk",
+      "line": 156,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/tgusd-staking/guard.tolk",
+      "line": 156,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 4,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 5,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 6,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 7,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 8,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 9,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 10,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 11,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 12,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 13,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 14,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 15,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 20,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 31,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 48,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 74,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 95,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 119,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 140,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 151,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 161,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 173,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/log.tolk",
+      "line": 182,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "AC",
+      "file": "contracts/tgusd-staking/main.tolk",
+      "line": 695,
+      "verdict": "documented_limit",
+      "cls": "auth-inside-delegated-method",
+      "action": "confirmed again on production code",
+      "round": 8,
+      "note": "Every op branch of routeInternal opens with a constraint on ctxSender, written either as requireX(ctxSender, ...) or as ctxSender.isSliceBitsEqual(...) with a throw on mismatch. AC sees only the entrypoint body and one delegation hop by bare name. The one branch that mutates nothing and guards nothing, tgusd-staking OP_PROVIDE_CURRENT_QUOTE, is a public quote endpoint by design: it assigns no storage field and forwards the caller's own value. Fifth through eighth confirmation of a class already past its threshold."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/main.tolk",
+      "line": 36,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/main.tolk",
+      "line": 356,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/main.tolk",
+      "line": 561,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/main.tolk",
+      "line": 565,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/main.tolk",
+      "line": 567,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/main.tolk",
+      "line": 683,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/serdes.tolk",
+      "line": 95,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/serdes.tolk",
+      "line": 94,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/serdes.tolk",
+      "line": 105,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/serdes.tolk",
+      "line": 104,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/serdes.tolk",
+      "line": 118,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/serdes.tolk",
+      "line": 117,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/storage.tolk",
+      "line": 24,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/tgusd-staking/storage.tolk",
+      "line": 60,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/unstake-account/guard.tolk",
+      "line": 11,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/unstake-account/guard.tolk",
+      "line": 25,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/unstake-account/main.tolk",
+      "line": 29,
+      "verdict": "detector_bug",
+      "cls": "lep-on-non-consuming-slice-use",
+      "action": "fix: a read must advance the cursor",
+      "round": 8,
+      "note": "The parameter is an address, never a parse stream: the only method invoked on it is isSliceBitsEqual, which compares bits and cannot advance a cursor. LEP's own doc comment states the contract as \"receives a slice parameter, reads from it\", and every one of its tests reads with loadUint — but `usage` marks the parameter used on any mention of the name. Demanding assertEnd after a comparison is meaningless. Wrong answer on production code, so a bug rather than a boundary."
+    },
+    {
+      "detector": "LEP",
+      "file": "contracts/unstake-account/main.tolk",
+      "line": 29,
+      "verdict": "true_positive",
+      "cls": "lep-trailing-data-in-message-body",
+      "action": "exploitability not established",
+      "round": 8,
+      "note": "ctxBody is a real message body: routeInternal loads the opcode and the query id from it and every branch returns without asserting the end, so trailing data a caller attaches is silently ignored. True by the detector's own contract. Exploitability is NOT established — the body is never rehashed or forwarded whole — and nothing is reported to the programme on this basis."
+    },
+    {
+      "detector": "AC",
+      "file": "contracts/unstake-account/main.tolk",
+      "line": 166,
+      "verdict": "documented_limit",
+      "cls": "auth-inside-delegated-method",
+      "action": "confirmed again on production code",
+      "round": 8,
+      "note": "Every op branch of routeInternal opens with a constraint on ctxSender, written either as requireX(ctxSender, ...) or as ctxSender.isSliceBitsEqual(...) with a throw on mismatch. AC sees only the entrypoint body and one delegation hop by bare name. The one branch that mutates nothing and guards nothing, tgusd-staking OP_PROVIDE_CURRENT_QUOTE, is a public quote endpoint by design: it assigns no storage field and forwards the caller's own value. Fifth through eighth confirmation of a class already past its threshold."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/unstake-account/main.tolk",
+      "line": 32,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/unstake-account/main.tolk",
+      "line": 134,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/unstake-account/main.tolk",
+      "line": 138,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/unstake-account/main.tolk",
+      "line": 140,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/unstake-account/main.tolk",
+      "line": 154,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/unstake-account/serdes.tolk",
+      "line": 29,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/unstake-account/serdes.tolk",
+      "line": 28,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/unstake-account/storage.tolk",
+      "line": 11,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    },
+    {
+      "detector": "DEPR",
+      "file": "contracts/unstake-account/storage.tolk",
+      "line": 22,
+      "verdict": "true_positive",
+      "cls": "removed-stdlib-name",
+      "action": "detector is right",
+      "round": 8,
+      "note": "Verified against the current Tolk stdlib fetched from ton-blockchain/ton master: the four message helpers are present and carry a real @deprecated attribute, and the three contract-data primitives do not occur in it in any form. The detector is right on both tiers. The contracts therefore do not build against a current toolchain, which is a maintenance fact about the target and not a defect worth a programme's time."
+    }
+  ],
+  "fix": {
+    "class": "lep-on-non-consuming-slice-use",
+    "what": "LEP counted any mention of a slice parameter as a read; a read must advance the cursor",
+    "where": "crates/sting-detectors/src/lep.rs",
+    "rule": "a method invoked on a tracked slice advances it unless the Tolk standard library declares it without `mutate self`",
+    "removed_live": 18,
+    "removed_fixtures": 2,
+    "recall_after": "100.0%",
+    "precision_fixtures": {
+      "before": 82.0,
+      "after": 82.4
+    },
+    "precision_live": {
+      "before": 7.1,
+      "after": 20.0
+    },
+    "remaining_false_positives": 4,
+    "remaining_cause": "the method is the project's own and declared in another file; the cross-file index needs a toolchain this target does not build with"
+  }
+}

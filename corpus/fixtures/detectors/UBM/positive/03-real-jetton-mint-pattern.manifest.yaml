@@ -1,0 +1,8 @@
+# Modeled directly on corpus/fixtures/tolk-bench/JettonMinter.tolk's real
+# MintNewJettons arm, confirmed to trigger UBM on the actual unmodified real
+# file too (see docs/blocks/02-detectors-v1.md's Результаты section) — not
+# a synthetic pattern, an isolated real one.
+defect_class: UBM
+location: { file: "03-real-jetton-mint-pattern.tolk", line: 23, column: 23 }
+description: "MintNewJettons increases storage.totalSupply and saves it, then sends a deploy message that can bounce; no onBouncedMessage handler exists to revert totalSupply"
+source: "CertiK: Secure Smart Contract Programming in FunC — Top 10 Tips (Jetton-wallet partial-execution pattern); corpus/fixtures/tolk-bench/JettonMinter.tolk"

@@ -1,0 +1,451 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "verifier_Insquidtion.headers.fc";
+#include "verifier_Insquidtion.stdlib.fc";
+#include "verifier_Insquidtion.constants.fc";
+#include "verifier_Insquidtion.storage.fc";
+
+;;
+;; Contract Insquidtion functions
+;;
+
+(int, slice, int, cell, cell, int, int, int, int, int) $Insquidtion$_contract_init(int $initSeqno) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = (null(), null(), null(), null(), null(), 0, 500, 100000000, 10000000, 5000);
+    $self'seqno = $initSeqno;
+    $self'owner = __tact_context_get_sender();
+    $self'stopped = false;
+    return ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_fun_getKey((int, slice, int, cell, cell, int, int, int, int, int) $self, slice $address, int $amount, int $price, int $nonce) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), cell_hash(end_cell(store_uint(store_uint(store_uint(__tact_store_address(begin_cell(), $address), $amount, 256), $price, 256), $nonce, 32))));
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_fun_updateOrderRecords((int, slice, int, cell, cell, int, int, int, int, int) $self, int $recordKey, int $type) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    $self'orderHashListIndex = (($self'orderHashListIndex + 1) % $self'maxOrderLength);
+    if ((~ null?(__tact_dict_get_int_int($self'orderHashList, 257, $self'orderHashListIndex, 257)))) {
+        int $oldestOrderHash = __tact_not_null(__tact_dict_get_int_int($self'orderHashList, 257, $self'orderHashListIndex, 257));
+        $self'orderClosed~__tact_dict_set_int_int(257, $oldestOrderHash, null(), 257);
+    }
+    $self'orderHashList~__tact_dict_set_int_int(257, $self'orderHashListIndex, $recordKey, 257);
+    $self'orderClosed~__tact_dict_set_int_int(257, $recordKey, $type, 257);
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_fun_sellFeePerc((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'sellFeePerc);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_fun_msgFee((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'msgFee);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_fun_inscribeFee((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'inscribeFee);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_fun_maxOrderLength((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'maxOrderLength);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), cell) $Insquidtion$_fun_orderClosed((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'orderClosed);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), cell) $Insquidtion$_fun_orderHashList((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'orderHashList);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_fun_orderHashListIndex((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'orderHashListIndex);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_fun_contractSeqno((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'seqno);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_fun_balance((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), __tact_my_balance());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_fun_requireOwner((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), slice) $Insquidtion$_fun_owner((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'owner);
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_fun_requireNotStopped((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    throw_unless(40368, (~ $self'stopped));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_fun_requireStopped((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    throw_unless(53296, $self'stopped);
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_fun_stopped((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)) = $self;
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), $self'stopped);
+}
+
+;;
+;; Receivers of a Contract Insquidtion
+;;
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_internal_text_250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireOwner();
+    $global_send($SendParameters$_constructor_to_value_mode($self'owner, __tact_my_balance(), (128 + 2)));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_internal_text_65aafa134241f0dfe2a3ebbccbd3a0816ed94baf41b0c7064b9fa3f3289d60de((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireOwner();
+    $global_send($SendParameters$_constructor_to_value_mode($self'owner, 10000000000, (1 + 2)));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_internal_text_410fd01763c829ea82d82e089dfabb49ebd3a09173d27d10d1f4c4391076dc80((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireOwner();
+    $global_send($SendParameters$_constructor_to_value_mode($self'owner, 100000000000, (1 + 2)));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_internal_text_ce32596f190fb403051eb007d564f9bfba9e28b3dacb56c7d2703d6e3bf65e27((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireOwner();
+    $global_send($SendParameters$_constructor_to_value_mode($self'owner, 1000000000000, (1 + 2)));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_internal_any_text((int, slice, int, cell, cell, int, int, int, int, int) $self, slice $msg) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    throw_unless(7446, ($Context$_get_value(__tact_context_get()) >= $self'inscribeFee));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+(((int, slice, int, cell, cell, int, int, int, int, int)), ()) %$Insquidtion$_internal_empty((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    throw_unless(43410, ($Context$_get_value(__tact_context_get()) >= $self'inscribeFee));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+(((int, slice, int, cell, cell, int, int, int, int, int)), ()) $Insquidtion$_internal_binary_Buy((int, slice, int, cell, cell, int, int, int, int, int) $self, (slice, int, int, int) $msg) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    var ($msg'seller, $msg'amount, $msg'price, $msg'nonce) = $msg;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireNotStopped();
+    throw_unless(52161, ($Context$_get_value(__tact_context_get()) >= ($msg'price + $self'msgFee)));
+    int $recordKey = ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_getKey($msg'seller, $msg'amount, $msg'price, $msg'nonce);
+    throw_unless(3737, null?(__tact_dict_get_int_int($self'orderClosed, 257, $recordKey, 257)));
+    int $sendValue = (($msg'price * (10000 - $self'sellFeePerc)) / 10000);
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_updateOrderRecords($recordKey, 1);
+    $global_send($SendParameters$_constructor_to_bounce_value_mode($msg'seller, true, $sendValue, 1));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+(((int, slice, int, cell, cell, int, int, int, int, int)), ()) $Insquidtion$_internal_binary_Cancel((int, slice, int, cell, cell, int, int, int, int, int) $self, (int, int, int) $msg) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    var ($msg'amount, $msg'price, $msg'nonce) = $msg;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireNotStopped();
+    throw_unless(52161, ($Context$_get_value(__tact_context_get()) >= $self'msgFee));
+    int $recordKey = ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_getKey(__tact_context_get_sender(), $msg'amount, $msg'price, $msg'nonce);
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_updateOrderRecords($recordKey, 0);
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+(((int, slice, int, cell, cell, int, int, int, int, int)), ()) $Insquidtion$_internal_binary_Settings((int, slice, int, cell, cell, int, int, int, int, int) $self, (int, int, int, int) $msg) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    var ($msg'sellPerc, $msg'msg, $msg'inscribe, $msg'maxOrderLength) = $msg;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireOwner();
+    if ((~ null?($msg'sellPerc))) {
+        $self'sellFeePerc = __tact_not_null($msg'sellPerc);
+    }
+    if ((~ null?($msg'msg))) {
+        $self'msgFee = __tact_not_null($msg'msg);
+    }
+    if ((~ null?($msg'inscribe))) {
+        $self'inscribeFee = __tact_not_null($msg'inscribe);
+    }
+    if ((~ null?($msg'maxOrderLength))) {
+        $self'maxOrderLength = __tact_not_null($msg'maxOrderLength);
+    }
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+(((int, slice, int, cell, cell, int, int, int, int, int)), ()) $Insquidtion$_internal_binary_Deploy((int, slice, int, cell, cell, int, int, int, int, int) $self, (int) $deploy) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+(((int, slice, int, cell, cell, int, int, int, int, int)), ()) $Insquidtion$_internal_binary_ChangeOwner((int, slice, int, cell, cell, int, int, int, int, int) $self, (int, slice) $msg) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    var ($msg'queryId, $msg'newOwner) = $msg;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireOwner();
+    $self'owner = $msg'newOwner;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_reply($ChangeOwnerOk$_store_cell($ChangeOwnerOk$_constructor_queryId_newOwner($msg'queryId, $msg'newOwner)));
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_internal_text_6c8f44f45fedb4cdfed4de8db14aa5b13ad55d430f759d0669210b74c48fe3df((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireOwner();
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireStopped();
+    $self'stopped = false;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_reply(__gen_cell_comment_514f593ead485926515219a03034c6b162f1c29390f83f2f1bd70b8b77731ec3());
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+((int, slice, int, cell, cell, int, int, int, int, int), ()) $Insquidtion$_internal_text_bcfaf776907c719cc8d379d8f194aaaa27e8ca2871cd591781721f215a454501((int, slice, int, cell, cell, int, int, int, int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength) = $self;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireOwner();
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_requireNotStopped();
+    $self'stopped = true;
+    ($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength)~$Insquidtion$_fun_reply(__gen_cell_comment_8f4b6a166554b4f282855d0333c627d5b58d281ea4ba11e4def91a1053193b2d());
+    return (($self'seqno, $self'owner, $self'stopped, $self'orderClosed, $self'orderHashList, $self'orderHashListIndex, $self'sellFeePerc, $self'msgFee, $self'inscribeFee, $self'maxOrderLength), ());
+}
+
+;;
+;; Get methods of a Contract Insquidtion
+;;
+
+_ %sellFeePerc() method_id(128560) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_sellFeePerc();
+    return res;
+}
+
+_ %msgFee() method_id(101665) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_msgFee();
+    return res;
+}
+
+_ %inscribeFee() method_id(68024) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_inscribeFee();
+    return res;
+}
+
+_ %maxOrderLength() method_id(92807) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_maxOrderLength();
+    return res;
+}
+
+_ %orderClosed() method_id(115527) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_orderClosed();
+    return res;
+}
+
+_ %orderHashList() method_id(88882) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_orderHashList();
+    return res;
+}
+
+_ %orderHashListIndex() method_id(79419) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_orderHashListIndex();
+    return res;
+}
+
+_ %contractSeqno() method_id(72750) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_contractSeqno();
+    return res;
+}
+
+_ %balance() method_id(104128) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_balance();
+    return res;
+}
+
+_ %owner() method_id(83229) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_owner();
+    return res;
+}
+
+_ %stopped() method_id(74107) {
+    var self = $Insquidtion$_contract_load();
+    var res = self~$Insquidtion$_fun_stopped();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.debug.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable.transferable.v2"H >> 128,
+        "org.ton.ownable"H >> 128,
+        "org.ton.resumable"H >> 128,
+        "org.ton.stoppable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmRX2PjLxQkp5uQfmFg3xJKLmFQxcshHutHGr21QDU9aZ1";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract Insquidtion
+;;
+
+((int, slice, int, cell, cell, int, int, int, int, int), int) $Insquidtion$_contract_router_internal((int, slice, int, cell, cell, int, int, int, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive empty message
+    if ((op == 0) & (slice_bits(in_msg) <= 32)) {
+        self~%$Insquidtion$_internal_empty();
+        return (self, true);
+    }
+    
+    ;; Receive Buy message
+    if (op == 1539672808) {
+        var msg = in_msg~$Buy$_load();
+        self~$Insquidtion$_internal_binary_Buy(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Cancel message
+    if (op == 1988840720) {
+        var msg = in_msg~$Cancel$_load();
+        self~$Insquidtion$_internal_binary_Cancel(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Settings message
+    if (op == 4264907437) {
+        var msg = in_msg~$Settings$_load();
+        self~$Insquidtion$_internal_binary_Settings(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$Insquidtion$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    ;; Receive ChangeOwner message
+    if (op == 2174598809) {
+        var msg = in_msg~$ChangeOwner$_load();
+        self~$Insquidtion$_internal_binary_ChangeOwner(msg);
+        return (self, true);
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "Withdraw" message
+        if (text_op == 0x250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca) {
+            self~$Insquidtion$_internal_text_250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca();
+            return (self, true);
+        }
+        
+        ;; Receive "Withdraw10" message
+        if (text_op == 0x65aafa134241f0dfe2a3ebbccbd3a0816ed94baf41b0c7064b9fa3f3289d60de) {
+            self~$Insquidtion$_internal_text_65aafa134241f0dfe2a3ebbccbd3a0816ed94baf41b0c7064b9fa3f3289d60de();
+            return (self, true);
+        }
+        
+        ;; Receive "Withdraw100" message
+        if (text_op == 0x410fd01763c829ea82d82e089dfabb49ebd3a09173d27d10d1f4c4391076dc80) {
+            self~$Insquidtion$_internal_text_410fd01763c829ea82d82e089dfabb49ebd3a09173d27d10d1f4c4391076dc80();
+            return (self, true);
+        }
+        
+        ;; Receive "Withdraw1000" message
+        if (text_op == 0xce32596f190fb403051eb007d564f9bfba9e28b3dacb56c7d2703d6e3bf65e27) {
+            self~$Insquidtion$_internal_text_ce32596f190fb403051eb007d564f9bfba9e28b3dacb56c7d2703d6e3bf65e27();
+            return (self, true);
+        }
+        
+        ;; Receive "Resume" message
+        if (text_op == 0x6c8f44f45fedb4cdfed4de8db14aa5b13ad55d430f759d0669210b74c48fe3df) {
+            self~$Insquidtion$_internal_text_6c8f44f45fedb4cdfed4de8db14aa5b13ad55d430f759d0669210b74c48fe3df();
+            return (self, true);
+        }
+        
+        ;; Receive "Stop" message
+        if (text_op == 0xbcfaf776907c719cc8d379d8f194aaaa27e8ca2871cd591781721f215a454501) {
+            self~$Insquidtion$_internal_text_bcfaf776907c719cc8d379d8f194aaaa27e8ca2871cd591781721f215a454501();
+            return (self, true);
+        }
+        if (slice_bits(in_msg) >= 32) {
+            self~$Insquidtion$_internal_any_text(in_msg.skip_bits(32));
+            return (self, true);
+        }
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $Insquidtion$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$Insquidtion$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $Insquidtion$_contract_store(self);
+}

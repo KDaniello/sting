@@ -1,0 +1,31 @@
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/classlib.fc";
+
+;; required storage name
+const int Coins::NAME = "coins"u;
+
+;; field names
+const int Coins::amount = 0;
+
+cell Coins::New(int amount) impure inline method_id {
+    return cl::declare(
+        Coins::NAME,
+        unsafeTuple([
+            [cl::t::coins, amount] ;; Coins::amount
+        ])
+    );
+}
+
+;; ========================== Sanitize ==========================
+
+cell Coins::sanitize(cell $self) impure {
+    return Coins::New(
+        $self.cl::get<coins>(Coins::amount)
+    );
+}
+
+;; ========================== Getters ==========================
+
+int Coins::getAmount(cell $self) impure inline method_id {
+    return $self.cl::get<coins>(Coins::amount);
+}
+

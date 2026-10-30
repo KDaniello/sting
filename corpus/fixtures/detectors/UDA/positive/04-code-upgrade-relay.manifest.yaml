@@ -1,0 +1,4 @@
+defect_class: UDA
+location: { file: "04-code-upgrade-relay.tolk", line: 5, column: 14 }
+description: "`contract.setCodePostponed(newCode)` installs new contract code whose bytes (`newCode`) were read directly from the incoming message body (`in.body.loadRef()`) with no integrity check on the code itself — even though the caller is sender-checked (so this stays AC-negative), UDA's taint tracking is a separate axis: nothing here validates that the *content* the owner sent is the intended code (e.g. a hash/allowlist check)"
+source: "sting's own addition (docs/PROJECT_REVIEW.md direction 5 session 2, UDA Фаза B2 — new SinkKind::CodeUpgrade)"

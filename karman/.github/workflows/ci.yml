@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # Two platforms, because the determinism contract is cross-platform: the same seed
+        # must produce the same golden values on both.
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.1
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --workspace --all-features
+
+  sdk:
+    name: SDK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: Swatinem/rust-cache@v2
+      # The bindings and the terminal are one implementation, and this is where that is checked
+      # on a machine nobody was holding while it happened.
+      - run: cargo build --release --bin karman
+      - run: pip install maturin pytest
+      - run: cd sdk/python && maturin build --release
+      - run: pip install --force-reinstall target/wheels/karman-*.whl
+      - run: pytest sdk/python/tests -q
+      # A second implementation of the same model, on a second engine, asked whether the two
+      # agree in distribution. It rejects a sample neither engine would have produced, so
+      # passing it is evidence rather than a formality.
+      - run: pip install cadCAD
+      - run: cd python/reference && python compare.py --runs 1000 --ticks 500 --seed 42
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.1
+        with:
+          components: clippy
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo +nightly fmt --all --check
+      - run: cargo clippy --workspace --all-features --lib --bins --examples --tests --benches -- -D warnings
+      - run: cargo doc --workspace --all-features --no-deps
+        env:
+          RUSTDOCFLAGS: -D warnings
+      - uses: EmbarkStudios/cargo-deny-action@v2
+      - uses: crate-ci/typos@master

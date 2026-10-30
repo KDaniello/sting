@@ -1,0 +1,56 @@
+---
+source: crates/sting-cli/tests/sarif_golden.rs
+expression: recorded
+---
+{
+  "runs": [
+    {
+      "results": [
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<the file that was linted>"
+                },
+                "region": {
+                  "endColumn": 13,
+                  "endLine": 12,
+                  "startColumn": 9,
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "function `onInternalMessage` saves storage and then sends a message that can bounce, but this file defines no `onBouncedMessage` handler — a bounce would leave the saved state unreverted"
+          },
+          "partialFingerprints": {
+            "stingStableId/v1": "<path>/01-no-bounce-handler-at-all.tolk:12:9"
+          },
+          "properties": {
+            "dynamicVerification": "not-attempted",
+            "remediation": "add a `fun onBouncedMessage(in: InMessageBounced)` in this contract that reverts (or otherwise reconciles) the same storage change this function made, so a bounce doesn't leave state permanently out of sync with what was actually sent"
+          },
+          "ruleId": "sting/UBM"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "sting",
+          "rules": [
+            {
+              "help": {
+                "text": "add a `fun onBouncedMessage(in: InMessageBounced)` in this contract that reverts (or otherwise reconciles) the same storage change this function made, so a bounce doesn't leave state permanently out of sync with what was actually sent"
+              },
+              "id": "sting/UBM"
+            }
+          ],
+          "version": null
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

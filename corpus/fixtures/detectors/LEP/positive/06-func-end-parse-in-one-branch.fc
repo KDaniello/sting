@@ -1,0 +1,7 @@
+;; Only the taken branch asserts the end, so the other one leaves a tail unread.
+() handle(slice in_msg_body, int flag) impure {
+  int op = in_msg_body~load_uint(32);
+  if (flag) {
+    in_msg_body.end_parse();
+  }
+}

@@ -1,0 +1,30 @@
+[package]
+name = "sting-sybil-graph"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "The funding graph: jetton wallets resolved to owners, transfers correlated into traces, edges between the people behind them."
+
+[dependencies]
+sting-sybil-ingestion = { workspace = true }
+sting-sybil-types = { workspace = true }
+sting-tep = { workspace = true }
+clickhouse = { workspace = true }
+hex = { workspace = true }
+petgraph = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt"] }
+
+[dev-dependencies]
+base64 = { workspace = true }
+num-bigint = { workspace = true }
+tonlib-core = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt", "test-util"] }
+
+[lints]
+workspace = true

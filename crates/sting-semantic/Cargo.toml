@@ -1,0 +1,19 @@
+[package]
+name = "sting-semantic"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+sting-ast = { workspace = true }
+sting-tolkc = { workspace = true }
+thiserror = { workspace = true }
+tree-sitter = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

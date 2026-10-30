@@ -1,0 +1,455 @@
+#include "imports/stdlib.fc";
+#include "utils/safemath.fc";
+#include "utils/helpers.fc";
+#include "utils/messages.fc";
+#include "utils/op-codes.fc";
+#include "utils/error_codes.fc";
+#include "utils/params.fc";
+#include "utils/utils.fc";
+#include "utils/random.fc";
+
+#pragma version >=0.4.0;
+
+(int, int, int, int, int, int, int, slice, int, slice, slice, cell, int) load_data() inline {
+  slice ds = get_data().begin_parse();
+  int round = ds~load_uint(16);
+
+  (
+    int total_keys,
+    int round_mask,
+    int total_round_spent,
+    int total_round_gained,
+    int prev_random_seed
+  ) = unpack_user_round_data(ds~load_ref());
+
+  int pending_request = ds~load_uint(1);
+  int stage3_status = ds~load_uint(2);
+  slice owner = ds~load_msg_addr();
+  int has_referrer = ds~load_uint(2);
+  slice referrer = ds~load_msg_addr();
+  slice main_game_address = ds~load_msg_addr();
+  cell user_main_game_wallet_code = ds~load_ref();
+
+  return (
+    round,
+    total_keys,
+    round_mask,
+    total_round_spent,
+    total_round_gained,
+    pending_request,
+    stage3_status,
+    owner,
+    has_referrer,
+    referrer,
+    main_game_address,
+    user_main_game_wallet_code,
+    prev_random_seed
+  );
+}
+
+() save_data (
+  int round,
+  int total_keys,
+  int round_mask,
+  int total_round_spent,
+  int total_round_gained,
+  int pending_request,
+  int stage3_status,
+  slice owner,
+  int has_referrer,
+  slice referrer,
+  slice main_game_address,
+  cell user_main_game_wallet_code,
+  int prev_random_seed
+) impure inline {
+  set_data(
+    pack_wallet_data(
+      round,
+      total_keys,
+      round_mask,
+      total_round_spent,
+      total_round_gained,
+      pending_request,
+      stage3_status,
+      owner,
+      has_referrer,
+      referrer,
+      main_game_address,
+      user_main_game_wallet_code,
+      prev_random_seed
+    )
+  );
+}
+
+int get_luck_level(int activate_amount) inline {
+  int level = activate_amount / 1000000000;
+  if (level > 20) {
+    level = 20;
+  }
+  return level;
+}
+
+(int, int) try_user_luck(slice address, int activate_amount, int prev_random_seed) inline {
+  if (activate_amount < 1000000000) {
+    return (0, 0);
+  }
+
+  int user_commit_hash = cell_hash(begin_cell()
+      .store_slice(address)
+      .store_uint(activate_amount, 64)
+      .store_uint(now(), 32)
+      .store_uint(cur_lt(), 64)
+  .end_cell());
+
+  int lucky_number = get_random_word(address, user_commit_hash, prev_random_seed);
+
+  int level = get_luck_level(activate_amount);
+
+  return (level, lucky_number);
+}
+
+;; read incoming transfer message, authorize by address, update balance and send post_activate message
+() receive_keys (slice in_msg_body, slice sender_address, int my_ton_balance, int msg_value) impure inline {
+  (
+    int round,
+    int total_keys,
+    int mask,
+    int spent,
+    int gained,
+    int pending_request,
+    int stage3_status,
+    slice owner,
+    int has_referrer,
+    slice referrer,
+    slice main_game_address,
+    cell user_main_game_wallet_code,
+    int prev_random_seed
+  ) = load_data();
+
+  slice from_address = in_msg_body~load_msg_addr();
+  slice response_address = in_msg_body~load_msg_addr();
+
+  throw_unless(error::unauthorized_incoming_transfer,
+    equal_slices_bits(main_game_address, sender_address)
+  );
+
+  int forward_ton_amount = in_msg_body~load_coins();
+  in_msg_body~skip_bits(1); ;; skip forward_payload flag
+
+  int game_round = in_msg_body~load_uint(16);
+  if (game_round != round) {
+    round = game_round;
+    total_keys = 0;
+    mask = 0;
+    spent = 0;
+    gained = 0;
+    pending_request = 0;
+    stage3_status = 0;
+  }
+
+  int rcv_keys = in_msg_body~load_coins();
+  throw_unless(error::invalid_keys_value, rcv_keys > 0);
+
+  int activate_amount = in_msg_body~load_coins();
+  spent += activate_amount;
+
+  (int luck_level, int lucky_number) = try_user_luck(owner, activate_amount, prev_random_seed);
+
+  prev_random_seed = cell_hash(begin_cell()
+      .store_uint(prev_random_seed, 256)
+      .store_uint(activate_amount, 64)
+      .store_uint(now(), 64)
+      .store_uint(lucky_number, 16)
+  .end_cell());
+
+  int mask_diff = in_msg_body~load_coins();
+  total_keys += rcv_keys;
+
+  if (has_referrer == 0) {
+    if (~ in_msg_body.slice_empty?()) {
+      slice referrer_candidate = in_msg_body~load_msg_addr();
+
+      if (is_valid_referrer_address(referrer_candidate, owner)) {
+        referrer = referrer_candidate;
+      }
+    }
+
+    has_referrer = referrer.is_address_none() ? 2 : 1;
+  }
+
+  ;; always reserve at least min_tons_for_storage at the contract
+  raw_reserve(min_tons_for_storage / 2, 2);
+
+  save_data(
+    round,
+    total_keys,
+    mask + mask_diff,
+    spent,
+    gained,
+    pending_request,
+    stage3_status,
+    owner,
+    has_referrer,
+    referrer,
+    main_game_address,
+    user_main_game_wallet_code,
+    prev_random_seed
+  );
+
+  int to_referrer = msg_value - operations_fee + min_tons_for_storage;
+
+  if (has_referrer == 1) {
+    send_tons(referrer, to_referrer);
+  }
+
+  ;; send post_activate
+  if ((response_address.preload_uint(2) != 0)) {
+    var msg = begin_cell()
+      .store_uint(0x10, 6)
+      .store_slice(main_game_address)
+      .store_coins(0)
+      .store_msgbody_prefix_slice()
+      .store_uint(op::post_activate, 32)
+      .store_uint(luck_level, 7)
+      .store_uint(lucky_number, 16)
+      .store_uint(prev_random_seed, 256)
+      .store_slice(owner)
+      .store_coins(total_keys);
+
+    send_raw_message(msg.end_cell(), CARRY_REMAINING_BALANCE);
+  }
+}
+
+() request_keys_share(slice sender_address) impure inline {
+  (
+    int round,
+    int total_keys,
+    int mask,
+    int spent,
+    int gained,
+    int pending_request,
+    int stage3_status,
+    slice owner,
+    int has_referrer,
+    slice referrer,
+    slice main_game_address,
+    cell user_main_game_wallet_code,
+    int prev_random_seed
+  ) = load_data();
+
+  throw_unless(error::unauthorized_incoming_transfer,
+    equal_slices_bits(owner, sender_address)
+  );
+
+  throw_unless(error::forbidden_at_this_stage,
+    pending_request == 0
+  );
+
+  int share_limit = multiply(spent, 2);
+
+  throw_unless(error::keys_share_limit_reached, share_limit > gained);
+
+  ;; always reserve at least min_tons_for_storage at the contract
+  raw_reserve(min_tons_for_storage / 2, 2);
+
+  pending_request = 1;
+
+  save_data(
+    round,
+    total_keys,
+    mask,
+    spent,
+    gained,
+    pending_request,
+    stage3_status,
+    owner,
+    has_referrer,
+    referrer,
+    main_game_address,
+    user_main_game_wallet_code,
+    prev_random_seed
+  );
+
+  var msg = prepare_for_send_with_op(main_game_address, 0, op::ask_keys_share, msg_flag::bounceable)
+    .store_uint(round, 16)
+    .store_coins(total_keys)
+    .store_coins(share_limit)
+    .store_coins(gained)
+    .store_coins(mask)
+    .store_uint(stage3_status, 2)
+    .store_slice(owner);
+
+  send_raw_message(msg.end_cell(), CARRY_REMAINING_BALANCE);
+}
+
+() receive_keys_share(slice sender_address, slice in_msg_body, int share_amount) impure inline {
+  (
+    int round,
+    int total_keys,
+    int mask,
+    int spent,
+    int gained,
+    int pending_request,
+    int stage3_status,
+    slice owner,
+    int has_referrer,
+    slice referrer,
+    slice main_game_address,
+    cell user_main_game_wallet_code,
+    int prev_random_seed
+  ) = load_data();
+
+  throw_unless(error::unauthorized_incoming_transfer,
+    equal_slices_bits(main_game_address, sender_address)
+  );
+
+  int new_mask = in_msg_body~load_coins();
+  int round_stage = in_msg_body~load_uint(2);
+
+  throw_unless(error::low_new_mask, new_mask >= mask);
+
+  pending_request = 0;
+
+  mask = new_mask;
+  gained += share_amount;
+
+  int share_limit = multiply(spent, 2);
+
+  if (round_stage == 2) {
+    stage3_status = (share_limit > gained) ? 1 : 3;
+  }
+
+  if (round_stage == 3) {
+    stage3_status = 2;
+  }
+
+  raw_reserve(min_tons_for_storage / 2, 2);
+
+  save_data(
+    round,
+    total_keys,
+    mask,
+    spent,
+    gained,
+    pending_request,
+    stage3_status,
+    owner,
+    has_referrer,
+    referrer,
+    main_game_address,
+    user_main_game_wallet_code,
+    prev_random_seed
+  );
+
+  var msg = begin_cell()
+      .store_uint(0x10, 6)
+      .store_slice(owner)
+      .store_coins(0)
+      .store_msgbody_prefix_slice();
+
+  send_raw_message(msg.end_cell(), CARRY_REMAINING_BALANCE);
+}
+
+() on_bounce (slice in_msg_body) impure inline_ref {
+  in_msg_body~skip_bounce_flag();
+
+  int op = in_msg_body~load_op();
+
+  if (op == op::ask_keys_share) {
+    ;; unlock pending request
+    (
+      int round,
+      int total_keys,
+      int mask,
+      int spent,
+      int gained,
+      int pending_request,
+      int stage3_status,
+      slice owner,
+      int has_referrer,
+      slice referrer,
+      slice main_game_address,
+      cell user_main_game_wallet_code,
+      int prev_random_seed
+    ) = load_data();
+
+    save_data(
+      round,
+      total_keys,
+      mask,
+      spent,
+      gained,
+      0,
+      stage3_status,
+      owner,
+      has_referrer,
+      referrer,
+      main_game_address,
+      user_main_game_wallet_code,
+      prev_random_seed
+    );
+  }
+}
+
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice in_msg_body) impure {
+  if (in_msg_body.slice_empty?()) { ;; ignore empty messages
+    return ();
+  }
+
+  throw_unless(error::not_enough_tons, msg_value >= (min_tons_for_storage / 4));
+
+  slice cs = in_msg_full.begin_parse();
+
+  int flags = cs~load_uint(4);
+  if (flags & 1) {
+    on_bounce(in_msg_body);
+    return ();
+  }
+
+  slice sender_address = cs~load_msg_addr();
+  cs~load_msg_addr(); ;; skip dst
+  cs~load_coins(); ;; skip value
+  cs~skip_bits(1); ;; skip extracurrency collection
+  cs~load_coins(); ;; skip ihr_fee
+
+  int op = in_msg_body~load_op();
+
+  if (op == op::internal_transfer) { ;; incoming transfer
+    receive_keys(in_msg_body, sender_address, my_balance, msg_value);
+    return ();
+  }
+
+  if (op == op::keys_share_transfer) {
+    receive_keys_share(sender_address, in_msg_body, msg_value);
+    return ();
+  }
+
+  throw_unless(error::not_enough_tons, msg_value >= min_tons_for_storage);
+
+  if (op == op::ask_keys_share) {
+    request_keys_share(sender_address);
+    return ();
+  }
+
+  throw(error::unknown_op);
+}
+
+(int, int, int, int, int, int, int, slice, int, slice) get_user_data() method_id {
+  (
+    int round,
+    int keys,
+    int mask,
+    int spent,
+    int gained,
+    int pending_request,
+    int stage3_status,
+    slice owner,
+    int has_referrer,
+    slice referrer,
+    _,
+    _,
+    _
+  ) = load_data();
+
+  return (round, keys, mask, spent, gained, pending_request, stage3_status, owner, has_referrer, referrer);
+}

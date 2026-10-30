@@ -1,0 +1,34 @@
+# The infrastructure the tests need, in the repository rather than on one machine.
+#
+# One service, because one is what this tree's tests reach for: the column store the sybil contour
+# ingests into. A compose file is reviewed; a hand-configured host is not, and a host that only one
+# machine has is a test suite that only one machine can run.
+#
+# `make test-live` expects it up. Bring it up with `docker compose up -d clickhouse`.
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:26.3
+    # Without a password this image disables network access for `default` entirely — secure by
+    # default since 26.x, and not visible from a health check, which answers `/ping` without
+    # authentication and would report healthy either way. A local development password, not a
+    # secret: nothing outside a developer's own machine ever presents it.
+    environment:
+      CLICKHOUSE_PASSWORD: dev
+    ports:
+      # The HTTP interface the Rust client speaks, on its own port. Bound to the loopback
+      # explicitly: a store holding chain data has no business listening on every interface of a
+      # developer's machine.
+      - "127.0.0.1:8123:8123"
+      # The native protocol on 9004 rather than 9000, because 9000 is a popular port and a machine
+      # already running something there should not have to stop it to run these tests.
+      - "127.0.0.1:9004:9000"
+    volumes:
+      - ch_data:/var/lib/clickhouse
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  ch_data: {}

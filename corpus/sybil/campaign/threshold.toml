@@ -1,0 +1,13 @@
+# The registered threshold, in the form the tool reads. Its reasons are in THRESHOLD.md, and the
+# commit this file was registered in is what a result cites.
+campaign = "an airdrop with a published exclusion list"
+registered = "2026-08-23"
+
+# Of the owners flagged, the share the campaign also excluded.
+min_precision = 0.90
+# Of the owners the campaign excluded, the share flagged.
+min_recall = 0.50
+# How many owners each side has to name before the comparison means anything.
+min_owners = 1000
+# The score at and above which an owner counts as flagged: the model file's own.
+score_threshold = 0.7692573575930904

@@ -1,0 +1,40 @@
+[package]
+name = "sting-emulator"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+# NOTE: cannot use `[lints] workspace = true` here for the same reason as
+# sting-emulator-sys — this is the second (and last) crate allowed to contain
+# `unsafe` (see docs/ARCHITECTURE.md §3.1: calling an `unsafe fn` from
+# sting-emulator-sys requires an `unsafe` block on the caller's side too).
+# The one rule this crate does NOT relax: no public function here may itself
+# be `unsafe fn` — unsafety stays internal, kept in sync by hand with
+# [workspace.lints] in the root Cargo.toml.
+[lints.rust]
+unsafe_code = "allow"
+missing_docs = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+cargo = { level = "warn", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+undocumented_unsafe_blocks = "deny"
+multiple_crate_versions = "allow"
+module_name_repetitions = "allow"
+
+[dependencies]
+base64 = { workspace = true }
+num-bigint = "0.4.8"
+serde = { workspace = true }
+serde_json = { workspace = true }
+sting-emulator-sys = { workspace = true }
+thiserror = { workspace = true }
+tonlib-core = { workspace = true }
+
+[dev-dependencies]
+sysinfo = { workspace = true }

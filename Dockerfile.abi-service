@@ -1,0 +1,38 @@
+# `sting-abi-service` — the public HTTP layer over `sting-abi-pipeline`
+# (docs/abi-layer/blocks/03-api-service-mvp.md §3.4).
+#
+# Deliberately does NOT bake either compiler into the image:
+#   - Tolk: `tolk`/`tolk.exe` (ton-blockchain/ton release) is a
+#     platform-specific native binary this repo only vendors a *Windows*
+#     copy of locally (`vendor/tolk/`, gitignored) — no Linux binary is
+#     available in this development environment to bundle, so it is
+#     resolved at *runtime* via `STING_TOLKC_PATH`, same as every other
+#     deployment of this crate (`sting-tolkc`'s own env-var convention).
+#   - Tact: resolved the same way via `STING_TACT_JS_PATH` — even though
+#     `tact.js` itself is plain, cross-platform JS, keeping both compilers
+#     symmetric (external, mounted, versioned independently of this image)
+#     is simpler to operate than baking in one but not the other.
+#
+# An operator runs this image with `vendor/tolk/`+`vendor/tact/` bind-mounted
+# and both env vars pointing inside the mount — see this repo's
+# `crates/sting-abi-service/README.md` for the exact `docker run` invocation.
+# Without either compiler mounted, the service still starts and answers
+# `/v1/health`/`/v1/version`; requests for that language fail per-request
+# with a named `unsupported_language` error, not a startup crash
+# (`src/main.rs::build_controller`'s own doc comment).
+
+FROM rust:1.93-bookworm AS builder
+WORKDIR /build
+COPY . .
+RUN cargo build --release -p sting-abi-service --bin sting-abi-service
+
+# `node:20-bookworm-slim`, not a bare `debian:bookworm-slim`: Tact's
+# compiler is always driven as `node <script>` regardless of where
+# `tact.js` itself is mounted from — a Linux `node` binary in `PATH` is a
+# hard runtime requirement for the Tact path even though `tact.js` itself
+# isn't baked in.
+FROM node:20-bookworm-slim
+COPY --from=builder /build/target/release/sting-abi-service /usr/local/bin/sting-abi-service
+ENV PORT=8080
+EXPOSE 8080
+ENTRYPOINT ["/usr/local/bin/sting-abi-service"]

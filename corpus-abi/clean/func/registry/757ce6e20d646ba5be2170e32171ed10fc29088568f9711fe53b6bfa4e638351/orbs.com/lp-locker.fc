@@ -1,0 +1,527 @@
+;; LP Locker Smart Contract
+
+#pragma version >=0.4.3;
+
+#include "stdlib.fc";
+#include "op-codes.fc";
+#include "jetton-utils.fc";
+
+const int DEFAULT_LOCK_SECONDS = 180 * 24 * 3600;
+const int WITHDRAW_TRANSFER_TON = 100000000;
+const int WITHDRAW_FEE_BUFFER = 20000000;
+const int WITHDRAW_MIN_VALUE = WITHDRAW_TRANSFER_TON + WITHDRAW_FEE_BUFFER;
+const int ACK_MESSAGE_TON_DEFAULT = 20000000; ;; 0.02 TON
+const int ACK_MESSAGE_TON_MAX = 1000000000; ;; 1 TON
+const int ACK_FEE_BUFFER = 10000000; ;; 0.01 TON, covers locker compute + ACK forwarding fees
+const int MAX_SLOTS = 20000; ;; hard cap to limit slot growth
+
+{-
+  Storage
+
+  storage#_ admin:MsgAddress
+            default_lock_seconds:uint32
+            min_lp_deposit:Coins
+            ack_message_ton:Coins
+            allowed_senders:(HashmapE 256 (## 1))
+            ack_sources:(HashmapE 256 (## 1))
+            slots:(HashmapE 64 ^Cell)
+            slots_count:uint32
+            withdraw_state:^Cell = Storage;
+
+  withdraw_state layout:
+    withdraw_pending:(HashmapE 64 ^Cell)
+    withdraw_by_slot:(HashmapE 64 (## 64))
+    withdraw_seqno:uint64
+-}
+
+cell pack_withdraw_state(cell withdraw_pending, cell withdraw_by_slot, int withdraw_seqno) inline {
+    return begin_cell()
+        .store_dict(withdraw_pending)
+        .store_dict(withdraw_by_slot)
+        .store_uint(withdraw_seqno, 64)
+        .end_cell();
+}
+
+(slice, int, int, int, cell, cell, cell, int, cell, cell, int) load_data() inline {
+    slice ds = get_data().begin_parse();
+    slice admin = ds~load_msg_addr();
+    int default_lock_seconds = ds~load_uint(32);
+    int min_lp_deposit = ds~load_coins();
+    int ack_message_ton = ds~load_coins();
+    cell allowed_senders = ds~load_dict();
+    cell ack_sources = ds~load_dict();
+    cell slots = ds~load_dict();
+    int slots_count = ds~load_uint(32);
+    cell withdraw_state = ds~load_ref();
+    ds.end_parse();
+
+    slice ws = withdraw_state.begin_parse();
+    cell withdraw_pending = ws~load_dict();
+    cell withdraw_by_slot = ws~load_dict();
+    int withdraw_seqno = ws~load_uint(64);
+    ws.end_parse();
+
+    return (admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+}
+
+() save_data(slice admin, int default_lock_seconds, int min_lp_deposit, int ack_message_ton, cell allowed_senders, cell ack_sources, cell slots, int slots_count, cell withdraw_pending, cell withdraw_by_slot, int withdraw_seqno) impure inline {
+    cell withdraw_state = pack_withdraw_state(withdraw_pending, withdraw_by_slot, withdraw_seqno);
+    set_data(
+        begin_cell()
+        .store_slice(admin)
+        .store_uint(default_lock_seconds, 32)
+        .store_coins(min_lp_deposit)
+        .store_coins(ack_message_ton)
+        .store_dict(allowed_senders)
+        .store_dict(ack_sources)
+        .store_dict(slots)
+        .store_uint(slots_count, 32)
+        .store_ref(withdraw_state)
+        .end_cell()
+    );
+}
+
+int dict_count(cell dict, int key_len) inline {
+    if (dict_empty?(dict)) {
+        return 0;
+    }
+    int count = 0;
+    (int key, slice val, int found) = udict_get_min?(dict, key_len);
+    while (found) {
+        count += 1;
+        (key, val, found) = udict_get_next?(dict, key_len, key);
+    }
+    return count;
+}
+
+int is_allowed_sender(cell allowed_senders, slice sender_address) inline {
+    int key = slice_hash(sender_address);
+    (slice val, int found) = udict_get?(allowed_senders, 256, key);
+    return found;
+}
+
+int is_ack_source(cell ack_sources, slice source_address) inline {
+    int key = slice_hash(source_address);
+    (slice val, int found) = udict_get?(ack_sources, 256, key);
+    return found;
+}
+
+cell set_allowed_sender(cell allowed_senders, slice sender_address) inline {
+    int key = slice_hash(sender_address);
+    return udict_set_builder(allowed_senders, 256, key, begin_cell().store_uint(1, 1));
+}
+
+cell set_ack_source(cell ack_sources, slice source_address) inline {
+    int key = slice_hash(source_address);
+    return udict_set_builder(ack_sources, 256, key, begin_cell().store_uint(1, 1));
+}
+
+cell remove_allowed_sender(cell allowed_senders, slice sender_address) inline {
+    int key = slice_hash(sender_address);
+    int deleted = 0;
+    (allowed_senders, deleted) = udict_delete?(allowed_senders, 256, key);
+    return allowed_senders;
+}
+
+cell remove_ack_source(cell ack_sources, slice source_address) inline {
+    int key = slice_hash(source_address);
+    int deleted = 0;
+    (ack_sources, deleted) = udict_delete?(ack_sources, 256, key);
+    return ack_sources;
+}
+cell load_forward_payload(slice s) inline {
+    int tag = s~load_uint(1);
+    if (tag) {
+        (int bits, int refs) = slice_bits_refs(s);
+        throw_unless(error::invalid_message, (refs == 1) & (bits == 0));
+        return s~load_ref();
+    }
+    (int bits, int refs) = slice_bits_refs(s);
+    if ((bits | refs) == 0) {
+        return null();
+    }
+    slice payload_copy = s;
+    return begin_cell().store_slice(payload_copy).end_cell();
+}
+
+builder pack_slot(slice owner, slice lp_wallet, slice ack_wallet, int amount, int unlock_ts) inline {
+    return begin_cell()
+        .store_slice(owner)
+        .store_slice(lp_wallet)
+        .store_slice(ack_wallet)
+        .store_coins(amount)
+        .store_uint(unlock_ts, 64);
+}
+
+builder pack_withdraw_pending(int slot_id, slice lp_wallet, slice response_wallet, int amount, slice destination) inline {
+    return begin_cell()
+        .store_uint(slot_id, 64)
+        .store_slice(lp_wallet)
+        .store_slice(response_wallet)
+        .store_coins(amount)
+        .store_slice(destination);
+}
+
+(int, int) find_withdraw_pending_by_slot_id(cell withdraw_by_slot, int slot_id) inline {
+    (slice val, int found) = udict_get?(withdraw_by_slot, 64, slot_id);
+    if (found == 0) {
+        return (0, 0);
+    }
+    int qid = val~load_uint(64);
+    val.end_parse();
+    return (qid, 1);
+}
+
+() on_bounce(slice in_msg_body) impure inline {
+    in_msg_body~skip_bounced_prefix();
+    (int op, int query_id) = in_msg_body~load_op_and_query_id();
+    if (op != op::transfer) {
+        return ();
+    }
+    (slice admin, int default_lock_seconds, int min_lp_deposit, int ack_message_ton, cell allowed_senders, cell ack_sources, cell slots, int slots_count, cell withdraw_pending, cell withdraw_by_slot, int withdraw_seqno) = load_data();
+    (slice pending_slice, int found) = udict_get?(withdraw_pending, 64, query_id);
+    if (found) {
+        slice pending = pending_slice;
+        int slot_id = pending~load_uint(64);
+        pending.end_parse();
+        int deleted = 0;
+        (withdraw_pending, deleted) = udict_delete?(withdraw_pending, 64, query_id);
+        (withdraw_by_slot, deleted) = udict_delete?(withdraw_by_slot, 64, slot_id);
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+    }
+}
+
+() recv_internal(int msg_value, cell in_msg_full, slice in_msg_body) impure {
+    slice in_msg_full_slice = in_msg_full.begin_parse();
+    int msg_flags = in_msg_full_slice~load_msg_flags();
+    if (is_bounced(msg_flags)) {
+        on_bounce(in_msg_body);
+        return ();
+    }
+    slice sender_address = in_msg_full_slice~load_msg_addr();
+
+    (int op, int query_id) = in_msg_body~load_op_and_query_id();
+
+    (slice admin, int default_lock_seconds, int min_lp_deposit, int ack_message_ton, cell allowed_senders, cell ack_sources, cell slots, int slots_count, cell withdraw_pending, cell withdraw_by_slot, int withdraw_seqno) = load_data();
+
+    if (op == op::transfer_notification) {
+        int jetton_amount = in_msg_body~load_coins();
+        slice from_address = in_msg_body~load_msg_addr();
+        cell payload_cell = load_forward_payload(in_msg_body);
+        ;; forward payload may contain extra bits (e.g. Either tag), so we don't enforce end_parse here
+
+        throw_unless(error::not_valid_wallet, is_allowed_sender(allowed_senders, sender_address));
+        throw_unless(error::invalid_message, jetton_amount > 0);
+        throw_unless(error::not_enough_gas, msg_value >= (ack_message_ton + ACK_FEE_BUFFER));
+        throw_unless(error::invalid_message, (min_lp_deposit == 0) | (jetton_amount >= min_lp_deposit));
+        throw_unless(error::invalid_message, null?(payload_cell) == 0);
+
+        slice payload = payload_cell.begin_parse();
+        throw_unless(error::invalid_message, payload~load_uint(32) == DIAMOND_LP_LOCK_DEPOSIT_OP);
+        int slot_id = payload~load_uint(64);
+        slice beneficiary = payload~load_msg_addr();
+        int lock_seconds = payload~load_uint(32);
+        slice ack_wallet = payload~load_msg_addr();
+        (int payload_bits, int payload_refs) = slice_bits_refs(payload);
+        if (payload_bits >= 32) {
+            payload~load_uint(32); ;; optional tag
+        }
+        payload.end_parse();
+        throw_unless(error::invalid_message, slot_id == query_id);
+
+        int min_lock_seconds = default_lock_seconds;
+        if (min_lock_seconds == 0) {
+            min_lock_seconds = DEFAULT_LOCK_SECONDS;
+        }
+        if (lock_seconds < min_lock_seconds) {
+            lock_seconds = min_lock_seconds;
+        }
+
+        int unlock_ts = now() + lock_seconds;
+
+        (slice existing, int found) = udict_get?(slots, 64, slot_id);
+        throw_unless(error::invalid_message, found == 0);
+        throw_unless(error::invalid_message, slots_count < MAX_SLOTS);
+
+        int ack_allowed = is_ack_source(ack_sources, from_address);
+        slots = udict_set_builder(slots, 64, slot_id, pack_slot(beneficiary, sender_address, ack_wallet, jetton_amount, unlock_ts));
+        slots_count += 1;
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+
+        if (ack_allowed) {
+            cell ack_body = begin_cell()
+                .store_uint(DIAMOND_LP_LOCK_ACK_OP, 32)
+                .store_uint(slot_id, 64)
+                .end_cell();
+
+            cell ack_msg = begin_cell()
+                .store_msg_flags_and_address_none(NON_BOUNCEABLE)
+                .store_slice(ack_wallet)
+                .store_coins(ack_message_ton)
+                .store_only_body_ref(ack_body)
+                .end_cell();
+
+            send_raw_message(ack_msg, SEND_MODE_PAY_FEES_SEPARATELY | SEND_MODE_IGNORE_ERRORS);
+        }
+        return ();
+    }
+
+    if (op == op::excesses) {
+        return ();
+    }
+
+    if (op == op::lp_add_allowed_sender) {
+        throw_unless(error::not_owner, equal_slices_bits(sender_address, admin));
+        slice lp_wallet_address = in_msg_body~load_msg_addr();
+        in_msg_body.end_parse();
+        allowed_senders = set_allowed_sender(allowed_senders, lp_wallet_address);
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_remove_allowed_sender) {
+        throw_unless(error::not_owner, equal_slices_bits(sender_address, admin));
+        slice lp_wallet_address = in_msg_body~load_msg_addr();
+        in_msg_body.end_parse();
+        allowed_senders = remove_allowed_sender(allowed_senders, lp_wallet_address);
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_add_ack_source) {
+        throw_unless(error::not_owner, equal_slices_bits(sender_address, admin));
+        slice source_address = in_msg_body~load_msg_addr();
+        in_msg_body.end_parse();
+        ack_sources = set_ack_source(ack_sources, source_address);
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_remove_ack_source) {
+        throw_unless(error::not_owner, equal_slices_bits(sender_address, admin));
+        slice source_address = in_msg_body~load_msg_addr();
+        in_msg_body.end_parse();
+        ack_sources = remove_ack_source(ack_sources, source_address);
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_drop_admin) {
+        throw_unless(error::not_owner, equal_slices_bits(sender_address, admin));
+        in_msg_body.end_parse();
+        save_data(address_none(), default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_transfer_slot) {
+        int slot_id = in_msg_body~load_uint(64);
+        slice new_owner = in_msg_body~load_msg_addr();
+        slice new_owner_wallet = in_msg_body~load_msg_addr();
+        in_msg_body.end_parse();
+
+        (int pending_key, int pending_found) = find_withdraw_pending_by_slot_id(withdraw_by_slot, slot_id);
+        throw_unless(error::invalid_message, pending_found == 0);
+
+        (slice slot_slice, int found) = udict_get?(slots, 64, slot_id);
+        throw_unless(error::invalid_message, found);
+        slice slot = slot_slice;
+        slice owner = slot~load_msg_addr();
+        slice lp_wallet = slot~load_msg_addr();
+        slice ack_wallet = slot~load_msg_addr();
+        int amount = slot~load_coins();
+        int unlock_ts = slot~load_uint(64);
+        slot.end_parse();
+
+        throw_unless(error::not_owner, equal_slices_bits(owner, sender_address));
+        slots = udict_set_builder(slots, 64, slot_id, pack_slot(new_owner, lp_wallet, new_owner_wallet, amount, unlock_ts));
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_withdraw) {
+        int slot_id = in_msg_body~load_uint(64);
+        slice destination_address = in_msg_body~load_msg_addr();
+        slice response_wallet = in_msg_body~load_msg_addr();
+        in_msg_body.end_parse();
+
+        (slice slot_slice, int found) = udict_get?(slots, 64, slot_id);
+        throw_unless(error::invalid_message, found);
+        slice slot = slot_slice;
+        slice owner = slot~load_msg_addr();
+        slice lp_wallet = slot~load_msg_addr();
+        slice ack_wallet = slot~load_msg_addr();
+        int amount = slot~load_coins();
+        int unlock_ts = slot~load_uint(64);
+        slot.end_parse();
+
+        throw_unless(error::not_owner, equal_slices_bits(owner, sender_address));
+        throw_unless(error::slot_locked, now() >= unlock_ts);
+        throw_unless(error::not_enough_gas, msg_value >= WITHDRAW_MIN_VALUE);
+
+        (int pending_key, int pending_found) = find_withdraw_pending_by_slot_id(withdraw_by_slot, slot_id);
+        throw_unless(error::invalid_message, pending_found == 0);
+        throw_unless(error::invalid_message, ~ is_address_none(response_wallet));
+        withdraw_seqno += 1;
+        int withdraw_qid = withdraw_seqno;
+        withdraw_pending = udict_set_builder(withdraw_pending, 64, withdraw_qid, pack_withdraw_pending(slot_id, lp_wallet, response_wallet, amount, destination_address));
+        withdraw_by_slot = udict_set_builder(withdraw_by_slot, 64, slot_id, begin_cell().store_uint(withdraw_qid, 64));
+
+        cell transfer_body = begin_cell()
+            .store_op(op::transfer)
+            .store_query_id(withdraw_qid)
+            .store_coins(amount)
+            .store_slice(destination_address)
+            .store_slice(my_address())
+            .store_maybe_ref(null())
+            .store_coins(0)
+            .store_uint(0, 1)
+            .end_cell();
+
+        cell msg = begin_cell()
+            .store_msg_flags_and_address_none(BOUNCEABLE)
+            .store_slice(lp_wallet)
+            .store_coins(WITHDRAW_TRANSFER_TON)
+            .store_only_body_ref(transfer_body)
+            .end_cell();
+
+        send_raw_message(msg, SEND_MODE_PAY_FEES_SEPARATELY | SEND_MODE_BOUNCE_ON_ACTION_FAIL);
+
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_finalize_withdraw) {
+        int slot_id = in_msg_body~load_uint(64);
+        int withdraw_qid = in_msg_body~load_uint(64);
+        in_msg_body.end_parse();
+
+        (slice slot_slice, int found) = udict_get?(slots, 64, slot_id);
+        throw_unless(error::invalid_message, found);
+        slice slot = slot_slice;
+        slice owner = slot~load_msg_addr();
+        slot~load_msg_addr();
+        slot~load_msg_addr();
+        slot~load_coins();
+        slot~load_uint(64);
+        slot.end_parse();
+
+        throw_unless(error::not_owner, equal_slices_bits(owner, sender_address));
+
+        (slice qid_slice, int qfound) = udict_get?(withdraw_by_slot, 64, slot_id);
+        throw_unless(error::invalid_message, qfound);
+        int expected_qid = qid_slice~load_uint(64);
+        qid_slice.end_parse();
+        throw_unless(error::invalid_message, expected_qid == withdraw_qid);
+
+        (slice pending_slice, int pfound) = udict_get?(withdraw_pending, 64, withdraw_qid);
+        throw_unless(error::invalid_message, pfound);
+        slice pending = pending_slice;
+        int pending_slot = pending~load_uint(64);
+        pending~load_msg_addr();
+        pending~load_msg_addr();
+        pending~load_coins();
+        pending~load_msg_addr();
+        pending.end_parse();
+        throw_unless(error::invalid_message, pending_slot == slot_id);
+
+        int deleted = 0;
+        (withdraw_pending, deleted) = udict_delete?(withdraw_pending, 64, withdraw_qid);
+        (withdraw_by_slot, deleted) = udict_delete?(withdraw_by_slot, 64, slot_id);
+        (slots, deleted) = udict_delete?(slots, 64, slot_id);
+        if (slots_count > 0) {
+            slots_count -= 1;
+        }
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_admin_finalize_withdraw) {
+        throw_unless(error::not_owner, equal_slices_bits(sender_address, admin));
+        int slot_id = in_msg_body~load_uint(64);
+        int withdraw_qid = in_msg_body~load_uint(64);
+        in_msg_body.end_parse();
+
+        (slice slot_slice, int found) = udict_get?(slots, 64, slot_id);
+        throw_unless(error::invalid_message, found);
+        slice slot = slot_slice;
+        slot~load_msg_addr();
+        slot~load_msg_addr();
+        slot~load_msg_addr();
+        slot~load_coins();
+        slot~load_uint(64);
+        slot.end_parse();
+
+        (slice qid_slice, int qfound) = udict_get?(withdraw_by_slot, 64, slot_id);
+        throw_unless(error::invalid_message, qfound);
+        int expected_qid = qid_slice~load_uint(64);
+        qid_slice.end_parse();
+        throw_unless(error::invalid_message, expected_qid == withdraw_qid);
+
+        (slice pending_slice, int pfound) = udict_get?(withdraw_pending, 64, withdraw_qid);
+        throw_unless(error::invalid_message, pfound);
+        slice pending = pending_slice;
+        int pending_slot = pending~load_uint(64);
+        pending~load_msg_addr();
+        pending~load_msg_addr();
+        pending~load_coins();
+        pending~load_msg_addr();
+        pending.end_parse();
+        throw_unless(error::invalid_message, pending_slot == slot_id);
+
+        int deleted = 0;
+        (withdraw_pending, deleted) = udict_delete?(withdraw_pending, 64, withdraw_qid);
+        (withdraw_by_slot, deleted) = udict_delete?(withdraw_by_slot, 64, slot_id);
+        (slots, deleted) = udict_delete?(slots, 64, slot_id);
+        if (slots_count > 0) {
+            slots_count -= 1;
+        }
+        save_data(admin, default_lock_seconds, min_lp_deposit, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_set_min_deposit) {
+        throw_unless(error::not_owner, equal_slices_bits(sender_address, admin));
+        int new_min = in_msg_body~load_coins();
+        in_msg_body.end_parse();
+        save_data(admin, default_lock_seconds, new_min, ack_message_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::lp_set_ack_ton) {
+        throw_unless(error::not_owner, equal_slices_bits(sender_address, admin));
+        int new_ack_ton = in_msg_body~load_coins();
+        in_msg_body.end_parse();
+        throw_unless(error::invalid_message, new_ack_ton > 0);
+        throw_unless(error::invalid_message, new_ack_ton <= ACK_MESSAGE_TON_MAX);
+        save_data(admin, default_lock_seconds, min_lp_deposit, new_ack_ton, allowed_senders, ack_sources, slots, slots_count, withdraw_pending, withdraw_by_slot, withdraw_seqno);
+        return ();
+    }
+
+    if (op == op::top_up) {
+        return (); ;; just accept tons
+    }
+
+    throw(error::wrong_op);
+}
+
+(int, slice, slice, slice, int, int) get_slot(int slot_id) method_id {
+    (slice admin, int default_lock_seconds, int min_lp_deposit, int ack_message_ton, cell allowed_senders, cell ack_sources, cell slots, int slots_count, cell withdraw_pending, cell withdraw_by_slot, int withdraw_seqno) = load_data();
+    (slice slot_slice, int found) = udict_get?(slots, 64, slot_id);
+    if (found == 0) {
+        return (0, address_none(), address_none(), address_none(), 0, 0);
+    }
+    slice slot = slot_slice;
+    slice owner = slot~load_msg_addr();
+    slice lp_wallet = slot~load_msg_addr();
+    slice ack_wallet = slot~load_msg_addr();
+    int amount = slot~load_coins();
+    int unlock_ts = slot~load_uint(64);
+    slot.end_parse();
+    return (1, owner, lp_wallet, ack_wallet, amount, unlock_ts);
+}
+
+(slice, int, int, int, int) get_config() method_id {
+    (slice admin, int default_lock_seconds, int min_lp_deposit, int ack_message_ton, cell allowed_senders, cell ack_sources, cell slots, int slots_count, cell withdraw_pending, cell withdraw_by_slot, int withdraw_seqno) = load_data();
+    int allowed_count = dict_count(allowed_senders, 256);
+    return (admin, default_lock_seconds, allowed_count, min_lp_deposit, ack_message_ton);
+}

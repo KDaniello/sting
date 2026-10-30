@@ -1,0 +1,4 @@
+defect_class: ID
+location: { file: "02-swapped-three-fields.tolk", line: 2, column: 28 }
+description: "`saveTriple(a, b, c)` writes fields in a different order than `loadTriple` reads them (a,b,c vs c,a,b)"
+source: "CertiK: Secure Smart Contract Programming in FunC — Top 10 Tips (swapped load_data/save_data args)"

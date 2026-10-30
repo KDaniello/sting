@@ -1,0 +1,17 @@
+[package]
+name = "sting-fuzz"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+arbitrary = { version = "1.4.2", features = ["derive"] }
+base64 = { workspace = true }
+sting-emulator = { workspace = true }
+sting-emulator-sys = { workspace = true }
+thiserror = { workspace = true }
+tonlib-core = { workspace = true }

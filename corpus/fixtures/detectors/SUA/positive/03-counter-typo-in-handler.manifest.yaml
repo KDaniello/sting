@@ -1,0 +1,4 @@
+defect_class: SUA
+location: { file: "03-counter-typo-in-handler.tolk", line: 3, column: 5 }
+description: "`nextSeqno =+ step` — same typo shape as 01, on a counter/seqno variable rather than a coin balance, showing the pattern is not specific to money-typed fields"
+source: "sting's own addition, ported from Misti's `SuspiciousUnary` (docs/PROJECT_REVIEW.md direction 5, Misti prior-art teardown)"

@@ -1,0 +1,353 @@
+{
+  "source": {
+    "name": "TelegramMessenger/cocoon-contracts",
+    "url": "https://github.com/TelegramMessenger/cocoon-contracts",
+    "nature": "production",
+    "license": "Apache-2.0",
+    "files_tolk": 9,
+    "lines_tolk": 1718,
+    "fetched": "2026-08-05",
+    "run": "cargo run -p sting-cli -- lint <clone>/contracts_tolk --format json",
+    "note": "Прогон по месту, без вендоринга (фаза 4 §8). В репозиторий попадает только этот разбор."
+  },
+  "round": 1,
+  "totals": {
+    "findings": 27,
+    "by_detector": {
+      "AC": 3,
+      "DEPR": 24
+    },
+    "classes": {
+      "auth-inside-delegated-method": 3,
+      "deprecated-stdlib-name": 24
+    },
+    "new_classes_this_round": [
+      "auth-inside-delegated-method",
+      "deprecated-stdlib-name"
+    ]
+  },
+  "findings": [
+    {
+      "detector": "AC",
+      "file": "cocoon_client.tolk",
+      "line": 300,
+      "verdict": "documented_limit",
+      "cls": "auth-inside-delegated-method",
+      "confirmations": 1,
+      "action": "awaiting_second_source",
+      "round": 1,
+      "note": "Авторизация выполняется не в теле `onInternalMessage`, а внутри метода, которому оно делегирует: `ClientStorage.handleSignedClientMessage` зовёт `signedMsg.verify(constData.proxyPublicKey)`, `ProxyStorage.handleWorkerProxyRequest`/`handleClientProxyRequest` принимают `senderAddress` параметром и проверяют его `assert`ом. AC видит только тело энтрипоинта, а его правило делегации требует ровно одного совпадения по голому имени во всём проекте. Дополнительно: `.verify(publicKey)` не входит в четыре маркера AC (`senderAddress`, `isSignatureValid`, `valueCoins`, `msgValue`) — это отдельный класс, тоже ждущий второго источника."
+    },
+    {
+      "detector": "AC",
+      "file": "cocoon_proxy.tolk",
+      "line": 240,
+      "verdict": "documented_limit",
+      "cls": "auth-inside-delegated-method",
+      "confirmations": 1,
+      "action": "awaiting_second_source",
+      "round": 1,
+      "note": "Авторизация выполняется не в теле `onInternalMessage`, а внутри метода, которому оно делегирует: `ClientStorage.handleSignedClientMessage` зовёт `signedMsg.verify(constData.proxyPublicKey)`, `ProxyStorage.handleWorkerProxyRequest`/`handleClientProxyRequest` принимают `senderAddress` параметром и проверяют его `assert`ом. AC видит только тело энтрипоинта, а его правило делегации требует ровно одного совпадения по голому имени во всём проекте. Дополнительно: `.verify(publicKey)` не входит в четыре маркера AC (`senderAddress`, `isSignatureValid`, `valueCoins`, `msgValue`) — это отдельный класс, тоже ждущий второго источника."
+    },
+    {
+      "detector": "AC",
+      "file": "cocoon_proxy.tolk",
+      "line": 284,
+      "verdict": "documented_limit",
+      "cls": "auth-inside-delegated-method",
+      "confirmations": 1,
+      "action": "awaiting_second_source",
+      "round": 1,
+      "note": "Авторизация выполняется не в теле `onInternalMessage`, а внутри метода, которому оно делегирует: `ClientStorage.handleSignedClientMessage` зовёт `signedMsg.verify(constData.proxyPublicKey)`, `ProxyStorage.handleWorkerProxyRequest`/`handleClientProxyRequest` принимают `senderAddress` параметром и проверяют его `assert`ом. AC видит только тело энтрипоинта, а его правило делегации требует ровно одного совпадения по голому имени во всём проекте. Дополнительно: `.verify(publicKey)` не входит в четыре маркера AC (`senderAddress`, `isSignatureValid`, `valueCoins`, `msgValue`) — это отдельный класс, тоже ждущий второго источника."
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 90,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 106,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 156,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 176,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 194,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 212,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 225,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 239,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 262,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_client.tolk",
+      "line": 286,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_proxy.tolk",
+      "line": 47,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_proxy.tolk",
+      "line": 53,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_proxy.tolk",
+      "line": 121,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_proxy.tolk",
+      "line": 161,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_proxy.tolk",
+      "line": 169,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_proxy.tolk",
+      "line": 183,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_proxy.tolk",
+      "line": 230,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_proxy.tolk",
+      "line": 260,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_proxy.tolk",
+      "line": 271,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_root.tolk",
+      "line": 52,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_wallet.tolk",
+      "line": 93,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_worker.tolk",
+      "line": 31,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_worker.tolk",
+      "line": 35,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    },
+    {
+      "detector": "DEPR",
+      "file": "cocoon_worker.tolk",
+      "line": 112,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "confirmations": 1,
+      "action": "documented",
+      "round": 1,
+      "note": "`reserveToncoinsOnBalance` помечен @deprecated в стандартной библиотеке Tolk 1.4.2. Код Telegram обновлялся 2026-04-21, до выхода 1.4.2 (2026-06-21) — то есть на момент написания имя было актуальным. Детектор прав; чинить в sting нечего.",
+      "symbol": "reserveToncoinsOnBalance"
+    }
+  ],
+  "class_naming": "Класс — это ФОРМА, а не конкретное имя: `reserveToncoinsOnBalance` и `bitsEqual` — один класс `deprecated-stdlib-name`, потому что новая депрекация не является новой формой. Иначе критерий сходимости §3.3 не сойдётся никогда: каждый следующий релиз Tolk добавлял бы «новый класс». Конкретное имя хранится в поле `symbol`."
+}

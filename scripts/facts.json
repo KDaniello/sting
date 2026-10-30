@@ -1,0 +1,9 @@
+{
+  "corpus_files": 297,
+  "crates": 60,
+  "detectors": 14,
+  "method_ids": 1388,
+  "precision_default": 96.4,
+  "precision_measured": 82.4,
+  "tests": 1585
+}

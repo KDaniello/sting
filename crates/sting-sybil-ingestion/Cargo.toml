@@ -1,0 +1,37 @@
+[package]
+name = "sting-sybil-ingestion"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "Following the TON masterchain tip, writing raw rows idempotently, and replaying a range to the same rows."
+
+[[bin]]
+name = "sting-sybil-ingestion"
+path = "src/main.rs"
+
+[dependencies]
+sting-chain = { workspace = true, features = ["async"] }
+sting-sybil-types = { workspace = true }
+base64 = { workspace = true }
+clap = { workspace = true, features = ["env"] }
+clickhouse = { workspace = true }
+futures = { workspace = true }
+hex = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "sync", "time"] }
+
+[dev-dependencies]
+# `test-util` buys `tokio::time::pause()`: a follower that waits for the tip is tested against a
+# virtual clock, so a backpressure or retry test costs no wall-clock seconds and cannot flake.
+insta = { workspace = true, features = ["json"] }
+proptest = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "sync", "time", "test-util"] }
+
+[lints]
+workspace = true

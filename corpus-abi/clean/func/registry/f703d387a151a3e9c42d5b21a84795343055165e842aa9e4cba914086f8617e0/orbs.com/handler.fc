@@ -1,0 +1,393 @@
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/classes/msgdata/MdAddress.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/classlib.fc";
+
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/classes/msgdata/Bool.fc";
+
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/handlerCore.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/dataStructures/AddressList.fc";
+
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/actions/call.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/actions/event.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/actions/payment.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/actions/RawCall.fc";
+
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/classes/msgdata/CoinsAmount.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/classes/msgdata/SetAddress.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/classes/msgdata/MdObj.fc";
+
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/workers/msgdata/ExecuteParams.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/workers/msgdata/ClaimTon.fc";
+
+#include "./interface.fc";
+#include "./storage.fc";
+#include "structs/DispatchCommand.fc";
+#include "structs/SetOpcodeAdmin.fc";
+#include "../token/op-codes.fc";
+
+#include "../../structs/Address.fc";
+
+;; -----------
+;; missing sanitize functions from layerzero-v2-ton
+
+cell md::ClaimTon::sanitize(cell $claimTon) inline method_id {
+    return md::ClaimTon::New(
+        $claimTon.cl::get<coins>(md::ClaimTon::amount),
+        $claimTon.cl::get<address>(md::ClaimTon::target)
+    );
+}
+
+;; -----------
+
+;; copied from jetton-utils
+const int STATUS_SIZE = 4;
+
+cell getInitialStorage() impure inline {
+    return empty_cell();
+}
+
+;; declared inside of the actions/event.fc
+;; We declare it here because it saves the need for declaring initialStorage everytime we call event
+tuple _newAction<event>(int topic, cell $body) impure inline {
+    return action::event::create(topic, $body, cl::nullObject());
+}
+
+;;; ==========================================
+;; Modifiers
+() assertAuthenticated() impure inline { }
+
+() assertInitialized() impure inline { }
+
+() assertSuperAdmin() impure inline {
+    throw_unless(
+        TokenAdmin::ERROR::onlySuperAdmin,
+        getCaller() == getSuperAdmin()
+    );
+}
+
+() assertTentativeSuperAdmin() impure inline {
+    throw_unless(
+        TokenAdmin::ERROR::onlyTentativeSuperAdmin,
+        getCaller() == getTentativeSuperAdmin()
+    );
+}
+
+;; Step 1: authenticate
+() authenticate() impure { }
+
+() authenticateIfNecessary() impure inline { }
+
+;; Step 2: initialize
+tuple initialize(cell $Address) impure inline {
+    (cell $storage, tuple actions) = preamble();
+
+    if ($storage.cl::get<bool>(TokenAdmin::initialized)) {
+        return emptyActions();
+    }
+
+    setContractStorage(
+        $storage
+            .cl::set(
+                TokenAdmin::minterContract,
+                $Address.Address::getAddress()
+            )
+            .cl::set(
+                TokenAdmin::initialized,
+                true
+            )
+    );
+
+    return actions;
+}
+
+() assertOwner() impure inline { }
+
+() assertOpcodeAdmin(cell $DispatchCommand) impure inline {
+    $DispatchCommand = md::DispatchCommand::sanitize($DispatchCommand);
+    int opcode = $DispatchCommand.cl::get<uint32>(md::DispatchCommand::opcode);
+    int opcodeAdmin = getOpcodeAdmin(opcode);
+    throw_unless(TokenAdmin::ERROR::OnlyAdmin, getCaller() == opcodeAdmin);
+}
+
+() assertOpcodeAdminOrSuperAdmin(cell $setOpcodeAdmin) impure inline {
+    cell $setOpcodeAdminSanitized = SetOpcodeAdmin::sanitize($setOpcodeAdmin);
+    int opcode = $setOpcodeAdminSanitized.cl::get<uint32>(SetOpcodeAdmin::opcode);
+    int opcodeAdmin = getOpcodeAdmin(opcode);
+    throw_unless(
+        TokenAdmin::ERROR::OnlyAdminOrSuperAdmin,
+        (getCaller() == opcodeAdmin) | (getCaller() == getSuperAdmin())
+    );
+}
+
+;;; ==========================PERMISSION FUNCTIONS=================================
+
+;; this is special in proxy, only the people in the address book can call 'callContract'
+() _checkPermissions(int op, cell $md) impure inline {
+    if (op == TokenAdmin::OP::CALL_CONTRACT) {
+        return assertOpcodeAdmin($md);
+    } elseif (
+        (op == TokenAdmin::OP::SET_TENTATIVE_SUPER_ADMIN)
+        | (op == TokenAdmin::OP::CLAIM_TON)
+    ) {
+        return assertSuperAdmin();
+    }
+    elseif (op == TokenAdmin::OP::SET_ADMIN) {
+        return assertOpcodeAdminOrSuperAdmin($md);
+    }
+    elseif (op == TokenAdmin::OP::CLAIM_SUPER_ADMIN) {
+        return assertTentativeSuperAdmin();
+    }
+    throw(BaseInterface::ERROR::invalidOpcode);
+}
+
+;;; =================================== EVENT FUNCTIONS =================================
+
+int _getEventSink() impure inline method_id {
+    return getContractAddress();
+}
+
+int verifyEventOrigin(int address) method_id {
+    return address == getContractAddress();
+}
+
+;;; ===========================HELPERS=====================================
+;; NOTE: all of these Build{X}Messages will be parsed as the in_msg_body by the minter/wallet
+;; so be careful with the order of the fields and the refs.
+
+cell buildMintMessage(cell $DispatchCommandSanitized) impure {
+    int toAddress = $DispatchCommandSanitized.cl::get<address>(md::DispatchCommand::target);
+    int tonAmount = $DispatchCommandSanitized.cl::get<coins>(md::DispatchCommand::tonAmount);
+    cell masterMsg = $DispatchCommandSanitized.cl::get<cellRef>(md::DispatchCommand::callData);
+
+    return beginTonMessage(op::mint)
+        .store_slice(hashpartToBasechainAddressStd(toAddress))
+        .store_coins(tonAmount)
+        .store_ref(masterMsg)
+        .end_cell();
+}
+
+cell buildChangeAdminMessage(cell $DispatchCommandSanitized) impure {
+    int nextAdminAddress = $DispatchCommandSanitized.cl::get<address>(md::DispatchCommand::target);
+
+    return beginTonMessage(op::change_admin)
+        .store_slice(hashpartToBasechainAddressStd(nextAdminAddress))
+        .end_cell();
+}
+
+cell buildClaimAdminMessage(cell $DispatchCommandSanitized) impure {
+    return beginTonMessage(op::claim_admin).end_cell();
+}
+
+cell buildUpgradeMessage(cell $DispatchCommandSanitized) impure {
+    cell newData = $DispatchCommandSanitized.cl::get<objRef>(md::DispatchCommand::callData);
+    cell newCode = $DispatchCommandSanitized.cl::get<objRef>(md::DispatchCommand::extraData);
+
+    return beginTonMessage(op::upgrade)
+        .store_ref(newData)
+        .store_ref(newCode)
+        .end_cell();
+}
+
+cell buildChangeMetadataUrimessage(cell $DispatchCommandSanitized) impure {
+    cell metadataUri = $DispatchCommandSanitized.cl::get<cellRef>(md::DispatchCommand::callData);
+    return beginTonMessage(op::change_metadata_uri)
+        .store_slice(metadataUri.begin_parse())
+        .end_cell();
+}
+
+cell buildCallToMessage(cell $DispatchCommandSanitized) impure {
+    int tonAmount = $DispatchCommandSanitized.cl::get<coins>(md::DispatchCommand::tonAmount);
+    int toAddress = $DispatchCommandSanitized.cl::get<address>(md::DispatchCommand::target);
+    int opcode = $DispatchCommandSanitized.cl::get<uint32>(md::DispatchCommand::opcode);
+
+    cell masterMsg = $DispatchCommandSanitized.cl::get<objRef>(md::DispatchCommand::callData);
+    int master_op = masterMsg.begin_parse().preload_uint(32);
+    throw_unless(
+        TokenAdmin::ERROR::invalidCallData,
+        master_op == opcode
+    );
+
+    return beginTonMessage(op::call_to)
+        .store_slice(hashpartToBasechainAddressStd(toAddress))
+        .store_coins(tonAmount)
+        .store_ref(masterMsg)
+        .end_cell();
+}
+
+cell buildFreezeMessage(cell $DispatchCommandSanitized) impure {
+    ;; 0b0011 == 0x03
+    cell masterMsg = beginTonMessage(op::set_status)
+        .store_uint(0x3, STATUS_SIZE)
+        .end_cell();
+    
+    int toAddress = $DispatchCommandSanitized.cl::get<address>(md::DispatchCommand::target);
+    int tonAmount = $DispatchCommandSanitized.cl::get<coins>(md::DispatchCommand::tonAmount);
+    return beginTonMessage(op::call_to)
+        .store_slice(hashpartToBasechainAddressStd(toAddress))
+        .store_coins(tonAmount)
+        .store_ref(masterMsg)
+        .end_cell();
+}
+
+;; OpcodeInfos functions
+(tuple, [int, (cell -> cell)]) popOpcode(tuple opcodes) asm "TPOP";
+tuple opcodeInfos() impure inline {
+    return unsafeTuple(
+        [
+            [op::mint, buildMintMessage],
+            [op::change_admin, buildChangeAdminMessage],
+            [op::claim_admin, buildClaimAdminMessage],
+            [op::upgrade, buildUpgradeMessage],
+            [op::change_metadata_uri, buildChangeMetadataUrimessage],
+            [op::transfer, buildCallToMessage],
+            [op::burn, buildCallToMessage],
+            [op::set_status, buildCallToMessage],
+            [op::freeze, buildFreezeMessage]
+        ]
+    );
+}
+
+int opcodePermitted(int opcode) impure inline {
+    tuple tup = opcodeInfos();
+    repeat (tup.tlen()) {
+        [int _opcode, _] = tup~popOpcode();
+        if (_opcode == opcode) {
+            return true;
+        }
+    }
+    return false;
+}
+
+cell buildMessageForOpcode(cell $DispatchCommand) impure inline {
+    int opcode = $DispatchCommand.cl::get<uint32>(md::DispatchCommand::opcode);
+    tuple tup = opcodeInfos();
+    repeat (tup.tlen()) {
+        [int _opcode, var handler] = tup~popOpcode();
+        if (_opcode == opcode) {
+            return handler($DispatchCommand);
+        }
+    }
+    throw(TokenAdmin::ERROR::invalidOpcode);
+    return empty_cell();
+}
+
+;;; ==========================HANDLERS=====================================
+
+;; Invariant: the admin can only be set for an opcode that is in masterOpcodes() or callToopcodes()
+tuple setAdmin(cell $SetOpcodeAdmin) impure inline {
+    (cell $storage, tuple actions) = preamble();
+    $SetOpcodeAdmin = $SetOpcodeAdmin.SetOpcodeAdmin::sanitize();
+
+    int opcode = $SetOpcodeAdmin.cl::get<uint32>(SetOpcodeAdmin::opcode);
+    throw_unless(TokenAdmin::ERROR::invalidOpcode, opcodePermitted(opcode));
+
+    setContractStorage(
+        $storage.cl::nestedDict256::set(
+            TokenAdmin::admins,
+            opcode,
+            $SetOpcodeAdmin.cl::get<address>(SetOpcodeAdmin::admin)
+        )
+    );
+
+    actions~pushAction<event>(
+        TokenAdmin::Event::ADMIN_SET,
+        $SetOpcodeAdmin
+    );
+
+    return actions;
+}
+
+tuple setTentativeSuperAdmin(cell $Address) impure inline {
+    (cell $storage, tuple actions) = preamble();
+    $Address = $Address.Address::sanitize();
+
+    setContractStorage(
+        $storage.cl::set(
+            TokenAdmin::tentativeSuperAdmin,
+            $Address.cl::get<address>(Address::address)
+        )
+    );
+
+    actions~pushAction<event>(
+        TokenAdmin::Event::TENTATIVE_SUPER_ADMIN_SET,
+        $Address
+    );
+
+    return actions;
+}
+
+tuple claimSuperAdmin(cell $unused) impure inline {
+    (cell $storage, tuple actions) = preamble();
+
+    int tentativeSuperAdmin = getTentativeSuperAdmin();
+
+    setContractStorage(
+        $storage
+            .cl::set(TokenAdmin::superAdmin, tentativeSuperAdmin)
+            .cl::set(TokenAdmin::tentativeSuperAdmin, NULLADDRESS)
+    );
+
+    actions~pushAction<event>(
+        TokenAdmin::Event::SUPER_ADMIN_SET,
+        Address::New(tentativeSuperAdmin)
+    );
+
+    return actions;
+}
+
+tuple claimTon(cell $ClaimTon) impure inline {
+    (cell $storage, tuple actions) = preamble();
+    $ClaimTon = $ClaimTon.md::ClaimTon::sanitize();
+
+    ;; this amount will be paid from the contract balance
+    actions~pushAction<payment>(
+        $ClaimTon.cl::get<address>(md::ClaimTon::target),
+        $ClaimTon.cl::get<coins>(md::ClaimTon::amount),
+        $ClaimTon.cl::get<coins>(md::ClaimTon::amount)
+    );
+
+    return actions;
+}
+
+tuple callContract(cell $DispatchCommand) impure inline {
+    (cell $storage, tuple actions) = preamble();
+
+    actions~pushAction<rawCall>(
+        getMinterContract(),
+        buildMessageForOpcode(
+            md::DispatchCommand::sanitize($DispatchCommand)
+        )
+    );
+
+    return actions;
+}
+
+tuple _executeOpcode(int op, cell $md) impure inline {
+    if (op == TokenAdmin::OP::SET_ADMIN) {
+        return setAdmin($md);
+    } elseif (op == TokenAdmin::OP::SET_TENTATIVE_SUPER_ADMIN) {
+        return setTentativeSuperAdmin($md);
+    } elseif (op == TokenAdmin::OP::CLAIM_SUPER_ADMIN) {
+        return claimSuperAdmin($md);
+    } elseif (op == TokenAdmin::OP::CLAIM_TON) {
+        return claimTon($md);
+    } elseif (op == TokenAdmin::OP::CALL_CONTRACT) {
+        return callContract($md);
+    }
+    return emptyActions();
+}
+
+;;; =============================== ACTIONS =================================
+int _executeAction(int actionType, tuple action) impure inline {
+    if (actionType == action::event::NAME) {
+        return executeEvent(action);
+    } elseif (actionType == action::call::NAME) {
+        return executeCall(action);
+    } elseif (actionType == action::rawCall::NAME) {
+        return executeRawCall(action);
+    } else {
+        throw(BaseInterface::ERROR::invalidActionType);
+    }
+
+    ;; Wont ever hit, but compiler requires this
+    return false;
+}

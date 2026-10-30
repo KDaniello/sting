@@ -1,0 +1,4 @@
+defect_class: BR
+location: { file: "03-reward-amount-seeded-from-now.tolk", line: 2, column: 12 }
+description: "`maxBonus % blockchain.now()` — the time call is the modulo's right operand this time, not the left, but the same manipulable-seed shape applies"
+source: "TONScanner taxonomy (arXiv 2501.06459): Bad Randomness — transaction logical time as a randomness seed, potentially controlled by the validator"

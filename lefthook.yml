@@ -1,0 +1,6 @@
+# One definition of the gate. The Makefile holds it, CI calls it, and this calls the same thing —
+# a second copy of the command list drifts, and the copy that drifts is the one nobody runs.
+pre-commit:
+  commands:
+    gate:
+      run: make pre-commit

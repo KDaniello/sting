@@ -1,0 +1,4 @@
+defect_class: EPS
+location: { file: "01-unseeded-lottery-pick.tolk", line: 2, column: 35 }
+description: "`random.range(participantCount)` generates a pseudo-random pick with no preceding `random.initialize()`/`initializeBy()`/`setSeed()` in the function — every message landing on this contract within the same block starts from an identical PRG seed, so an attacker who gets several of their own messages processed in one block can predict every winner after seeing the first"
+source: "sting's own addition (docs/PROJECT_REVIEW.md direction 5 session 2 Фаза 6), mechanistically confirmed against ton-blockchain/ton's real C++ source (crypto/block/transaction.cpp's Transaction::prepare_rand_seed, crypto/vm/tonops.cpp's RANDU256/RAND) — see eps.rs's own doc comment for the full trace"

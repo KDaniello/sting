@@ -1,0 +1,23 @@
+version: 2
+
+updates:
+  # A dependency that moves without anyone noticing is how an advisory arrives. Weekly, grouped, so
+  # the review is one pull request rather than twenty.
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      rust-dependencies:
+        patterns:
+          - "*"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"

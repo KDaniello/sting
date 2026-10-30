@@ -1,0 +1,57 @@
+name: Tolkc
+
+on:
+  pull_request:
+    paths:
+      - 'crates/sting-tolkc/**'
+      - 'corpus/clean/acton-contracts/config/**'
+      - '.github/workflows/tolkc.yml'
+
+env:
+  CARGO_TERM_COLOR: always
+  # Pinned to the exact release tag the vendored binary this crate's tests
+  # were developed against — deliberately not "latest", same reproducibility
+  # reasoning as LIBEMULATOR_RELEASE_TAG in emulator.yml. The compiler
+  # itself self-reports as v1.4.1 even though this tag is "tolk-1.4.2" (a
+  # real, confirmed upstream naming quirk, not a mistake here) — the stdlib
+  # sources below are fetched from the exact commit this binary was built
+  # from specifically to avoid the "contract is written in Tolk vX, but you
+  # use Tolk compiler vY" version-skew warning that mismatch otherwise
+  # produces.
+  TOLKC_RELEASE_TAG: tolk-1.4.2
+  TOLKC_STDLIB_COMMIT: da70af2be5ef2efe9f0d575ec466847e27b81842
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: tolk-linux-x86_64
+            local_name: tolk
+          - os: windows-latest
+            asset: tolk.exe
+            local_name: tolk.exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Fetch native tolk compiler (${{ matrix.os }})
+        shell: bash
+        run: |
+          mkdir -p vendor/tolk
+          curl -sL --fail \
+            "https://github.com/ton-blockchain/ton/releases/download/${TOLKC_RELEASE_TAG}/${{ matrix.asset }}" \
+            -o "vendor/tolk/${{ matrix.local_name }}"
+          chmod +x "vendor/tolk/${{ matrix.local_name }}" || true
+      - name: Fetch matching tolk-stdlib sources
+        shell: bash
+        run: |
+          mkdir -p vendor/tolk/tolk-stdlib
+          for f in common gas-payments lisp-lists tvm-dicts tvm-lowlevel exotic-cells reflection strings; do
+            curl -sL --fail \
+              "https://raw.githubusercontent.com/ton-blockchain/ton/${TOLKC_STDLIB_COMMIT}/crypto/smartcont/tolk-stdlib/${f}.tolk" \
+              -o "vendor/tolk/tolk-stdlib/${f}.tolk"
+          done
+      - run: cargo test -p sting-tolkc

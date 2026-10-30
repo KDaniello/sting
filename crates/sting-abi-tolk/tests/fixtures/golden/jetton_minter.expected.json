@@ -1,0 +1,504 @@
+{
+  "ir_schema_version": "0.2",
+  "source_language": "tolk",
+  "extraction_tier": "compiled",
+  "contract_name": "JettonMinter",
+  "metadata": {
+    "author": "The Tolk Team",
+    "version": null,
+    "description": null
+  },
+  "storage": 22,
+  "types": [
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "void"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": null,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "slice"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "builder"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "bool"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "coins"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "address"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": false
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 64,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 64,
+        "signed": false
+      }
+    },
+    {
+      "name": "MintNewJettons",
+      "description": null,
+      "prefix": {
+        "prefix_num": 21,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "mintRecipient",
+            "ty": 7
+          },
+          {
+            "name": "tonAmount",
+            "ty": 6
+          },
+          {
+            "name": "internalTransferMsg",
+            "ty": 17
+          }
+        ]
+      }
+    },
+    {
+      "name": "InternalTransferStep",
+      "description": null,
+      "prefix": {
+        "prefix_num": 395134233,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "jettonAmount",
+            "ty": 6
+          },
+          {
+            "name": "transferInitiator",
+            "ty": 14
+          },
+          {
+            "name": "sendExcessesTo",
+            "ty": 14
+          },
+          {
+            "name": "forwardTonAmount",
+            "ty": 6
+          },
+          {
+            "name": "forwardPayload",
+            "ty": 15
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 7
+      }
+    },
+    {
+      "name": "ForwardPayloadRemainder",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "alias",
+        "target": 16
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "remaining"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell_packed",
+        "inner": 13
+      }
+    },
+    {
+      "name": "BurnNotificationForMinter",
+      "description": null,
+      "prefix": {
+        "prefix_num": 2078119902,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "jettonAmount",
+            "ty": 6
+          },
+          {
+            "name": "burnInitiator",
+            "ty": 7
+          },
+          {
+            "name": "sendExcessesTo",
+            "ty": 14
+          }
+        ]
+      }
+    },
+    {
+      "name": "RequestWalletAddress",
+      "description": null,
+      "prefix": {
+        "prefix_num": 745978227,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "ownerAddress",
+            "ty": 7
+          },
+          {
+            "name": "includeOwnerAddress",
+            "ty": 5
+          }
+        ]
+      }
+    },
+    {
+      "name": "ChangeMinterAdmin",
+      "description": null,
+      "prefix": {
+        "prefix_num": 3,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "newAdminAddress",
+            "ty": 7
+          }
+        ]
+      }
+    },
+    {
+      "name": "ChangeMinterContent",
+      "description": null,
+      "prefix": {
+        "prefix_num": 4,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "newContent",
+            "ty": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "MinterStorage",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalSupply",
+            "ty": 6
+          },
+          {
+            "name": "adminAddress",
+            "ty": 7
+          },
+          {
+            "name": "content",
+            "ty": 3
+          },
+          {
+            "name": "jettonWalletCode",
+            "ty": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReturnExcessesBack",
+      "description": null,
+      "prefix": {
+        "prefix_num": 3576854235,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          }
+        ]
+      }
+    },
+    {
+      "name": "ResponseWalletAddress",
+      "description": null,
+      "prefix": {
+        "prefix_num": 3513996288,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "jettonWalletAddress",
+            "ty": 14
+          },
+          {
+            "name": "ownerAddress",
+            "ty": 26
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell_packed",
+        "inner": 7
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 25
+      }
+    },
+    {
+      "name": "JettonDataReply",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalSupply",
+            "ty": 1
+          },
+          {
+            "name": "mintable",
+            "ty": 5
+          },
+          {
+            "name": "adminAddress",
+            "ty": 7
+          },
+          {
+            "name": "jettonContent",
+            "ty": 3
+          },
+          {
+            "name": "jettonWalletCode",
+            "ty": 3
+          }
+        ]
+      }
+    }
+  ],
+  "incoming_internal": [
+    {
+      "ty": 12
+    },
+    {
+      "ty": 18
+    },
+    {
+      "ty": 19
+    },
+    {
+      "ty": 20
+    },
+    {
+      "ty": 21
+    }
+  ],
+  "incoming_external": [],
+  "outgoing": [
+    {
+      "ty": 23
+    },
+    {
+      "ty": 24
+    },
+    {
+      "ty": 13
+    }
+  ],
+  "get_methods": [
+    {
+      "tvm_method_id": 106029,
+      "name": "get_jetton_data",
+      "parameters": [],
+      "return_ty": 27
+    },
+    {
+      "tvm_method_id": 103289,
+      "name": "get_wallet_address",
+      "parameters": [
+        {
+          "name": "ownerAddress",
+          "ty": 7
+        }
+      ],
+      "return_ty": 7
+    }
+  ],
+  "errors": [
+    {
+      "kind": "named",
+      "name": "ERR_NOT_FROM_ADMIN",
+      "code": 73
+    },
+    {
+      "kind": "named",
+      "name": "ERR_UNAUTHORIZED_BURN",
+      "code": 74
+    },
+    {
+      "kind": "named",
+      "name": "ERR_NOT_ENOUGH_AMOUNT_TO_RESPOND",
+      "code": 75
+    },
+    {
+      "kind": "plain",
+      "code": 65535
+    }
+  ],
+  "confidence": null,
+  "field_confidence": null
+}

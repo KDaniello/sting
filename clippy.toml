@@ -1,0 +1,15 @@
+# Clippy judges against the toolchain the tree is pinned to, so a suggestion it makes is a
+# suggestion this workspace can take.
+msrv = "1.98"
+
+# A function past this is doing more than one thing, and the split is cheaper before the tests are
+# written than after.
+cognitive-complexity-threshold = 15
+too-many-arguments-threshold = 6
+
+# A signature past this is a type that wants a name (AGENTS.md, rule 7).
+type-complexity-threshold = 250
+
+disallowed-methods = [
+    { path = "std::mem::forget", reason = "sting-emulator-sys releases every FFI handle through an explicit Drop; forgetting one leaks memory the C++ side allocated" },
+]

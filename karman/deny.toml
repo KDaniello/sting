@@ -1,0 +1,52 @@
+[advisories]
+version = 2
+yanked = "deny"
+# A crate this workspace names is a crate it chose, and choosing an abandoned one is a decision
+# to answer for. A crate four levels down is the upstream's choice, and blocking on it would
+# only mean pinning an old version of the thing that pulled it. Vulnerabilities are denied at
+# every depth; being unmaintained is not a vulnerability.
+unmaintained = "workspace"
+
+[licenses]
+version = 2
+# `Apache-2.0 WITH LLVM-exception` is how the Rust project itself licenses the crates the
+# Python bindings pull in: Apache-2.0 with the exception that removes its patent-retaliation
+# reach over generated object code.
+allow = [
+  "Apache-2.0",
+  "Apache-2.0 WITH LLVM-exception",
+  "MIT",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "ISC",
+  "Unicode-3.0",
+  "Zlib",
+  # A public-domain dedication, and the most permissive term on this list. It arrives with the
+  # modular-exponentiation precompile the reference EVM needs to run the Solidity that level 0
+  # is diffed against.
+  "CC0-1.0",
+]
+confidence-threshold = 0.9
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+
+# The single I/O boundary is sting-karman-data (docs/ARCHITECTURE.md 5, invariant 3): nothing else may talk to a
+# network, so a TLS stack outside that crate is a rule violation made visible at dependency level.
+deny = [
+  { name = "openssl-sys", reason = "TLS, when sting-karman-data needs it, is rustls; no C toolchain dependency" },
+  # Unseeded randomness is the one unforgivable bug class here, and `rand`'s conveniences are
+  # where it enters. The seeded stream is built from `rand_chacha` and `rand_core` by name; the
+  # only crate entitled to the rest is the property-test runner, which draws for cases rather
+  # than for results.
+  # The two parents that may have it: the property-test runner, which draws for cases rather
+  # than for results, and the arkworks base of the reference EVM's pairing precompiles, which no
+  # run of this workspace executes.
+  { name = "rand", wrappers = ["proptest", "ark-std"], reason = "randomness in a simulation path comes from the run's seeded stream; see docs/ARCHITECTURE.md 8 rule 1" },
+]
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

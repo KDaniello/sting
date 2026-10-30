@@ -1,0 +1,1848 @@
+[
+  {
+    "code_hash": "051b81d0ed5fa403bc8e76306a30c1b26ed8d6f7ee741b42b21319a691bbae3f",
+    "verifier": "orbs.com",
+    "original_path": "verified/05/1b81d0ed5fa403bc8e76306a30c1b26ed8d6f7ee741b42b21319a691bbae3f/orbs.com/sources/contract/sources/contest.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-051b81d0ed5f/registry-051b81d0ed5f.tact",
+    "methods": [
+      "getAvailableById",
+      "getHeadHash",
+      "getMasterPubKey",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "054f13907abc48c2b623edfcdb494f7fff549658bbc594c71c5c595a7d4011e3",
+    "verifier": "orbs.com",
+    "original_path": "verified/05/4f13907abc48c2b623edfcdb494f7fff549658bbc594c71c5c595a7d4011e3/orbs.com/sources/contract/contracts/matrix_ton.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-054f13907abc/registry-054f13907abc.tact",
+    "methods": [
+      "getUserData",
+      "getUserTable",
+      "isRegistered",
+      "getUpline",
+      "getTablePrice",
+      "getPayoutAmount",
+      "getSystemFee",
+      "getMasterWallet",
+      "getSystemWallet",
+      "getCoSigner",
+      "getContractBalance",
+      "isStopped",
+      "getBouncedPayouts",
+      "findSpilloverTarget",
+      "getPendingAction",
+      "getStats",
+      "getUserAllTables",
+      "owner",
+      "stopped"
+    ]
+  },
+  {
+    "code_hash": "054f13907abc48c2b623edfcdb494f7fff549658bbc594c71c5c595a7d4011e3",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/05/4f13907abc48c2b623edfcdb494f7fff549658bbc594c71c5c595a7d4011e3/verifier.ton.org/sources/contract/contracts/matrix_ton.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-054f13907abc/registry-054f13907abc.tact",
+    "methods": [
+      "getUserData",
+      "getUserTable",
+      "isRegistered",
+      "getUpline",
+      "getTablePrice",
+      "getPayoutAmount",
+      "getSystemFee",
+      "getMasterWallet",
+      "getSystemWallet",
+      "getCoSigner",
+      "getContractBalance",
+      "isStopped",
+      "getBouncedPayouts",
+      "findSpilloverTarget",
+      "getPendingAction",
+      "getStats",
+      "getUserAllTables",
+      "owner",
+      "stopped"
+    ]
+  },
+  {
+    "code_hash": "06812dbd92a8f566389744760e6c0cc820d4ab7e69c33a1f8481bf58d6430c07",
+    "verifier": "orbs.com",
+    "original_path": "verified/06/812dbd92a8f566389744760e6c0cc820d4ab7e69c33a1f8481bf58d6430c07/orbs.com/sources/contract/contracts/lottery.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-06812dbd92a8/registry-06812dbd92a8.tact",
+    "methods": [
+      "id",
+      "getTotalAmount",
+      "getFee"
+    ]
+  },
+  {
+    "code_hash": "091959a9bf7c4de4438b6936a66111f3eb045dc3353b37b3b43b23791fc5d92d",
+    "verifier": "orbs.com",
+    "original_path": "verified/09/1959a9bf7c4de4438b6936a66111f3eb045dc3353b37b3b43b23791fc5d92d/orbs.com/sources/contract/contracts/simple_counter.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-091959a9bf7c/registry-091959a9bf7c.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "0e7a65b8ffc62d63bbcef0e1679f3e5551ad38667827ad0465c1e26b985640d7",
+    "verifier": "orbs.com",
+    "original_path": "verified/0e/7a65b8ffc62d63bbcef0e1679f3e5551ad38667827ad0465c1e26b985640d7/orbs.com/sources/contract/contracts/inshrimption.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-0e7a65b8ffc6/registry-0e7a65b8ffc6.tact",
+    "methods": [
+      "sellFeePerc",
+      "msgFee",
+      "inscribeFee",
+      "balance",
+      "contractSeqno",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "11137ce70ae4dbd49d0e6fd857859bbceac711ae3f16bbb55879b58d6e23bd3c",
+    "verifier": "orbs.com",
+    "original_path": "verified/11/137ce70ae4dbd49d0e6fd857859bbceac711ae3f16bbb55879b58d6e23bd3c/orbs.com/sources/contract/Users/gunnar/projects/bastion/localtest/gunnarstest/contracts/gunnar_contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-11137ce70ae4/registry-11137ce70ae4.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "12bd4d205f0fa108a284aeec569dd75e6841ed63afba686f01400c23339682c4",
+    "verifier": "orbs.com",
+    "original_path": "verified/12/bd4d205f0fa108a284aeec569dd75e6841ed63afba686f01400c23339682c4/orbs.com/sources/contract/sources/MiniTonUSDTMatchContract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-12bd4d205f0f/registry-12bd4d205f0f.tact",
+    "methods": [
+      "seqno",
+      "masterRequest",
+      "masterActionRequestCount",
+      "usdtJettonWalletAddress",
+      "gasValueForJettonTransfer",
+      "recordedUSDTBalance",
+      "minBalance",
+      "balance",
+      "matchInfo",
+      "matchCount",
+      "matchResult",
+      "matchResultCount",
+      "contractIndex"
+    ]
+  },
+  {
+    "code_hash": "139e6b43891e1a82f6ae1287a1ce368be6a359b38c1b3134e53ce8902dec5da7",
+    "verifier": "orbs.com",
+    "original_path": "verified/13/9e6b43891e1a82f6ae1287a1ce368be6a359b38c1b3134e53ce8902dec5da7/orbs.com/sources/contract/sources/MiniTonMatchUSDTContract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-139e6b43891e/registry-139e6b43891e.tact",
+    "methods": [
+      "seqno",
+      "masterRequest",
+      "masterActionRequestCount",
+      "jettonWalletAddress",
+      "gasValueForJettonTransfer",
+      "recordedUSDTBalance",
+      "minBalance",
+      "balance",
+      "matchInfo",
+      "matchCount",
+      "contractIndex"
+    ]
+  },
+  {
+    "code_hash": "17226ab0f90246c3f933311d927f2e03e45a05acaa58d03835d0d113f8e6b658",
+    "verifier": "orbs.com",
+    "original_path": "verified/17/226ab0f90246c3f933311d927f2e03e45a05acaa58d03835d0d113f8e6b658/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-17226ab0f902/registry-17226ab0f902.tact",
+    "methods": [
+      "get_bond_amount",
+      "get_user_bond_info",
+      "get_usdt_total_purchased_amount",
+      "get_pro_usdt_total_purchased_amount",
+      "get_pro_ton_total_purchased_amount",
+      "get_ton_total_purchased_amount",
+      "get_usdt_bond_rate",
+      "get_pro_ton_bond_rate",
+      "get_pro_usdt_bond_rate",
+      "get_ton_bond_rate",
+      "get_usdt_wallet",
+      "get_pro_ton_wallet",
+      "get_pro_usdt_wallet",
+      "get_pro_wallet",
+      "get_owner"
+    ]
+  },
+  {
+    "code_hash": "187b08c85f296b35d0f626f882be527b62757d17768dee7c82f840a27f9970f1",
+    "verifier": "orbs.com",
+    "original_path": "verified/18/7b08c85f296b35d0f626f882be527b62757d17768dee7c82f840a27f9970f1/orbs.com/sources/contract/contracts/dz_ton_v3.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-187b08c85f29/registry-187b08c85f29.tact",
+    "methods": [
+      "queryMyJettonWallet",
+      "queryOwner",
+      "queryHighloadWallet",
+      "checkIsQueryIdProcessed",
+      "queryWithdrawLimit",
+      "queryProcessedQueryCount",
+      "getStorageItems",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "1cfc081b79802ab79347b1c2ce2dc2a1a65f3b0270fad9376e6e1ff53ced93bb",
+    "verifier": "orbs.com",
+    "original_path": "verified/1c/fc081b79802ab79347b1c2ce2dc2a1a65f3b0270fad9376e6e1ff53ced93bb/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-1cfc081b7980/registry-1cfc081b7980.tact",
+    "methods": [
+      "get_join_times",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "1ecf57fcdda99c463cb5aa509cc5b4c654155118bd1a3be37f28150ecf7d7e7d",
+    "verifier": "orbs.com",
+    "original_path": "verified/1e/cf57fcdda99c463cb5aa509cc5b4c654155118bd1a3be37f28150ecf7d7e7d/orbs.com/sources/contract/contracts/counter.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-1ecf57fcdda9/registry-1ecf57fcdda9.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "1ed9ae6ec34df04a9147443337225ecdc89135b0e024d7765f8317717c421ad6",
+    "verifier": "orbs.com",
+    "original_path": "verified/1e/d9ae6ec34df04a9147443337225ecdc89135b0e024d7765f8317717c421ad6/orbs.com/sources/contract/contracts/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-1ed9ae6ec34d/registry-1ed9ae6ec34d.tact",
+    "methods": [
+      "status",
+      "lockAddress",
+      "token",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "20bcf0fbf21dd7ea125535a0876a2705ea77538f535689360d69ae49c0734379",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/20/bcf0fbf21dd7ea125535a0876a2705ea77538f535689360d69ae49c0734379/verifier.ton.org/sources/contract/contracts/proof_of_support.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-20bcf0fbf21d/registry-20bcf0fbf21d.tact",
+    "methods": [
+      "getMessages"
+    ]
+  },
+  {
+    "code_hash": "294dd912d3123a8585cb7ebe90d5b5eb365805a982ad1928898972c35380368f",
+    "verifier": "orbs.com",
+    "original_path": "verified/29/4dd912d3123a8585cb7ebe90d5b5eb365805a982ad1928898972c35380368f/orbs.com/sources/contract/contracts/raffle_manager.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-294dd912d312/registry-294dd912d312.tact",
+    "methods": [
+      "balance",
+      "tpotInfo",
+      "participant",
+      "joinReferralRewardAmount",
+      "participantInfo",
+      "allParticipantInfos",
+      "treasuryAddress",
+      "currentPotEntryFee",
+      "allTpots",
+      "pureTransactionSumExcludingPrize",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "2b0aa736e2eb683dd7d56dfb9c06b3161d6b35903c71842706461fbc4c9b0045",
+    "verifier": "orbs.com",
+    "original_path": "verified/2b/0aa736e2eb683dd7d56dfb9c06b3161d6b35903c71842706461fbc4c9b0045/orbs.com/sources/contract/home/alefman/Documents/Counter/contracts/counter.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-2b0aa736e2eb/registry-2b0aa736e2eb.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "2cdbce7fe3fbb5b7bc341ab9b0a347126260edad42818a3fbd49f0dfaf58f83e",
+    "verifier": "orbs.com",
+    "original_path": "verified/2c/dbce7fe3fbb5b7bc341ab9b0a347126260edad42818a3fbd49f0dfaf58f83e/orbs.com/sources/contract/contracts/token_swap.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-2cdbce7fe3fb/registry-2cdbce7fe3fb.tact",
+    "methods": [
+      "tokenXPrice",
+      "tonPrice",
+      "tokenXWalletAddress",
+      "usdtWalletAddress",
+      "tonReserveAmount",
+      "calculateTonToTokenX",
+      "calculateTokenXToTon",
+      "calculateTokenXToUSDT",
+      "calculateUSDTToTokenX",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "2dbb7daadc4be2f8a99dc49bb13ff11cd5d5a4f8dfddff87c39469e2b5ea9cf0",
+    "verifier": "orbs.com",
+    "original_path": "verified/2d/bb7daadc4be2f8a99dc49bb13ff11cd5d5a4f8dfddff87c39469e2b5ea9cf0/orbs.com/sources/contract/contracts/gtw_contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-2dbb7daadc4b/registry-2dbb7daadc4b.tact",
+    "methods": [
+      "get_sponsor",
+      "referral_tree",
+      "get_total_tons",
+      "balance",
+      "min_amount",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "2e04b75c1a54bdc43ed57ace6820a49204cf8835487591e795eb800f4d4e31b5",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/2e/04b75c1a54bdc43ed57ace6820a49204cf8835487591e795eb800f4d4e31b5/verifier.ton.org/sources/contract/contracts/escrow0.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-2e04b75c1a54/registry-2e04b75c1a54.tact",
+    "methods": [
+      "getEscrow",
+      "nextId",
+      "getFeeRecipient",
+      "contractBalance",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "2e3c432aff8245b2c62a85da91d35326a23c70ae050ac469778ef0a653a0b5e2",
+    "verifier": "orbs.com",
+    "original_path": "verified/2e/3c432aff8245b2c62a85da91d35326a23c70ae050ac469778ef0a653a0b5e2/orbs.com/sources/contract/contracts/ton_optinet_contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-2e3c432aff82/registry-2e3c432aff82.tact",
+    "methods": [
+      "balance",
+      "mycontractId",
+      "isUserExists",
+      "User",
+      "lastId",
+      "nodes",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "2faed567b9c4ef24833062b4d81aaaef29023f5ddcf081f77792eba23f4c437b",
+    "verifier": "orbs.com",
+    "original_path": "verified/2f/aed567b9c4ef24833062b4d81aaaef29023f5ddcf081f77792eba23f4c437b/orbs.com/sources/contract/contracts/premium_pass.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-2faed567b9c4/registry-2faed567b9c4.tact",
+    "methods": [
+      "passPrice",
+      "checkInPrice",
+      "vipMaxCheckIns",
+      "passInfo",
+      "balance",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "302384cd3f801a008fd397f06956bf69fb805c888e7a1eed8b8fb974ef420015",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/30/2384cd3f801a008fd397f06956bf69fb805c888e7a1eed8b8fb974ef420015/verifier.ton.org/sources/contract/contracts/raffle-instance.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-302384cd3f80/registry-302384cd3f80.tact",
+    "methods": [
+      "raffleInfo",
+      "isActive",
+      "ticketCount",
+      "pot",
+      "drawn",
+      "winner"
+    ]
+  },
+  {
+    "code_hash": "30f1ad8398b20c457a570b42751f89e83944358918dcb81510757e658d81723e",
+    "verifier": "orbs.com",
+    "original_path": "verified/30/f1ad8398b20c457a570b42751f89e83944358918dcb81510757e658d81723e/orbs.com/sources/contract/contracts/solomon_deal.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-30f1ad8398b2/registry-30f1ad8398b2.tact",
+    "methods": [
+      "balance",
+      "allDeals",
+      "feeFound",
+      "minimalDealAmount",
+      "feePart",
+      "systemFailureFreezeTime",
+      "minimalContractBalance",
+      "totalClientMoney"
+    ]
+  },
+  {
+    "code_hash": "32be43aaef99b71d9d3f2e53657bab7c8be043eea57c4e77ab45d5288569367a",
+    "verifier": "orbs.com",
+    "original_path": "verified/32/be43aaef99b71d9d3f2e53657bab7c8be043eea57c4e77ab45d5288569367a/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-32be43aaef99/registry-32be43aaef99.tact",
+    "methods": [
+      "get_bond_amount",
+      "get_user_bond_info",
+      "get_usdt_total_purchased_amount",
+      "get_pro_usdt_total_purchased_amount",
+      "get_pro_ton_total_purchased_amount",
+      "get_ton_total_purchased_amount",
+      "get_usdt_bond_rate",
+      "get_pro_ton_bond_rate",
+      "get_pro_usdt_bond_rate",
+      "get_ton_bond_rate",
+      "get_usdt_wallet",
+      "get_pro_ton_wallet",
+      "get_pro_usdt_wallet",
+      "get_pro_wallet",
+      "get_owner"
+    ]
+  },
+  {
+    "code_hash": "32c2185a756963e849b183ce476342757e38553a620a4c10871bfd3e0dbd9c21",
+    "verifier": "orbs.com",
+    "original_path": "verified/32/c2185a756963e849b183ce476342757e38553a620a4c10871bfd3e0dbd9c21/orbs.com/sources/contract/contracts/simplepj.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-32c2185a7569/registry-32c2185a7569.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "344598edc48148dcd61372e4f7ff91c226f5b1e300aa7c68d041f4f1edd41514",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/34/4598edc48148dcd61372e4f7ff91c226f5b1e300aa7c68d041f4f1edd41514/verifier.ton.org/sources/contract/StakingPool.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-344598edc481/registry-344598edc481.tact",
+    "methods": [
+      "contractStats",
+      "getUserInfo",
+      "pendingRewards",
+      "pendingReferralRewards",
+      "getDepositInfo",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "34a686e2536a6fa284a8474c81b81985f886e93982f65d6aa1a6229bc6f5a385",
+    "verifier": "orbs.com",
+    "original_path": "verified/34/a686e2536a6fa284a8474c81b81985f886e93982f65d6aa1a6229bc6f5a385/orbs.com/sources/contract/sources/contract/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-34a686e2536a/registry-34a686e2536a.tact",
+    "methods": [
+      "existsTransId",
+      "getPublicKey",
+      "getJettonWalletAddress",
+      "getOwnerAddress"
+    ]
+  },
+  {
+    "code_hash": "38bdd656e5c0d21c8e72f44a5a5e6e841ac03f3b3ca6d0478b92085fc718dee1",
+    "verifier": "orbs.com",
+    "original_path": "verified/38/bdd656e5c0d21c8e72f44a5a5e6e841ac03f3b3ca6d0478b92085fc718dee1/orbs.com/sources/contract/contracts/gamify_unified.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-38bdd656e5c0/registry-38bdd656e5c0.tact",
+    "methods": [
+      "getCurrentDay",
+      "getCurrentTimestamp",
+      "getSubscriptionSummary",
+      "isSubscribed",
+      "getStartDay",
+      "getStartTimestamp",
+      "getExpiryTimestamp",
+      "getTotalDays",
+      "getRemainingDays",
+      "getTotalSubscriptionsGrantedRaw",
+      "getDistributionTimestamp",
+      "isAdmin",
+      "isBackendSigner",
+      "getPricingInfo",
+      "getTotalRevenue",
+      "getTotalSubscriptionsGranted",
+      "getIsPaused",
+      "getActiveSubscriptionsCount",
+      "getActiveSubscribersList",
+      "getActiveCountForDay",
+      "getDailyPoolBalanceForDay",
+      "isDayDistributed",
+      "getDistributionInfo",
+      "getTreasuryWallet",
+      "getDayInfo",
+      "getTotalRewardsInfo",
+      "getVaultBalance",
+      "getOwner",
+      "getStatistics",
+      "getContractBalance",
+      "hasSufficientGas",
+      "getAvailablePool",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "38bdd656e5c0d21c8e72f44a5a5e6e841ac03f3b3ca6d0478b92085fc718dee1",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/38/bdd656e5c0d21c8e72f44a5a5e6e841ac03f3b3ca6d0478b92085fc718dee1/verifier.ton.org/sources/contract/contracts/gamify_unified.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-38bdd656e5c0/registry-38bdd656e5c0.tact",
+    "methods": [
+      "getCurrentDay",
+      "getCurrentTimestamp",
+      "getSubscriptionSummary",
+      "isSubscribed",
+      "getStartDay",
+      "getStartTimestamp",
+      "getExpiryTimestamp",
+      "getTotalDays",
+      "getRemainingDays",
+      "getTotalSubscriptionsGrantedRaw",
+      "getDistributionTimestamp",
+      "isAdmin",
+      "isBackendSigner",
+      "getPricingInfo",
+      "getTotalRevenue",
+      "getTotalSubscriptionsGranted",
+      "getIsPaused",
+      "getActiveSubscriptionsCount",
+      "getActiveSubscribersList",
+      "getActiveCountForDay",
+      "getDailyPoolBalanceForDay",
+      "isDayDistributed",
+      "getDistributionInfo",
+      "getTreasuryWallet",
+      "getDayInfo",
+      "getTotalRewardsInfo",
+      "getVaultBalance",
+      "getOwner",
+      "getStatistics",
+      "getContractBalance",
+      "hasSufficientGas",
+      "getAvailablePool",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "3a4e45b55943cfc2cdf92ea4fb72852a1b0dfc3350f87872d710c062ccc05ed0",
+    "verifier": "orbs.com",
+    "original_path": "verified/3a/4e45b55943cfc2cdf92ea4fb72852a1b0dfc3350f87872d710c062ccc05ed0/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-3a4e45b55943/registry-3a4e45b55943.tact",
+    "methods": [
+      "totalBalance",
+      "totalBalanceString",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "3b0a28a8734d7fe81559526fcd238f92480457e3b7e40d8dc9398e736576c39d",
+    "verifier": "orbs.com",
+    "original_path": "verified/3b/0a28a8734d7fe81559526fcd238f92480457e3b7e40d8dc9398e736576c39d/orbs.com/sources/contract/contracts/Event.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-3b0a28a8734d/registry-3b0a28a8734d.tact",
+    "methods": [
+      "get_summary",
+      "get_bet"
+    ]
+  },
+  {
+    "code_hash": "414223d336ffc6c8fb64089427d838cb0bdcfd9c1676fdfb33b9f7f304b6ade1",
+    "verifier": "orbs.com",
+    "original_path": "verified/41/4223d336ffc6c8fb64089427d838cb0bdcfd9c1676fdfb33b9f7f304b6ade1/orbs.com/sources/contract/contracts/GiftGame.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-414223d336ff/registry-414223d336ff.tact",
+    "methods": [
+      "getLastOutcome",
+      "getLastReward",
+      "getTotalPlays",
+      "getPrice",
+      "getOwner"
+    ]
+  },
+  {
+    "code_hash": "44800a6121f578abac76259a8fd42b658cd97150630bd62ea0ea71a3bca9ee59",
+    "verifier": "orbs.com",
+    "original_path": "verified/44/800a6121f578abac76259a8fd42b658cd97150630bd62ea0ea71a3bca9ee59/orbs.com/sources/contract/sources/storage.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-44800a6121f5/registry-44800a6121f5.tact",
+    "methods": [
+      "get_data"
+    ]
+  },
+  {
+    "code_hash": "46f9c59bb6c6d4c21246a6055e0fe25acf7894d221e77c15f266864a8002c39c",
+    "verifier": "orbs.com",
+    "original_path": "verified/46/f9c59bb6c6d4c21246a6055e0fe25acf7894d221e77c15f266864a8002c39c/orbs.com/sources/contract/sources/contract/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-46f9c59bb6c6/registry-46f9c59bb6c6.tact",
+    "methods": [
+      "existsTransId",
+      "getPublicKey",
+      "getOwnerAddress"
+    ]
+  },
+  {
+    "code_hash": "48c5f5838e9172bf3c88794cb32e3031a36fcfd9ed40293228dcd72bb27cd2a9",
+    "verifier": "orbs.com",
+    "original_path": "verified/48/c5f5838e9172bf3c88794cb32e3031a36fcfd9ed40293228dcd72bb27cd2a9/orbs.com/sources/contract/contracts/donate_list.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-48c5f5838e91/registry-48c5f5838e91.tact",
+    "methods": [
+      "balance",
+      "nextItemIndex",
+      "getListCollectionData",
+      "getAddress",
+      "checkAddress",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "4923a504c2ba7324f26aa6883a4b9b6464764a2b15d52e6bf9e55c7679cfbb6a",
+    "verifier": "orbs.com",
+    "original_path": "verified/49/23a504c2ba7324f26aa6883a4b9b6464764a2b15d52e6bf9e55c7679cfbb6a/orbs.com/sources/contract/reg.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-4923a504c2ba/registry-4923a504c2ba.tact",
+    "methods": [
+      "REGISTER_FEE",
+      "get_owner",
+      "user_id_of",
+      "total_users"
+    ]
+  },
+  {
+    "code_hash": "4f9a9e086244b58c41ebbb5d976d91e677aa5290e2f254f97536c4516fe86b05",
+    "verifier": "orbs.com",
+    "original_path": "verified/4f/9a9e086244b58c41ebbb5d976d91e677aa5290e2f254f97536c4516fe86b05/orbs.com/sources/contract/contracts/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-4f9a9e086244/registry-4f9a9e086244.tact",
+    "methods": [
+      "round",
+      "id",
+      "entryFee",
+      "commissionPercentage",
+      "prizePercentage",
+      "owner",
+      "stopped"
+    ]
+  },
+  {
+    "code_hash": "50040f767da6290fa4e572faf0c1c689d0b6aa9dbf7b5f545d9630de86d0c6c1",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/50/040f767da6290fa4e572faf0c1c689d0b6aa9dbf7b5f545d9630de86d0c6c1/verifier.ton.org/sources/contract/contracts/matrix_ton.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-50040f767da6/registry-50040f767da6.tact",
+    "methods": [
+      "getUserData",
+      "getUserTable",
+      "isRegistered",
+      "getUpline",
+      "getTablePrice",
+      "getPayoutAmount",
+      "getSystemFee",
+      "getMasterWallet",
+      "getSystemWallet",
+      "getCoSigner",
+      "getContractBalance",
+      "isStopped",
+      "getBouncedPayouts",
+      "findSpilloverTarget",
+      "getPendingAction",
+      "getStats",
+      "getUserAllTables",
+      "owner",
+      "stopped"
+    ]
+  },
+  {
+    "code_hash": "525703c99c5071d62682170bbce73ac8ef0915c6ea55cc67a59955f16447d833",
+    "verifier": "orbs.com",
+    "original_path": "verified/52/5703c99c5071d62682170bbce73ac8ef0915c6ea55cc67a59955f16447d833/orbs.com/sources/contract/sources/master.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-525703c99c50/registry-525703c99c50.tact",
+    "methods": [
+      "data",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "53720850cf5dcf8890f9a0f1e5a6b854cf8c54abf349189bc79320cdc71baaf8",
+    "verifier": "orbs.com",
+    "original_path": "verified/53/720850cf5dcf8890f9a0f1e5a6b854cf8c54abf349189bc79320cdc71baaf8/orbs.com/sources/contract/contracts/ton_pro.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-53720850cf5d/registry-53720850cf5d.tact",
+    "methods": [
+      "balance",
+      "mycontractId",
+      "isUserExists",
+      "User",
+      "lastId",
+      "nodes",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "546abf8819e4df40ad06f9d0b2f9e5b386db69313a589ce22ddaeff7e7705ae9",
+    "verifier": "orbs.com",
+    "original_path": "verified/54/6abf8819e4df40ad06f9d0b2f9e5b386db69313a589ce22ddaeff7e7705ae9/orbs.com/sources/contract/contracts/Insquidtion.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-546abf8819e4/registry-546abf8819e4.tact",
+    "methods": [
+      "sellFeePerc",
+      "msgFee",
+      "inscribeFee",
+      "maxOrderLength",
+      "orderClosed",
+      "orderHashList",
+      "orderHashListIndex",
+      "contractSeqno",
+      "balance",
+      "owner",
+      "stopped"
+    ]
+  },
+  {
+    "code_hash": "54c77d7b878e1157df465cadd376f8e78177c6828cd8ae051387470b8e90561b",
+    "verifier": "orbs.com",
+    "original_path": "verified/54/c77d7b878e1157df465cadd376f8e78177c6828cd8ae051387470b8e90561b/orbs.com/sources/contract/contracts/testds.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-54c77d7b878e/registry-54c77d7b878e.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "5623639007bae71930e6e8075220c092143569cf3ed33cd26a8941607282376a",
+    "verifier": "orbs.com",
+    "original_path": "verified/56/23639007bae71930e6e8075220c092143569cf3ed33cd26a8941607282376a/orbs.com/sources/contract/sources/referral.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-5623639007ba/registry-5623639007ba.tact",
+    "methods": [
+      "merchant",
+      "get_contract_metadata",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "576272fead88a94dd2f14099bff056265b2e1a1b8b29acbedf38b3a2ebc0da07",
+    "verifier": "orbs.com",
+    "original_path": "verified/57/6272fead88a94dd2f14099bff056265b2e1a1b8b29acbedf38b3a2ebc0da07/orbs.com/sources/contract/contracts/ton_launchpad.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-576272fead88/registry-576272fead88.tact",
+    "methods": [
+      "balance"
+    ]
+  },
+  {
+    "code_hash": "590597595a52fb2082dc8770789a4f54a37980cb6513e11a1b17193714bc1a8a",
+    "verifier": "orbs.com",
+    "original_path": "verified/59/0597595a52fb2082dc8770789a4f54a37980cb6513e11a1b17193714bc1a8a/orbs.com/sources/contract/contracts/g_d_tap_booster.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-590597595a52/registry-590597595a52.tact",
+    "methods": [
+      "tier_price",
+      "purchase",
+      "next_purchase_id",
+      "beneficiary",
+      "latestPurchase"
+    ]
+  },
+  {
+    "code_hash": "5a6df896f29516ee17339da9ce70dccb0814c7cacb20832fb5bd1d53b75e1ba0",
+    "verifier": "orbs.com",
+    "original_path": "verified/5a/6df896f29516ee17339da9ce70dccb0814c7cacb20832fb5bd1d53b75e1ba0/orbs.com/sources/contract/contracts/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-5a6df896f295/registry-5a6df896f295.tact",
+    "methods": [
+      "seedVal",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "5be787bf02484345e2a80109a11c3e237ac02ef45272f1936e8e2a5084f97f62",
+    "verifier": "orbs.com",
+    "original_path": "verified/5b/e787bf02484345e2a80109a11c3e237ac02ef45272f1936e8e2a5084f97f62/orbs.com/sources/contract/reg.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-5be787bf0248/registry-5be787bf0248.tact",
+    "methods": [
+      "REGISTER_FEE",
+      "get_owner",
+      "get_receiver",
+      "user_id_of",
+      "total_users"
+    ]
+  },
+  {
+    "code_hash": "5fefde0a22924d9eed702ea0161a19f455af5df90fa87c9ddc07ae93c511a215",
+    "verifier": "orbs.com",
+    "original_path": "verified/5f/efde0a22924d9eed702ea0161a19f455af5df90fa87c9ddc07ae93c511a215/orbs.com/sources/contract/sources/contract/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-5fefde0a2292/registry-5fefde0a2292.tact",
+    "methods": [
+      "existsTransId",
+      "getPublicKey",
+      "getJettonWalletAddress",
+      "getOwnerAddress"
+    ]
+  },
+  {
+    "code_hash": "6616071f2a307530a400dbbba587ca505a9e1f629bc6adb7e1541df5d8a3eea9",
+    "verifier": "orbs.com",
+    "original_path": "verified/66/16071f2a307530a400dbbba587ca505a9e1f629bc6adb7e1541df5d8a3eea9/orbs.com/sources/contract/contracts/ton_optinet_contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-6616071f2a30/registry-6616071f2a30.tact",
+    "methods": [
+      "balance",
+      "mycontractId",
+      "isUserExists",
+      "User",
+      "lastId",
+      "nodes",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "67956dcc966f3012aad49a404c4756c8634df114e11f04c42ce85d67ccea0f20",
+    "verifier": "orbs.com",
+    "original_path": "verified/67/956dcc966f3012aad49a404c4756c8634df114e11f04c42ce85d67ccea0f20/orbs.com/sources/contract/contracts/click_counter.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-67956dcc966f/registry-67956dcc966f.tact",
+    "methods": [
+      "counter",
+      "latestTxAt"
+    ]
+  },
+  {
+    "code_hash": "6858c7710f4960e7490ebecb3ee0dd5f1ddbdde212a56a7f32a4a9e16fabd6d1",
+    "verifier": "orbs.com",
+    "original_path": "verified/68/58c7710f4960e7490ebecb3ee0dd5f1ddbdde212a56a7f32a4a9e16fabd6d1/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-6858c7710f49/registry-6858c7710f49.tact",
+    "methods": [
+      "balance",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "6bf367605070b6cb532ccb3b92e0d6e7ce3d7027dd0335eff3389b116b8489aa",
+    "verifier": "orbs.com",
+    "original_path": "verified/6b/f367605070b6cb532ccb3b92e0d6e7ce3d7027dd0335eff3389b116b8489aa/orbs.com/sources/contract/contracts/ton_maze.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-6bf367605070/registry-6bf367605070.tact",
+    "methods": [
+      "balance",
+      "owner",
+      "master",
+      "ton_to_maze_rate",
+      "maze_to_ton_rate"
+    ]
+  },
+  {
+    "code_hash": "704af900a19393091c986c12fb5f5815e05b5cb7b266304c4e105baea18acbf2",
+    "verifier": "orbs.com",
+    "original_path": "verified/70/4af900a19393091c986c12fb5f5815e05b5cb7b266304c4e105baea18acbf2/orbs.com/sources/contract/contracts/syntharis_vault.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-704af900a193/registry-704af900a193.tact",
+    "methods": [
+      "getHash",
+      "getLatestDate",
+      "getTotalEntries",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "704af900a19393091c986c12fb5f5815e05b5cb7b266304c4e105baea18acbf2",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/70/4af900a19393091c986c12fb5f5815e05b5cb7b266304c4e105baea18acbf2/verifier.ton.org/sources/contract/syntharis_vault.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-704af900a193/registry-704af900a193.tact",
+    "methods": [
+      "getHash",
+      "getLatestDate",
+      "getTotalEntries",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "71965aa280e1aa6b72f099f4b2ebfca6feeff7daf4d95fe730d1a4cb3663c6d8",
+    "verifier": "orbs.com",
+    "original_path": "verified/71/965aa280e1aa6b72f099f4b2ebfca6feeff7daf4d95fe730d1a4cb3663c6d8/orbs.com/sources/contract/contracts/dz_ton_v3.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-71965aa280e1/registry-71965aa280e1.tact",
+    "methods": [
+      "queryMyJettonWallet",
+      "queryOwner",
+      "queryHighloadWallet",
+      "checkIsQueryIdProcessed",
+      "queryWithdrawLimit",
+      "queryProcessedQueryCount",
+      "getStorageItems",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "720488cb8cd955214c512ddbf9bcf36d3d5434523b37a5a4645c45312758e3dd",
+    "verifier": "orbs.com",
+    "original_path": "verified/72/0488cb8cd955214c512ddbf9bcf36d3d5434523b37a5a4645c45312758e3dd/orbs.com/sources/contract/contracts/dz_ton_v3.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-720488cb8cd9/registry-720488cb8cd9.tact",
+    "methods": [
+      "queryMyJettonWallet",
+      "queryOwner",
+      "queryHighloadWallet",
+      "checkIsQueryIdProcessed",
+      "queryWithdrawLimit",
+      "queryProcessedQueryCount",
+      "getStorageItems",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "72421c49793cb6ab019651b36c186baa9a489f31b55e09786148beca09fb38da",
+    "verifier": "orbs.com",
+    "original_path": "verified/72/421c49793cb6ab019651b36c186baa9a489f31b55e09786148beca09fb38da/orbs.com/sources/contract/contracts/simple_counter1.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-72421c49793c/registry-72421c49793c.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "72b58e9b647ea746a36e3179db7ecc6e4c1e2bacb980a09b409c623f6ee1a102",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/72/b58e9b647ea746a36e3179db7ecc6e4c1e2bacb980a09b409c623f6ee1a102/verifier.ton.org/sources/contract/contracts/TonExpress.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-72b58e9b647e/registry-72b58e9b647e.tact",
+    "methods": [
+      "getRound",
+      "getStatus",
+      "getTimer",
+      "getPrice",
+      "getPot",
+      "getJackpot"
+    ]
+  },
+  {
+    "code_hash": "74f9c94aefd13c2f6c86b83fb393c74f646060d26b252d84792f05e90b453f7e",
+    "verifier": "orbs.com",
+    "original_path": "verified/74/f9c94aefd13c2f6c86b83fb393c74f646060d26b252d84792f05e90b453f7e/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-74f9c94aefd1/registry-74f9c94aefd1.tact",
+    "methods": [
+      "getRoundWinner",
+      "getWinnerRecord",
+      "getRoundInfoState",
+      "getPrizeTxId",
+      "getPrizeRecord",
+      "getOrderExist",
+      "getBuyInfo",
+      "verifySignature",
+      "getPubkey",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "76114ac47779112a270eddcade28962dd20e15459e686fe81be5b7c6cf6f20c4",
+    "verifier": "orbs.com",
+    "original_path": "verified/76/114ac47779112a270eddcade28962dd20e15459e686fe81be5b7c6cf6f20c4/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-76114ac47779/registry-76114ac47779.tact",
+    "methods": [
+      "get_join_times",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "76f16b0e9638f976ea6fcf9c1e4cde3406166f74972685d7a4e47cd1437c500b",
+    "verifier": "orbs.com",
+    "original_path": "verified/76/f16b0e9638f976ea6fcf9c1e4cde3406166f74972685d7a4e47cd1437c500b/orbs.com/sources/contract/contracts/sybil_bil.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-76f16b0e9638/registry-76f16b0e9638.tact",
+    "methods": [
+      "addressesSize",
+      "addresses",
+      "balance",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "782b515d8804e8562caa8b1daf054ad0dc322ace064ca69ae42196f8c86c5319",
+    "verifier": "orbs.com",
+    "original_path": "verified/78/2b515d8804e8562caa8b1daf054ad0dc322ace064ca69ae42196f8c86c5319/orbs.com/sources/contract/sources/file_saver.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-782b515d8804/registry-782b515d8804.tact",
+    "methods": [
+      "get_data",
+      "get_address"
+    ]
+  },
+  {
+    "code_hash": "789b396bd1099e284743f4cca1827d83722198ca0d94defb1429e7dc2819da85",
+    "verifier": "orbs.com",
+    "original_path": "verified/78/9b396bd1099e284743f4cca1827d83722198ca0d94defb1429e7dc2819da85/orbs.com/sources/contract/contracts/aqua_points_store.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-789b396bd109/registry-789b396bd109.tact",
+    "methods": [
+      "isBuyer"
+    ]
+  },
+  {
+    "code_hash": "7aa2ad5fc661a905d416f575dbd0ca188ab6d2863dd3e6819a1c0ad0abdb3d40",
+    "verifier": "orbs.com",
+    "original_path": "verified/7a/a2ad5fc661a905d416f575dbd0ca188ab6d2863dd3e6819a1c0ad0abdb3d40/orbs.com/sources/contract/contracts/cat_test_contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-7aa2ad5fc661/registry-7aa2ad5fc661.tact",
+    "methods": [
+      "balance"
+    ]
+  },
+  {
+    "code_hash": "7f79a399401eb18676dabe14abf1b91a04458c2560990fc7f3b70b8d798f75da",
+    "verifier": "orbs.com",
+    "original_path": "verified/7f/79a399401eb18676dabe14abf1b91a04458c2560990fc7f3b70b8d798f75da/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-7f79a399401e/registry-7f79a399401e.tact",
+    "methods": [
+      "greeting"
+    ]
+  },
+  {
+    "code_hash": "8958642a7c312c4675a3337b15a075d527be0da809dd2fe8400e7b5f2ef211b0",
+    "verifier": "orbs.com",
+    "original_path": "verified/89/58642a7c312c4675a3337b15a075d527be0da809dd2fe8400e7b5f2ef211b0/orbs.com/sources/contract/contracts/fee_proxy.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-8958642a7c31/registry-8958642a7c31.tact",
+    "methods": [
+      "owner",
+      "totalForwarded",
+      "totalFees",
+      "totalReferralPaid",
+      "balance"
+    ]
+  },
+  {
+    "code_hash": "8958642a7c312c4675a3337b15a075d527be0da809dd2fe8400e7b5f2ef211b0",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/89/58642a7c312c4675a3337b15a075d527be0da809dd2fe8400e7b5f2ef211b0/verifier.ton.org/sources/contract/contracts/fee_proxy.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-8958642a7c31/registry-8958642a7c31.tact",
+    "methods": [
+      "owner",
+      "totalForwarded",
+      "totalFees",
+      "totalReferralPaid",
+      "balance"
+    ]
+  },
+  {
+    "code_hash": "89f297059888635438aeb04ef2c73d18e4901b9d11146f08e84eb4f6aa5a7796",
+    "verifier": "orbs.com",
+    "original_path": "verified/89/f297059888635438aeb04ef2c73d18e4901b9d11146f08e84eb4f6aa5a7796/orbs.com/sources/contract/contracts/lottery.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-89f297059888/registry-89f297059888.tact",
+    "methods": [
+      "lotteryResults",
+      "id",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "89f6109154d628a37978dc7efe1358ee02d4d100991c9104dbc392a3902110b7",
+    "verifier": "orbs.com",
+    "original_path": "verified/89/f6109154d628a37978dc7efe1358ee02d4d100991c9104dbc392a3902110b7/orbs.com/sources/contract/contracts/its_wednesday_my_dudes.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-89f6109154d6/registry-89f6109154d6.tact",
+    "methods": [
+      "getProgress",
+      "getLastCompletionWeek",
+      "getParticipants"
+    ]
+  },
+  {
+    "code_hash": "8b7b2f4932481ac6c0adf1f0d73cfb62ceb57d27d046a39c8f59f6574a29997c",
+    "verifier": "orbs.com",
+    "original_path": "verified/8b/7b2f4932481ac6c0adf1f0d73cfb62ceb57d27d046a39c8f59f6574a29997c/orbs.com/sources/contract/contracts/simple_counter.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-8b7b2f493248/registry-8b7b2f493248.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "8b7b2f4932481ac6c0adf1f0d73cfb62ceb57d27d046a39c8f59f6574a29997c",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/8b/7b2f4932481ac6c0adf1f0d73cfb62ceb57d27d046a39c8f59f6574a29997c/verifier.ton.org/sources/contract/contracts/doomsday_train.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-8b7b2f493248/registry-8b7b2f493248.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "8c12181df3ee289509d8c7a79e073c1f60f375262ce012ff793d7da31a2896d7",
+    "verifier": "orbs.com",
+    "original_path": "verified/8c/12181df3ee289509d8c7a79e073c1f60f375262ce012ff793d7da31a2896d7/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-8c12181df3ee/registry-8c12181df3ee.tact",
+    "methods": [
+      "get_bond_amount",
+      "get_user_bond_info",
+      "get_usdt_total_purchased_amount",
+      "get_pro_usdt_total_purchased_amount",
+      "get_pro_ton_total_purchased_amount",
+      "get_ton_total_purchased_amount",
+      "get_usdt_bond_rate",
+      "get_pro_ton_bond_rate",
+      "get_pro_usdt_bond_rate",
+      "get_ton_bond_rate",
+      "get_usdt_wallet",
+      "get_pro_ton_wallet",
+      "get_pro_usdt_wallet",
+      "get_pro_wallet",
+      "get_owner"
+    ]
+  },
+  {
+    "code_hash": "8d5e4c2e681637fb59601099090eb70481d378dc75c893c4d00df0875d624b22",
+    "verifier": "orbs.com",
+    "original_path": "verified/8d/5e4c2e681637fb59601099090eb70481d378dc75c893c4d00df0875d624b22/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-8d5e4c2e6816/registry-8d5e4c2e6816.tact",
+    "methods": [
+      "getRoundWinner",
+      "getWinnerRecord",
+      "getRoundInfoState",
+      "getPrizeTxId",
+      "getPrizeRecord",
+      "getOrderExist",
+      "getBuyInfo",
+      "verifySignature",
+      "getPubkey",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "8f714fe4c77d460fc8a678d66b406c44141a36c56b52ba845e2d9ff61e502d46",
+    "verifier": "orbs.com",
+    "original_path": "verified/8f/714fe4c77d460fc8a678d66b406c44141a36c56b52ba845e2d9ff61e502d46/orbs.com/sources/contract/contracts/forever_ton_contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-8f714fe4c77d/registry-8f714fe4c77d.tact",
+    "methods": [
+      "timer",
+      "vipAddress",
+      "poolInfo"
+    ]
+  },
+  {
+    "code_hash": "93f873347f14f9f7ed70b00f4d0ddd6491f3f65e87339c4cabec621c6c1d19e3",
+    "verifier": "orbs.com",
+    "original_path": "verified/93/f873347f14f9f7ed70b00f4d0ddd6491f3f65e87339c4cabec621c6c1d19e3/orbs.com/sources/contract/sources/CurrencyConverter.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-93f873347f14/registry-93f873347f14.tact",
+    "methods": [
+      "getConversionFee",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "96d1061718fca2a824b13d6ac3d3af9d518ff6bf4e87d18318d22b495445ae40",
+    "verifier": "orbs.com",
+    "original_path": "verified/96/d1061718fca2a824b13d6ac3d3af9d518ff6bf4e87d18318d22b495445ae40/orbs.com/sources/contract/contracts/lottery.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-96d1061718fc/registry-96d1061718fc.tact",
+    "methods": [
+      "balance",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "972b9673842fc4c8cd1a968650d12e55635bfe7c62b14d7813c80e06394a4a16",
+    "verifier": "orbs.com",
+    "original_path": "verified/97/2b9673842fc4c8cd1a968650d12e55635bfe7c62b14d7813c80e06394a4a16/orbs.com/sources/contract/contracts/nz_com_tact.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-972b9673842f/registry-972b9673842f.tact",
+    "methods": [
+      "balance",
+      "id",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "9732d48ce782f671356deb450278e52fafe6ca495578b6600e68c3861a193b17",
+    "verifier": "orbs.com",
+    "original_path": "verified/97/32d48ce782f671356deb450278e52fafe6ca495578b6600e68c3861a193b17/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-9732d48ce782/registry-9732d48ce782.tact",
+    "methods": [
+      "getIsSignatureProcessed",
+      "getPublicKey",
+      "getJettonBalance",
+      "getJettonMaster",
+      "balance",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "9abced1bf5098d3b7b820bf3163dceb6ad5f3d77f926bc75a85d58868d9c1725",
+    "verifier": "orbs.com",
+    "original_path": "verified/9a/bced1bf5098d3b7b820bf3163dceb6ad5f3d77f926bc75a85d58868d9c1725/orbs.com/sources/contract/contracts/referral_distribution_v2.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-9abced1bf509/registry-9abced1bf509.tact",
+    "methods": [
+      "referralPer",
+      "utilsMap",
+      "treasuryAddress",
+      "govnAddress",
+      "rewardPoolAddress",
+      "currentBalance",
+      "stopped",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "9e62afbedb8b142a8c66d10fa456ae97dbbb0ee47e3d790ad4d4eda8baea8f1e",
+    "verifier": "orbs.com",
+    "original_path": "verified/9e/62afbedb8b142a8c66d10fa456ae97dbbb0ee47e3d790ad4d4eda8baea8f1e/orbs.com/sources/contract/sources/MiniTonMatchUSDTContract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-9e62afbedb8b/registry-9e62afbedb8b.tact",
+    "methods": [
+      "seqno",
+      "masterRequest",
+      "masterActionRequestCount",
+      "jettonWalletAddress",
+      "gasValueForJettonTransfer",
+      "recordedUSDTBalance",
+      "minBalance",
+      "balance",
+      "matchInfo",
+      "matchCount"
+    ]
+  },
+  {
+    "code_hash": "9f70ae0b2f7e03175739f3337d08e8b2f26fd38ae96b7ef9969dca2d4d0f0c10",
+    "verifier": "orbs.com",
+    "original_path": "verified/9f/70ae0b2f7e03175739f3337d08e8b2f26fd38ae96b7ef9969dca2d4d0f0c10/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-9f70ae0b2f7e/registry-9f70ae0b2f7e.tact",
+    "methods": [
+      "counter"
+    ]
+  },
+  {
+    "code_hash": "a0ffc9dacfa6a243cfdafdd3a37cf7881f30820cd31b0e533304b7e2235f20ee",
+    "verifier": "orbs.com",
+    "original_path": "verified/a0/ffc9dacfa6a243cfdafdd3a37cf7881f30820cd31b0e533304b7e2235f20ee/orbs.com/sources/contract/contracts/GiftGame.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-a0ffc9dacfa6/registry-a0ffc9dacfa6.tact",
+    "methods": [
+      "getLastOutcome",
+      "getLastReward",
+      "getTotalPlays",
+      "getPrice",
+      "getOwner"
+    ]
+  },
+  {
+    "code_hash": "a17843ad33333021418dd296dccb8ff1ff87657ea7a863f295dc12a7fd4873e2",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/a1/7843ad33333021418dd296dccb8ff1ff87657ea7a863f295dc12a7fd4873e2/verifier.ton.org/sources/contract/contracts/escrow_deal.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-a17843ad3333/registry-a17843ad3333.tact",
+    "methods": [
+      "getState",
+      "getEscrowId",
+      "getDealData"
+    ]
+  },
+  {
+    "code_hash": "a7cac4b2a573dace5255bd8d9785f82af7f8e8d7a0ca5b151ba2ece0c546934c",
+    "verifier": "orbs.com",
+    "original_path": "verified/a7/cac4b2a573dace5255bd8d9785f82af7f8e8d7a0ca5b151ba2ece0c546934c/orbs.com/sources/contract/contracts/lottery_game.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-a7cac4b2a573/registry-a7cac4b2a573.tact",
+    "methods": [
+      "state",
+      "meta",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "a7ec7a218c5956f1c33a8d2999e1f798d8fb21e47915eec7558d122be1da6c48",
+    "verifier": "orbs.com",
+    "original_path": "verified/a7/ec7a218c5956f1c33a8d2999e1f798d8fb21e47915eec7558d122be1da6c48/orbs.com/sources/contract/contracts/referral_distribution_v2.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-a7ec7a218c59/registry-a7ec7a218c59.tact",
+    "methods": [
+      "referralPer",
+      "utilsMap",
+      "treasuryAddress",
+      "govnAddress",
+      "rewardPoolAddress",
+      "vaultAddress",
+      "minDepositAmount",
+      "currentBalance",
+      "stopped",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "a7ff280f423e86998e4496b6edfb67703e94135896d48f7c5f7433fd2b07813a",
+    "verifier": "orbs.com",
+    "original_path": "verified/a7/ff280f423e86998e4496b6edfb67703e94135896d48f7c5f7433fd2b07813a/orbs.com/sources/contract/contracts/lottery.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-a7ff280f423e/registry-a7ff280f423e.tact",
+    "methods": [
+      "lotteryResults",
+      "id",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "aabe4f7abf5f032fad4aeffac6ac8f7df16ed3cbf45697a8e9043440da6fc621",
+    "verifier": "orbs.com",
+    "original_path": "verified/aa/be4f7abf5f032fad4aeffac6ac8f7df16ed3cbf45697a8e9043440da6fc621/orbs.com/sources/contract/sources/counter.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-aabe4f7abf5f/registry-aabe4f7abf5f.tact",
+    "methods": [
+      "counter",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "af4a355f2321dddf594b132cea4afaec3f454f18d6c5f3d7cad4d25383fe5515",
+    "verifier": "orbs.com",
+    "original_path": "verified/af/4a355f2321dddf594b132cea4afaec3f454f18d6c5f3d7cad4d25383fe5515/orbs.com/sources/contract/sources/MiniTonToncoinMatchContract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-af4a355f2321/registry-af4a355f2321.tact",
+    "methods": [
+      "seqno",
+      "masterRequest",
+      "masterActionRequestCount",
+      "usdtJettonWalletAddress",
+      "gasValueForJettonTransfer",
+      "minBalance",
+      "balance",
+      "matchInfo",
+      "matchCount",
+      "matchResult",
+      "matchResultCount",
+      "contractIndex"
+    ]
+  },
+  {
+    "code_hash": "b2c0ef6a00ecfdd1d5d28e54bca1baad89775299b631494929a689ac0b51e200",
+    "verifier": "orbs.com",
+    "original_path": "verified/b2/c0ef6a00ecfdd1d5d28e54bca1baad89775299b631494929a689ac0b51e200/orbs.com/sources/contract/contracts/UniGenPayment.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-b2c0ef6a00ec/registry-b2c0ef6a00ec.tact",
+    "methods": [
+      "getTenant",
+      "getItem",
+      "getPlatformConfig"
+    ]
+  },
+  {
+    "code_hash": "b442c25e7420efe4adc05dfd7672f76d207e4a0a97bd65c36e7f5db249ab3bb5",
+    "verifier": "orbs.com",
+    "original_path": "verified/b4/42c25e7420efe4adc05dfd7672f76d207e4a0a97bd65c36e7f5db249ab3bb5/orbs.com/sources/contract/sources/check-in.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-b442c25e7420/registry-b442c25e7420.tact",
+    "methods": [
+      "get_total_check_ins"
+    ]
+  },
+  {
+    "code_hash": "b45a9273e0266ba4bc87ed2ea898074d41267b3739bb3bee8906a9222fdab9b5",
+    "verifier": "orbs.com",
+    "original_path": "verified/b4/5a9273e0266ba4bc87ed2ea898074d41267b3739bb3bee8906a9222fdab9b5/orbs.com/sources/contract/contracts/OakenItem.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-b45a9273e026/registry-b45a9273e026.tact",
+    "methods": [
+      "get_nft_data"
+    ]
+  },
+  {
+    "code_hash": "b45a9273e0266ba4bc87ed2ea898074d41267b3739bb3bee8906a9222fdab9b5",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/b4/5a9273e0266ba4bc87ed2ea898074d41267b3739bb3bee8906a9222fdab9b5/verifier.ton.org/sources/contract/contracts/OakenItem.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-b45a9273e026/registry-b45a9273e026.tact",
+    "methods": [
+      "get_nft_data"
+    ]
+  },
+  {
+    "code_hash": "b8b44f159f4b7d092cd2a48d63aaa3661e2ec16af959f68a9b1d1c3226878e63",
+    "verifier": "orbs.com",
+    "original_path": "verified/b8/b44f159f4b7d092cd2a48d63aaa3661e2ec16af959f68a9b1d1c3226878e63/orbs.com/sources/contract/contracts/g_d_tap_booster.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-b8b44f159f4b/registry-b8b44f159f4b.tact",
+    "methods": [
+      "tier_price",
+      "purchase",
+      "next_purchase_id",
+      "beneficiary",
+      "latestPurchase"
+    ]
+  },
+  {
+    "code_hash": "bc781939f29820182bf48a2fafb2eec468975b87f6bdd331734fae0ab5a37888",
+    "verifier": "orbs.com",
+    "original_path": "verified/bc/781939f29820182bf48a2fafb2eec468975b87f6bdd331734fae0ab5a37888/orbs.com/sources/contract/contracts/gift_auction.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-bc781939f298/registry-bc781939f298.tact",
+    "methods": [
+      "getOrder",
+      "allOrders",
+      "orderCount",
+      "getAdmins",
+      "getMinBid",
+      "getMinOrderDuration",
+      "getMinStep",
+      "getPledgePerchentage",
+      "getFounder",
+      "balance",
+      "lockedBalance"
+    ]
+  },
+  {
+    "code_hash": "bccfecfb694d25dffeacae2b87f7a47fef7f7e55ee4ef2a36a515cabb7e227c7",
+    "verifier": "orbs.com",
+    "original_path": "verified/bc/cfecfb694d25dffeacae2b87f7a47fef7f7e55ee4ef2a36a515cabb7e227c7/orbs.com/sources/contract/contracts/airdropsg.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-bccfecfb694d/registry-bccfecfb694d.tact",
+    "methods": [
+      "getOwner",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "bceed4fecdc3e30f958c43b2f220a20b1ab0a900ab3e4689c9007de826a05ce4",
+    "verifier": "orbs.com",
+    "original_path": "verified/bc/eed4fecdc3e30f958c43b2f220a20b1ab0a900ab3e4689c9007de826a05ce4/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-bceed4fecdc3/registry-bceed4fecdc3.tact",
+    "methods": [
+      "counter"
+    ]
+  },
+  {
+    "code_hash": "bea6be4c6542c50bae3bb90bd1b290081a16ee52d524766847be882bc842f139",
+    "verifier": "orbs.com",
+    "original_path": "verified/be/a6be4c6542c50bae3bb90bd1b290081a16ee52d524766847be882bc842f139/orbs.com/sources/contract/contracts/banks_crowd_sale.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-bea6be4c6542/registry-bea6be4c6542.tact",
+    "methods": [
+      "Banks",
+      "TotalBanks",
+      "Bankers",
+      "TotalBankers",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "bf683a376e2b1b25cc5dd91fa17ecd67bbc47ff964bc09d4fc4961b609daafcf",
+    "verifier": "orbs.com",
+    "original_path": "verified/bf/683a376e2b1b25cc5dd91fa17ecd67bbc47ff964bc09d4fc4961b609daafcf/orbs.com/sources/contract/sources/MiniTonMatchToncoinContract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-bf683a376e2b/registry-bf683a376e2b.tact",
+    "methods": [
+      "seqno",
+      "masterRequest",
+      "minBalance",
+      "balance",
+      "matchInfo",
+      "matchCount"
+    ]
+  },
+  {
+    "code_hash": "bff2c4c8d342023c17539e8fcca3b6d67299ae9be9565b07d34d6dc06a01d59c",
+    "verifier": "orbs.com",
+    "original_path": "verified/bf/f2c4c8d342023c17539e8fcca3b6d67299ae9be9565b07d34d6dc06a01d59c/orbs.com/sources/contract/contracts/lottery.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-bff2c4c8d342/registry-bff2c4c8d342.tact",
+    "methods": [
+      "allTickets",
+      "isClaimable",
+      "calculateTotalPriceForBulkTickets",
+      "winningNumber",
+      "info",
+      "calculateRewardsForTicketId"
+    ]
+  },
+  {
+    "code_hash": "bff2c4c8d342023c17539e8fcca3b6d67299ae9be9565b07d34d6dc06a01d59c",
+    "verifier": "orbs.com",
+    "original_path": "verified/bf/f2c4c8d342023c17539e8fcca3b6d67299ae9be9565b07d34d6dc06a01d59c/orbs.com/sources/contract/contracts/referral_wallet.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-bff2c4c8d342/registry-bff2c4c8d342.tact",
+    "methods": [
+      "balance"
+    ]
+  },
+  {
+    "code_hash": "c00f5fedec9124517347c971877a7adf4de32989bb19c099933510b1d2c13963",
+    "verifier": "orbs.com",
+    "original_path": "verified/c0/0f5fedec9124517347c971877a7adf4de32989bb19c099933510b1d2c13963/orbs.com/sources/contract/sources/CurrencyConverter.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-c00f5fedec91/registry-c00f5fedec91.tact",
+    "methods": [
+      "getOwner"
+    ]
+  },
+  {
+    "code_hash": "c0d0e5d0c99a391db271681495866095b1d508f2e7f95f4c6ab648cbb3e2f3d2",
+    "verifier": "orbs.com",
+    "original_path": "verified/c0/d0e5d0c99a391db271681495866095b1d508f2e7f95f4c6ab648cbb3e2f3d2/orbs.com/sources/contract/sources/contract/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-c0d0e5d0c99a/registry-c0d0e5d0c99a.tact",
+    "methods": [
+      "existsTransId",
+      "getPublicKey",
+      "getOwnerAddress",
+      "get_swap_data"
+    ]
+  },
+  {
+    "code_hash": "c0d36b33d41e134c838a0e9de0b947d6adc8cf68e1de2fd951c330f278c17d1f",
+    "verifier": "orbs.com",
+    "original_path": "verified/c0/d36b33d41e134c838a0e9de0b947d6adc8cf68e1de2fd951c330f278c17d1f/orbs.com/sources/contract/contracts/lottery_game.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-c0d36b33d41e/registry-c0d36b33d41e.tact",
+    "methods": [
+      "balance",
+      "currentNumOfPlayers",
+      "currentPlayers",
+      "maxPlayers",
+      "numPrice",
+      "playerAddress",
+      "playerNum",
+      "devFee",
+      "data",
+      "playersInfo",
+      "prizes",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "c31da5fc112ad534c6753d92e7f006d896d9f0c3d5b2d17ef40a0609318fb33d",
+    "verifier": "orbs.com",
+    "original_path": "verified/c3/1da5fc112ad534c6753d92e7f006d896d9f0c3d5b2d17ef40a0609318fb33d/orbs.com/sources/contract/contracts/g_d_tap_booster.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-c31da5fc112a/registry-c31da5fc112a.tact",
+    "methods": [
+      "tier_price",
+      "purchase",
+      "next_purchase_id",
+      "beneficiary"
+    ]
+  },
+  {
+    "code_hash": "c5add16e8e05b9747af39688d738dc1b5dfa6d0474a6e400f4d930e213808ea4",
+    "verifier": "orbs.com",
+    "original_path": "verified/c5/add16e8e05b9747af39688d738dc1b5dfa6d0474a6e400f4d930e213808ea4/orbs.com/sources/contract/contracts/lingo_raffle.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-c5add16e8e05/registry-c5add16e8e05.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "c61ec48f5988f45a21f5175da1e4ffc37796fbdb078c1599e2ff97e0b21e2a4d",
+    "verifier": "orbs.com",
+    "original_path": "verified/c6/1ec48f5988f45a21f5175da1e4ffc37796fbdb078c1599e2ff97e0b21e2a4d/orbs.com/sources/contract/sources/storage.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-c61ec48f5988/registry-c61ec48f5988.tact",
+    "methods": [
+      "get_data"
+    ]
+  },
+  {
+    "code_hash": "ce87a89d10c53938d79ef57423bda66bf2f3b82d504c3dc2e8ec70ee8ec6c120",
+    "verifier": "orbs.com",
+    "original_path": "verified/ce/87a89d10c53938d79ef57423bda66bf2f3b82d504c3dc2e8ec70ee8ec6c120/orbs.com/sources/contract/sources/contract/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-ce87a89d10c5/registry-ce87a89d10c5.tact",
+    "methods": [
+      "existsTransId",
+      "getContractData"
+    ]
+  },
+  {
+    "code_hash": "cf0198c284e333045f96c7bdc2d3d6ba69ec10d5775d9ac663e753f1c0bf6fdc",
+    "verifier": "orbs.com",
+    "original_path": "verified/cf/0198c284e333045f96c7bdc2d3d6ba69ec10d5775d9ac663e753f1c0bf6fdc/orbs.com/sources/contract/contracts/gleam_invoices.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-cf0198c284e3/registry-cf0198c284e3.tact",
+    "methods": [
+      "invoice",
+      "allInvoices"
+    ]
+  },
+  {
+    "code_hash": "d03d11d7a1bd89916a4bcc70205d6370af4e164c338178fb23fb05f78fa5f656",
+    "verifier": "orbs.com",
+    "original_path": "verified/d0/3d11d7a1bd89916a4bcc70205d6370af4e164c338178fb23fb05f78fa5f656/orbs.com/sources/contract/contracts/pixel_hatcher.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-d03d11d7a1bd/registry-d03d11d7a1bd.tact",
+    "methods": [
+      "sellFeePerc",
+      "msgFee",
+      "inscribeFee",
+      "maxOrderLength",
+      "orderClosed",
+      "orderHashList",
+      "orderHashListIndex",
+      "contractSeqno",
+      "balance",
+      "owner",
+      "stopped"
+    ]
+  },
+  {
+    "code_hash": "d05398e910c71d0054b37b65ece75f2d82c4bbce86de4ca3b6a64874ae507f4a",
+    "verifier": "orbs.com",
+    "original_path": "verified/d0/5398e910c71d0054b37b65ece75f2d82c4bbce86de4ca3b6a64874ae507f4a/orbs.com/sources/contract/src/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-d05398e910c7/registry-d05398e910c7.tact",
+    "methods": [
+      "getHex"
+    ]
+  },
+  {
+    "code_hash": "d07c3639a6bf6de2771e17e975358a0c7963f0fd83619be342416b4636d48265",
+    "verifier": "orbs.com",
+    "original_path": "verified/d0/7c3639a6bf6de2771e17e975358a0c7963f0fd83619be342416b4636d48265/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-d07c3639a6bf/registry-d07c3639a6bf.tact",
+    "methods": [
+      "my_vote",
+      "my_balance"
+    ]
+  },
+  {
+    "code_hash": "d4bac010b955d0340a77c3850091620d7dc259e13809a54f604e3833b13ab7da",
+    "verifier": "orbs.com",
+    "original_path": "verified/d4/bac010b955d0340a77c3850091620d7dc259e13809a54f604e3833b13ab7da/orbs.com/sources/contract/contracts/air_drop.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-d4bac010b955/registry-d4bac010b955.tact",
+    "methods": [
+      "id",
+      "GetTotalValue",
+      "GetCurrentValue",
+      "GetWalletsStat",
+      "owner",
+      "stopped"
+    ]
+  },
+  {
+    "code_hash": "d7f121ddb67f46d98f8993325addc9bf1e1058469268d22b88bde35854da75bd",
+    "verifier": "orbs.com",
+    "original_path": "verified/d7/f121ddb67f46d98f8993325addc9bf1e1058469268d22b88bde35854da75bd/orbs.com/sources/contract/contracts/skate_passport.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-d7f121ddb67f/registry-d7f121ddb67f.tact",
+    "methods": [
+      "fund_receiver",
+      "subscription_id",
+      "subscription_tiers",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "d927ade92dc74d1326c56058cc78b4adee84de9d99fcd4bc3f375b10463be875",
+    "verifier": "orbs.com",
+    "original_path": "verified/d9/27ade92dc74d1326c56058cc78b4adee84de9d99fcd4bc3f375b10463be875/orbs.com/sources/contract/contracts/test_contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-d927ade92dc7/registry-d927ade92dc7.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "d93fe61cb1363a2555e179454b425c0e265831fef15771fc7376aec43dd4c3ce",
+    "verifier": "orbs.com",
+    "original_path": "verified/d9/3fe61cb1363a2555e179454b425c0e265831fef15771fc7376aec43dd4c3ce/orbs.com/sources/contract/Users/manylovv/code/ton-blueprint/contracts/my_contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-d93fe61cb136/registry-d93fe61cb136.tact",
+    "methods": [
+      "counter",
+      "id"
+    ]
+  },
+  {
+    "code_hash": "dba9f2618afabc9063bc5c6d2d3f0a5585c969bc3ef2885b4843e87721faf2d8",
+    "verifier": "orbs.com",
+    "original_path": "verified/db/a9f2618afabc9063bc5c6d2d3f0a5585c969bc3ef2885b4843e87721faf2d8/orbs.com/sources/contract/contracts/ton_pro.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-dba9f2618afa/registry-dba9f2618afa.tact",
+    "methods": [
+      "balance",
+      "mycontractId",
+      "isUserExists",
+      "User",
+      "lastId",
+      "nodes",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "de197d0907b74605c166baa2709f2a09718c6e6000d2900f457b2ecdd86ae6cd",
+    "verifier": "orbs.com",
+    "original_path": "verified/de/197d0907b74605c166baa2709f2a09718c6e6000d2900f457b2ecdd86ae6cd/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-de197d0907b7/registry-de197d0907b7.tact",
+    "methods": [
+      "get_bet_min",
+      "get_players_max",
+      "get_players_current",
+      "get_locked_balance",
+      "get_winner_ticket",
+      "get_fee_percent"
+    ]
+  },
+  {
+    "code_hash": "e1d6eedd568b379a7469fe44eb8054162365b961c6d0e4d5fb38fb1971070f3b",
+    "verifier": "orbs.com",
+    "original_path": "verified/e1/d6eedd568b379a7469fe44eb8054162365b961c6d0e4d5fb38fb1971070f3b/orbs.com/sources/contract/contracts/horse_market_usd.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-e1d6eedd568b/registry-e1d6eedd568b.tact",
+    "methods": [
+      "get_ratio_of_stake",
+      "get_ratio_of_stake_2",
+      "get_ratio_of_stake_3",
+      "get_user_stake_record",
+      "get_user_stake_amount",
+      "get_return_staking_data",
+      "get_contract_jettonWallet",
+      "get_address_score",
+      "getHorseType",
+      "getTelegramId",
+      "getTotalAmount",
+      "getIndex"
+    ]
+  },
+  {
+    "code_hash": "e29507ccb47e0db2526549415101a18ce2defbfdcef0e28c32e1f4a7c32ec39f",
+    "verifier": "orbs.com",
+    "original_path": "verified/e2/9507ccb47e0db2526549415101a18ce2defbfdcef0e28c32e1f4a7c32ec39f/orbs.com/sources/contract/contracts/dice.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-e29507ccb47e/registry-e29507ccb47e.tact",
+    "methods": [
+      "isAdmin",
+      "poolBalance",
+      "feePercent",
+      "maxBet",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "e3207a2f8e44739f4db00ff32d17b288e616d1ad79d56907f1e5aca60130d2a1",
+    "verifier": "orbs.com",
+    "original_path": "verified/e3/207a2f8e44739f4db00ff32d17b288e616d1ad79d56907f1e5aca60130d2a1/orbs.com/sources/contract/contracts/biden-debate.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-e3207a2f8e44/registry-e3207a2f8e44.tact",
+    "methods": [
+      "token",
+      "lockAddress",
+      "result",
+      "isFinished",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "e52d8ae884adaf2b7117bde636962bd870d034f6c345fda64887700d6a0ec230",
+    "verifier": "orbs.com",
+    "original_path": "verified/e5/2d8ae884adaf2b7117bde636962bd870d034f6c345fda64887700d6a0ec230/orbs.com/sources/contract/contracts/lottery.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-e52d8ae884ad/registry-e52d8ae884ad.tact",
+    "methods": [
+      "participantCount",
+      "betPool",
+      "balance"
+    ]
+  },
+  {
+    "code_hash": "e6703e277a9164250e3a8682837e2d6e790d2f8ade24f06291eb72b05606c20b",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/e6/703e277a9164250e3a8682837e2d6e790d2f8ade24f06291eb72b05606c20b/verifier.ton.org/sources/contract/contracts/ton_splitter.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-e6703e277a91/registry-e6703e277a91.tact",
+    "methods": [
+      "state"
+    ]
+  },
+  {
+    "code_hash": "e9e828c6f7be7b436d7e596ddd05030c756a28f23afbbc9852db98a9456c1d8b",
+    "verifier": "orbs.com",
+    "original_path": "verified/e9/e828c6f7be7b436d7e596ddd05030c756a28f23afbbc9852db98a9456c1d8b/orbs.com/sources/contract/contracts/meet_ton.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-e9e828c6f7be/registry-e9e828c6f7be.tact",
+    "methods": [
+      "balance",
+      "myAddress",
+      "payment",
+      "payments",
+      "length",
+      "owner",
+      "stopped"
+    ]
+  },
+  {
+    "code_hash": "edd821e741383f24537516df23ffab900585a671a5291afdf4066565e28e6bb4",
+    "verifier": "orbs.com",
+    "original_path": "verified/ed/d821e741383f24537516df23ffab900585a671a5291afdf4066565e28e6bb4/orbs.com/sources/contract/sources/contract/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-edd821e74138/registry-edd821e74138.tact",
+    "methods": [
+      "existsTransId",
+      "getPublicKey",
+      "getOwnerAddress"
+    ]
+  },
+  {
+    "code_hash": "eeaefb8305183f4153a85b85593488ea9373e3d555dd368c3ba2c1260dfeb4fa",
+    "verifier": "orbs.com",
+    "original_path": "verified/ee/aefb8305183f4153a85b85593488ea9373e3d555dd368c3ba2c1260dfeb4fa/orbs.com/sources/contract/sources/check-in.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-eeaefb830518/registry-eeaefb830518.tact",
+    "methods": [
+      "get_total_check_ins"
+    ]
+  },
+  {
+    "code_hash": "eec8c772925dac615f857422e6f68139d537656d4e6b097ded5da139281b7bfa",
+    "verifier": "orbs.com",
+    "original_path": "verified/ee/c8c772925dac615f857422e6f68139d537656d4e6b097ded5da139281b7bfa/orbs.com/sources/contract/reg.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-eec8c772925d/registry-eec8c772925d.tact",
+    "methods": [
+      "REGISTER_FEE",
+      "user_id_of",
+      "total_users"
+    ]
+  },
+  {
+    "code_hash": "f316072b28b5dc8d438a673e2fc12d22be70c437ea88a812358662a422f4fc76",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/f3/16072b28b5dc8d438a673e2fc12d22be70c437ea88a812358662a422f4fc76/verifier.ton.org/sources/contract/contracts/pyramid.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-f316072b28b5/registry-f316072b28b5.tact",
+    "methods": [
+      "principalOf",
+      "lastClaimOf",
+      "pending"
+    ]
+  },
+  {
+    "code_hash": "f331c67461f7c6fe4c0b84e154a82e9187612a59fdb4fef30b9c428f62f6db8c",
+    "verifier": "orbs.com",
+    "original_path": "verified/f3/31c67461f7c6fe4c0b84e154a82e9187612a59fdb4fef30b9c428f62f6db8c/orbs.com/sources/contract/contracts/dz_ton_v3.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-f331c67461f7/registry-f331c67461f7.tact",
+    "methods": [
+      "queryMyJettonWallet",
+      "queryOwner",
+      "queryHighloadWallet",
+      "checkIsQueryIdProcessed",
+      "getWithdrawLimit",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "f481b6b4a123a69ca4d65cf933f4ced5ccb8ed58b7d25141b452f12b58f2f400",
+    "verifier": "orbs.com",
+    "original_path": "verified/f4/81b6b4a123a69ca4d65cf933f4ced5ccb8ed58b7d25141b452f12b58f2f400/orbs.com/sources/contract/contracts/lottery.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-f481b6b4a123/registry-f481b6b4a123.tact",
+    "methods": [
+      "allTickets",
+      "isClaimable",
+      "calculateTotalPriceForBulkTickets",
+      "winningNumber",
+      "info",
+      "calculateRewardsForTicketId"
+    ]
+  },
+  {
+    "code_hash": "f481b6b4a123a69ca4d65cf933f4ced5ccb8ed58b7d25141b452f12b58f2f400",
+    "verifier": "orbs.com",
+    "original_path": "verified/f4/81b6b4a123a69ca4d65cf933f4ced5ccb8ed58b7d25141b452f12b58f2f400/orbs.com/sources/contract/contracts/referral_wallet.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-f481b6b4a123/registry-f481b6b4a123.tact",
+    "methods": [
+      "balance"
+    ]
+  },
+  {
+    "code_hash": "f8bece29c58254e6aab68ab83b8b95e5ebd3183cd6d43aaaee4f326d49c5ab95",
+    "verifier": "orbs.com",
+    "original_path": "verified/f8/bece29c58254e6aab68ab83b8b95e5ebd3183cd6d43aaaee4f326d49c5ab95/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-f8bece29c582/registry-f8bece29c582.tact",
+    "methods": [
+      "getRoundWinner",
+      "getWinnerRecord",
+      "getRoundInfoState",
+      "getPrizeTxId",
+      "getPrizeRecord",
+      "getOrderExist",
+      "getBuyInfo",
+      "verifySignature",
+      "getPubkey",
+      "owner"
+    ]
+  },
+  {
+    "code_hash": "f970a5bb8cc9f2ffc6db2d976dc54b4aaafcd6ce5208ed42a7bda6fe1b3a7064",
+    "verifier": "orbs.com",
+    "original_path": "verified/f9/70a5bb8cc9f2ffc6db2d976dc54b4aaafcd6ce5208ed42a7bda6fe1b3a7064/orbs.com/sources/contract/contracts/gift_auction.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-f970a5bb8cc9/registry-f970a5bb8cc9.tact",
+    "methods": [
+      "getOrder",
+      "allOrders",
+      "orderCount",
+      "getAdmins",
+      "getMinBid",
+      "getMinOrderDuration",
+      "getMinStep",
+      "balance",
+      "lockedBalance"
+    ]
+  },
+  {
+    "code_hash": "fabbcab2a66941a3f700da3319e325bfad7ecd5b83f4be6901e51034eb332657",
+    "verifier": "orbs.com",
+    "original_path": "verified/fa/bbcab2a66941a3f700da3319e325bfad7ecd5b83f4be6901e51034eb332657/orbs.com/sources/contract/sources/contract/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-fabbcab2a669/registry-fabbcab2a669.tact",
+    "methods": [
+      "existsTransId",
+      "getPublicKey",
+      "getOwnerAddress"
+    ]
+  },
+  {
+    "code_hash": "fb3059375ea0976454ed580efb7fbbee8adcf7e8113d12c5bad182b169246b19",
+    "verifier": "orbs.com",
+    "original_path": "verified/fb/3059375ea0976454ed580efb7fbbee8adcf7e8113d12c5bad182b169246b19/orbs.com/sources/contract/sources/contract/main.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-fb3059375ea0/registry-fb3059375ea0.tact",
+    "methods": [
+      "existsTransId",
+      "getPublicKey",
+      "getUXUYContractAddress",
+      "getOwnerAddress"
+    ]
+  },
+  {
+    "code_hash": "fd23078186379a1aba13e7b36a7cddafaf9989cb09c383d0bad839443681701e",
+    "verifier": "orbs.com",
+    "original_path": "verified/fd/23078186379a1aba13e7b36a7cddafaf9989cb09c383d0bad839443681701e/orbs.com/sources/contract/sources/contract.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-fd2307818637/registry-fd2307818637.tact",
+    "methods": [
+      "get_bet_min",
+      "get_players_max",
+      "get_players_current",
+      "get_locked_balance",
+      "get_winner_ticket",
+      "get_fee_percent"
+    ]
+  },
+  {
+    "code_hash": "fd436bf6af17c32421e2692b258de3d81d1d95fad5587e0bb80a3a25e3ef8e86",
+    "verifier": "orbs.com",
+    "original_path": "verified/fd/436bf6af17c32421e2692b258de3d81d1d95fad5587e0bb80a3a25e3ef8e86/orbs.com/sources/contract/contracts/balus.tact",
+    "vendored_path": "corpus-abi/clean/tact/registry-fd436bf6af17/registry-fd436bf6af17.tact",
+    "methods": [
+      "allContent",
+      "content",
+      "createServiceFee",
+      "tradeCommision",
+      "tvl",
+      "balance"
+    ]
+  }
+]

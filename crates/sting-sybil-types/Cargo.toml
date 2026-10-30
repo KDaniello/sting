@@ -1,0 +1,17 @@
+[package]
+name = "sting-sybil-types"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "The chain facts the clustering contour shares: logical time, hashes, amounts, finality, funding edges."
+
+[dependencies]
+sting-address = { workspace = true }
+serde = { workspace = true }
+
+[lints]
+workspace = true

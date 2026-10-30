@@ -1,0 +1,26 @@
+;; Hand-authored, NOT vendored from a real deployed contract — see
+;; SOURCE.md's synthetic-fixtures section. Written specifically to give
+;; Level 2 storage extraction (docs/abi-layer/blocks/
+;; 04-func-heuristic-extractor.md §4.3) a third real load_data()/
+;; save_data(...) paired-form example alongside the two organic ones
+;; (jetton-minter.fc, jetton-wallet.fc) — the block's own risk table
+;; explicitly sanctions this ("синтетический корпус... честно помеченный
+;; как synthetic") rather than treating it as real-world evidence.
+
+(int, int, cell) load_data() inline {
+    slice ds = get_data().begin_parse();
+    return (ds~load_uint(32), ds~load_int(8), ds~load_ref());
+}
+
+() save_data(int counter, int flags, cell metadata) impure inline {
+    set_data(begin_cell()
+        .store_uint(counter, 32)
+        .store_int(flags, 8)
+        .store_ref(metadata)
+        .end_cell());
+}
+
+int get_counter() method_id {
+    (int counter, _, _) = load_data();
+    return counter;
+}

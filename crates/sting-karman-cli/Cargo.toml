@@ -1,0 +1,47 @@
+[package]
+name = "sting-karman-cli"
+description = "The karman binary: the composition root where adapters meet ports"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+# Nothing here is published: this is a platform rather than a set of libraries, and a crate that
+# says nothing about publication is a crate a lint asks for keywords it will never use.
+publish = false
+
+[[bin]]
+name = "karman"
+path = "src/main.rs"
+
+[dependencies]
+clap = { workspace = true }
+sting-karman-app = { workspace = true }
+sting-karman-core = { workspace = true }
+sting-karman-data = { workspace = true }
+sting-karman-mech-curve = { workspace = true }
+sting-karman-scenario = { workspace = true }
+rayon = { workspace = true }
+
+# NOTE: cannot use `[lints] workspace = true` here — Cargo does not allow mixing workspace
+# inheritance with a local override in the same [lints] table, and `forbid` cannot be relaxed by
+# an inner attribute either. This is the third and last documented exception to the workspace-wide
+# `unsafe_code = "forbid"` (see docs/ARCHITECTURE.md §3.1): the counting global allocator is what
+# reports a run's allocation pressure, live bytes and live peak on every platform, and a global
+# allocator is `unsafe` by its own trait. The table below is otherwise the workspace's, kept in
+# sync by hand and checked by `scripts/check-lints.py`.
+[lints.rust]
+unsafe_code = "allow"
+missing_docs = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+cargo = { level = "warn", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+undocumented_unsafe_blocks = "deny"
+multiple_crate_versions = "allow"
+module_name_repetitions = "allow"

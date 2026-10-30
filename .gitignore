@@ -1,0 +1,50 @@
+# Secrets. The toncenter keys for mainnet and testnet live here, and one `git add .` without this
+# line publishes them.
+/.env
+/.env.*
+!/.env.example
+
+# Build output.
+/target
+**/*.rs.bk
+*.pdb
+*.profraw
+
+# Vendored toolchain: platform-specific, large, fetched from a pinned ton-blockchain/ton release
+# rather than committed. docs/DATA.md names the release each one comes from.
+/vendor/libemulator/
+/vendor/tolk/
+/vendor/fift/
+
+# The Tact compiler is fetched by npm rather than from a release, for the same reason.
+/vendor/tact/node_modules/
+/vendor/tact/package-lock.json
+
+# Local sweep artefacts: SQLite databases and caches built from a real mainnet sweep. Reproducible
+# by re-running the sweep, not by cloning.
+/corpus/cache
+/coverage-data/
+/out
+
+# Editors and platform droppings.
+/.idea
+/.vscode/*
+!/.vscode/extensions.json
+!/.vscode/settings.json
+.DS_Store
+
+# Python: the instrument in tools/ and the SDKs build here, and none of it is source.
+__pycache__/
+.venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Documents a live one contradicts (docs/DECISIONS.md §3): kept on disk and in git history, out of
+# the index, so the repository stops carrying text that disagrees with what it ships.
+# docs/phases_roadmap/ is a phase plan docs/ROADMAP.md replaces; the root PLAN.md was a session
+# tracker; TODO.md is the marks against the roadmap, and chronology by nature.
+/docs/phases_roadmap/
+/PLAN.md
+/TODO.md

@@ -1,0 +1,51 @@
+[package]
+name = "sting-abi-service"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lib]
+name = "sting_abi_service"
+path = "src/lib.rs"
+
+[[bin]]
+name = "sting-abi-service"
+path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+base64 = { workspace = true }
+clap = { workspace = true }
+sting-abi-core = { workspace = true }
+sting-abi-coverage = { workspace = true }
+sting-abi-decode = { workspace = true }
+sting-abi-dictionary = { workspace = true }
+sting-abi-pipeline = { workspace = true }
+sting-abi-tolk = { workspace = true }
+sting-abi-tact = { workspace = true }
+sting-abi-func = { workspace = true }
+sting-abi-registry = { workspace = true }
+sting-corpus = { workspace = true }
+sting-emulator = { workspace = true }
+sting-emulator-sys = { workspace = true }
+sting-fift = { workspace = true }
+sting-tolkc = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tempfile = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
+axum = "0.8.9"
+tokio = { version = "1.53.1", features = ["rt-multi-thread", "macros", "signal", "time"] }
+rayon = { workspace = true }
+
+[dev-dependencies]
+tower = { version = "0.5.3", features = ["util"] }
+http-body-util = "0.1.3"
+proptest = { workspace = true }
+tonlib-core = { workspace = true }
+base64 = { workspace = true }

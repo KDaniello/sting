@@ -1,0 +1,141 @@
+{
+  "origin": {
+    "chain_id": 1,
+    "protocol": "morpho-blue",
+    "contract": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "market": "0x64d65c9a2d91c36d56fbc42d69e979335320169b3df63bf92789e2c8883fcc64",
+    "block": 25789266
+  },
+  "total_supply_assets": "315824078845447",
+  "total_supply_shares": "290065032609961238185",
+  "total_borrow_assets": "287815521258445",
+  "total_borrow_shares": "261267252844255175196",
+  "last_update": 1787143727,
+  "fee": "0",
+  "terms": {
+    "loan_token": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    "loan_decimals": 6,
+    "collateral_token": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+    "collateral_decimals": 8,
+    "oracle": "0xa6d6950c9f177f1de7f7757fb33539e3ec60182a",
+    "irm": "0x870ac11d48b15db9a138cf899d20f13f79ba00bc",
+    "lltv": "860000000000000000",
+    "price": "648000000000000000000000000000000000000"
+  },
+  "holders": [
+    {
+      "holder": "0xdf62f57ea333a842db200d4892c90f98204fa22f",
+      "supply_shares": "37873003164929996801",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0x2b9681015a1fa2225d1fc8ae40538d3d64c58290",
+      "supply_shares": "80943707511151991475",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0x92872b97d89b54646d036e3afd2bccb84d8e3ca1",
+      "supply_shares": "633723417982711557",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0x38995554b965eccf9e4dcaf48cc87058d6217550",
+      "supply_shares": "23792934",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0xdd0f28e19c1780eb6396170735d45153d261490d",
+      "supply_shares": "17393500589326163682",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0xa8875aaebc4f830524e35d57f9772ffacbdd6c45",
+      "supply_shares": "29993075578665174",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+      "supply_shares": "11344375409275310193",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0xbfe734baab130048e20a64e800c4c2ec25756284",
+      "supply_shares": "6852336612352395158",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0x6a322cf098a7df441781d9e4ffe598c3f997ac43",
+      "supply_shares": "1115371140613196292",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0x3b9e060a2b05588126fda01b95e9485687fc91d7",
+      "supply_shares": "11704669135234724482",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0xf13b71a746c47dd9d677dae102b12e2a90069eac",
+      "supply_shares": "190168997",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0x5130985ce6a0e54f369712cd6f2fdec084026e54",
+      "supply_shares": "0",
+      "borrow_shares": "13371568811984366891",
+      "collateral": "53718789751"
+    },
+    {
+      "holder": "0xbeefff209270748ddd194831b3fa287a5386f5bc",
+      "supply_shares": "445534215608673203",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0xf9bddd4a9b3a45f980e11fdde96e16364ddbec49",
+      "supply_shares": "784457662945806",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0xae86261c403e8da7b71dcd3343ed9f1c8a972d63",
+      "supply_shares": "102168054185763840",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0xbeefb9f61cc44895d8aec381373555a64191a9c4",
+      "supply_shares": "11300840415208883385",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0x8f7cd1999f73c4d8d3c00b95d3b19558c6104b1f",
+      "supply_shares": "2879988199",
+      "borrow_shares": "0",
+      "collateral": "0"
+    },
+    {
+      "holder": "0x9e4f8bdf7b8ee5de97f9e2da05aec387f57a1cd0",
+      "supply_shares": "0",
+      "borrow_shares": "1067647445246134784",
+      "collateral": "4000000020"
+    },
+    {
+      "holder": "0x7ca32dcd9269b0beb21a4f364ded5cffcb7b3635",
+      "supply_shares": "825743762108677634",
+      "borrow_shares": "0",
+      "collateral": "0"
+    }
+  ]
+}

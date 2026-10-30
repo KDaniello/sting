@@ -1,0 +1,4 @@
+defect_class: UR
+location: { file: "01-no-guard-at-all.tolk", line: 3, column: 12 }
+description: "`lookup.loadValue()` is called with no `lookup.isFound` check anywhere — an unfound lookup's value is garbage, not a safe default"
+source: "TONScanner taxonomy (arXiv 2501.06459): Unchecked Return — return value of a called function is not checked"

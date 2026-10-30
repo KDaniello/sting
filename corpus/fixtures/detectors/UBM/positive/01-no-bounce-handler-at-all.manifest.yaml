@@ -1,0 +1,4 @@
+defect_class: UBM
+location: { file: "01-no-bounce-handler-at-all.tolk", line: 12, column: 9 }
+description: "`onInternalMessage` saves storage then sends a bounceable message; the file has no `onBouncedMessage` handler at all, so a bounce never reverts the save"
+source: "CertiK: Secure Smart Contract Programming in FunC — Top 10 Tips (Jetton-wallet partial-execution pattern)"

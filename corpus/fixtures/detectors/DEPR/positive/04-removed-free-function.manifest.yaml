@@ -1,0 +1,4 @@
+defect_class: DEPR
+location: { file: "04-removed-free-function.tolk", line: 2, column: 5 }
+description: "`setContractData(...)` no longer exists in Tolk's stdlib at all — stronger than deprecated, code calling it will not compile with any current Tolk toolchain"
+source: "hacktheton.com's real, currently-live level source (docs/PROJECT_REVIEW.md direction 5) — this name was the stdlib's own camelCase name from the 2024-10-31 rework until it was renamed again to contract.setData, see docs/REFERENCES.md's Tolk stdlib deprecations section"

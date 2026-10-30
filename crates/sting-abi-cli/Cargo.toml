@@ -1,0 +1,37 @@
+[package]
+name = "sting-abi-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[[bin]]
+name = "abi-layer"
+path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+sting-abi-pipeline = { workspace = true }
+sting-abi-core = { workspace = true }
+sting-abi-tolk = { workspace = true }
+sting-abi-tact = { workspace = true }
+sting-abi-func = { workspace = true }
+sting-abi-bench = { workspace = true }
+sting-abi-decode = { workspace = true }
+sting-abi-dictionary = { workspace = true }
+sting-abi-coverage = { workspace = true }
+sting-tolkc = { workspace = true }
+sting-corpus = { workspace = true }
+sting-emulator = { workspace = true }
+sting-emulator-sys = { workspace = true }
+base64 = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+clap = { version = "4.6.2", features = ["derive"] }
+anyhow = "1.0.103"
+tempfile = { workspace = true }
+
+[dev-dependencies]
+tonlib-core = { workspace = true }

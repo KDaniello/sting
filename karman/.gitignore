@@ -1,0 +1,23 @@
+/target
+**/*.rs.bk
+*.pdb
+
+# Local run artifacts: sweeps, traces, fixture pulls that are not committed as testdata.
+/out
+*.profraw
+
+# Editors
+/.idea
+/.vscode/*
+!/.vscode/extensions.json
+!/.vscode/settings.json
+
+# Python build outputs, wherever Python lives in the tree
+**/__pycache__
+**/*.egg-info
+**/dist
+.ipynb_checkpoints
+
+# Credentials. A key that reaches an indexer faster is still a key, and history is forever.
+.env
+.env.*

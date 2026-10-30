@@ -1,0 +1,4 @@
+defect_class: SUA
+location: { file: "02-balance-decrement-typo.tolk", line: 3, column: 5 }
+description: "`newBalance =- amount` — zero bytes between `=` and the following unary `-`, the classic C-family typo for `-=`"
+source: "sting's own addition, ported from Misti's `SuspiciousUnary` (docs/PROJECT_REVIEW.md direction 5, Misti prior-art teardown)"

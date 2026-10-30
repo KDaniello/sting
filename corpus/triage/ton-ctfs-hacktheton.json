@@ -1,0 +1,372 @@
+{
+  "source": {
+    "name": "mysteryon88/ton-ctfs — hacktheton/Tolk",
+    "url": "https://github.com/mysteryon88/ton-ctfs",
+    "nature": "CTF",
+    "files_tolk": 9,
+    "fetched": "2026-08-05",
+    "run": "cargo run -p sting-cli -- lint <clone>/hacktheton/Tolk/contracts --format json",
+    "independence_caveat": "Материал hacktheton.com уже использовался проектом ранее (фаза 4 §1: «AC/UBM видели только .save(), но не contract.setData()»). Как источник ПОДТВЕРЖДЕНИЙ класса он поэтому не полностью независим от той работы; как источник recall — пригоден, потому что тогда разбирались другие уровни и другой класс.",
+    "dialect_caveat": "Аудит: НИ ОДИН из 9 файлов не компилируется Tolk 1.4.2 (проверено вендоренным компилятором). Материал написан на диалекте до Tolk 0.10 — суффиксы `\"...\"c`/`\"...\"a`, `getContractData`, `sendRawMessage`. Уязвимости настоящие как ПАТТЕРНЫ, но recall на современном Tolk этим раундом не подтверждён. Разбор при этом не пострадал: все ERROR-узлы по 1 байту (тот самый суффикс), конструкции верхнего уровня разобраны на 100%."
+  },
+  "round": 3,
+  "totals": {
+    "findings": 27,
+    "by_detector": {
+      "DEPR": 15,
+      "AC": 6,
+      "UDA": 3,
+      "LEP": 3
+    },
+    "classes": {
+      "deprecated-stdlib-name": 15,
+      "unauthenticated-state-or-code-mutation": 5,
+      "finding-on-attacker-contract": 7
+    },
+    "new_classes_this_round": [
+      "unauthenticated-state-or-code-mutation",
+      "finding-on-attacker-contract"
+    ],
+    "repeat_classes": [
+      "deprecated-stdlib-name"
+    ]
+  },
+  "recall_gaps": [
+    {
+      "file": "16. seed.tolk",
+      "line": 81,
+      "class": "prg-seed-from-public-storage",
+      "what": "Уязвимость уровня — предсказуемая случайность: `ctxSeed` хранится в состоянии контракта, публично читаемом, и им же засевается PRG (`randomSetSeed(ctxSeed)`), после чего `random()` предсказуем.",
+      "who_should_have_fired": "BR (Bad Randomness) или EPS (Ensure PRG Seed)",
+      "why_silent": "BR ищет время блока как источник случайности, EPS — отсутствие засева вовсе. Форма «сид взят из публично читаемого состояния» не покрыта ни одним из них.",
+      "occurrences_seen": 1,
+      "action": "кандидат в новые детекторы (§5), не реализуется внутри цикла (§8)"
+    }
+  ],
+  "findings": [
+    {
+      "detector": "DEPR",
+      "file": "12. upgrade.tolk",
+      "line": 11,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "getContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "AC",
+      "file": "12. upgrade.tolk",
+      "line": 59,
+      "verdict": "true_positive",
+      "cls": "unauthenticated-state-or-code-mutation",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Настоящая уязвимость уровня CTF. `12. upgrade.tolk:59` — `OP_UPGRADE` берёт cell прямо из тела сообщения и ставит его `setContractCodePostponed` без единой проверки: код контракта заменяет кто угодно. `15`/`16` — запись состояния без проверки отправителя, `20` — исполнение переданного атакующим кода как продолжения. Это первые истинно-положительные срабатывания цикла на внешнем источнике."
+    },
+    {
+      "detector": "DEPR",
+      "file": "12. upgrade.tolk",
+      "line": 59,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "setContractCodePostponed",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "UDA",
+      "file": "12. upgrade.tolk",
+      "line": 59,
+      "verdict": "true_positive",
+      "cls": "unauthenticated-state-or-code-mutation",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Настоящая уязвимость уровня CTF. `12. upgrade.tolk:59` — `OP_UPGRADE` берёт cell прямо из тела сообщения и ставит его `setContractCodePostponed` без единой проверки: код контракта заменяет кто угодно. `15`/`16` — запись состояния без проверки отправителя, `20` — исполнение переданного атакующим кода как продолжения. Это первые истинно-положительные срабатывания цикла на внешнем источнике."
+    },
+    {
+      "detector": "DEPR",
+      "file": "12. upgradeExploit.tolk",
+      "line": 11,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "getContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "DEPR",
+      "file": "12. upgradeExploit.tolk",
+      "line": 21,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "setContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "AC",
+      "file": "12. upgradeExploit.tolk",
+      "line": 70,
+      "verdict": "corpus_artifact",
+      "cls": "finding-on-attacker-contract",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Файл `*Exploit.tolk` — контракт АТАКУЮЩЕГО, а не цель анализа. Отсутствие авторизации в нём не дефект, а его назначение. Отдельный вердикт corpus_artifact ровно для таких случаев: смешивать их с documented_limit значит хоронить реальные границы в шуме (§3.2)."
+    },
+    {
+      "detector": "AC",
+      "file": "12. upgradeExploit.tolk",
+      "line": 76,
+      "verdict": "corpus_artifact",
+      "cls": "finding-on-attacker-contract",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Файл `*Exploit.tolk` — контракт АТАКУЮЩЕГО, а не цель анализа. Отсутствие авторизации в нём не дефект, а его назначение. Отдельный вердикт corpus_artifact ровно для таких случаев: смешивать их с documented_limit значит хоронить реальные границы в шуме (§3.2)."
+    },
+    {
+      "detector": "DEPR",
+      "file": "12. upgradeExploit.tolk",
+      "line": 76,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "setContractCodePostponed",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "UDA",
+      "file": "12. upgradeExploit.tolk",
+      "line": 76,
+      "verdict": "corpus_artifact",
+      "cls": "finding-on-attacker-contract",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Файл `*Exploit.tolk` — контракт АТАКУЮЩЕГО, а не цель анализа. Отсутствие авторизации в нём не дефект, а его назначение. Отдельный вердикт corpus_artifact ровно для таких случаев: смешивать их с documented_limit значит хоронить реальные границы в шуме (§3.2)."
+    },
+    {
+      "detector": "DEPR",
+      "file": "15. logical.tolk",
+      "line": 11,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "getContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "DEPR",
+      "file": "15. logical.tolk",
+      "line": 24,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "setContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "AC",
+      "file": "15. logical.tolk",
+      "line": 76,
+      "verdict": "true_positive",
+      "cls": "unauthenticated-state-or-code-mutation",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Настоящая уязвимость уровня CTF. `12. upgrade.tolk:59` — `OP_UPGRADE` берёт cell прямо из тела сообщения и ставит его `setContractCodePostponed` без единой проверки: код контракта заменяет кто угодно. `15`/`16` — запись состояния без проверки отправителя, `20` — исполнение переданного атакующим кода как продолжения. Это первые истинно-положительные срабатывания цикла на внешнем источнике."
+    },
+    {
+      "detector": "LEP",
+      "file": "15. logicalExploit.tolk",
+      "line": 3,
+      "verdict": "corpus_artifact",
+      "cls": "finding-on-attacker-contract",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Файл `*Exploit.tolk` — контракт АТАКУЮЩЕГО, а не цель анализа. Отсутствие авторизации в нём не дефект, а его назначение. Отдельный вердикт corpus_artifact ровно для таких случаев: смешивать их с documented_limit значит хоронить реальные границы в шуме (§3.2)."
+    },
+    {
+      "detector": "DEPR",
+      "file": "16. seed.tolk",
+      "line": 12,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "getContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "DEPR",
+      "file": "16. seed.tolk",
+      "line": 24,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "setContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "AC",
+      "file": "16. seed.tolk",
+      "line": 81,
+      "verdict": "true_positive",
+      "cls": "unauthenticated-state-or-code-mutation",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Настоящая уязвимость уровня CTF. `12. upgrade.tolk:59` — `OP_UPGRADE` берёт cell прямо из тела сообщения и ставит его `setContractCodePostponed` без единой проверки: код контракта заменяет кто угодно. `15`/`16` — запись состояния без проверки отправителя, `20` — исполнение переданного атакующим кода как продолжения. Это первые истинно-положительные срабатывания цикла на внешнем источнике."
+    },
+    {
+      "detector": "LEP",
+      "file": "16. seedExploit.tolk",
+      "line": 3,
+      "verdict": "corpus_artifact",
+      "cls": "finding-on-attacker-contract",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Файл `*Exploit.tolk` — контракт АТАКУЮЩЕГО, а не цель анализа. Отсутствие авторизации в нём не дефект, а его назначение. Отдельный вердикт corpus_artifact ровно для таких случаев: смешивать их с documented_limit значит хоронить реальные границы в шуме (§3.2)."
+    },
+    {
+      "detector": "DEPR",
+      "file": "19. proxy.tolk",
+      "line": 10,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "getContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "DEPR",
+      "file": "19. proxy.tolk",
+      "line": 22,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "setContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "DEPR",
+      "file": "20. execution.tolk",
+      "line": 10,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "getContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "DEPR",
+      "file": "20. execution.tolk",
+      "line": 20,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "setContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "DEPR",
+      "file": "20. execution.tolk",
+      "line": 53,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "getContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "DEPR",
+      "file": "20. execution.tolk",
+      "line": 56,
+      "verdict": "true_positive",
+      "cls": "deprecated-stdlib-name",
+      "symbol": "setContractData",
+      "confirmations": 3,
+      "action": "documented",
+      "round": 3,
+      "note": "Удалённое из stdlib имя. ТРЕТЬЕ независимое подтверждение класса (cocoon, chainlink, CTF). Отдельно ценно: `getContractData` был добавлен в таблицу DEPR аудитом Фазы 2 — здесь он встречается 8 раз в живом коде, то есть добавление подтверждено независимо."
+    },
+    {
+      "detector": "AC",
+      "file": "20. execution.tolk",
+      "line": 104,
+      "verdict": "true_positive",
+      "cls": "unauthenticated-state-or-code-mutation",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Настоящая уязвимость уровня CTF. `12. upgrade.tolk:59` — `OP_UPGRADE` берёт cell прямо из тела сообщения и ставит его `setContractCodePostponed` без единой проверки: код контракта заменяет кто угодно. `15`/`16` — запись состояния без проверки отправителя, `20` — исполнение переданного атакующим кода как продолжения. Это первые истинно-положительные срабатывания цикла на внешнем источнике."
+    },
+    {
+      "detector": "LEP",
+      "file": "20. executionExploit.tolk",
+      "line": 23,
+      "verdict": "corpus_artifact",
+      "cls": "finding-on-attacker-contract",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Файл `*Exploit.tolk` — контракт АТАКУЮЩЕГО, а не цель анализа. Отсутствие авторизации в нём не дефект, а его назначение. Отдельный вердикт corpus_artifact ровно для таких случаев: смешивать их с documented_limit значит хоронить реальные границы в шуме (§3.2)."
+    },
+    {
+      "detector": "UDA",
+      "file": "20. executionExploit.tolk",
+      "line": 44,
+      "verdict": "corpus_artifact",
+      "cls": "finding-on-attacker-contract",
+      "symbol": null,
+      "confirmations": 1,
+      "action": "documented",
+      "round": 3,
+      "note": "Файл `*Exploit.tolk` — контракт АТАКУЮЩЕГО, а не цель анализа. Отсутствие авторизации в нём не дефект, а его назначение. Отдельный вердикт corpus_artifact ровно для таких случаев: смешивать их с documented_limit значит хоронить реальные границы в шуме (§3.2)."
+    }
+  ]
+}

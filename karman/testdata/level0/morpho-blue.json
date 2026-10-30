@@ -1,0 +1,2636 @@
+{
+  "reference": {
+    "chain_id": 1,
+    "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "block": 25788416,
+    "code_hash": "0xfa259fa317198f88f5fa3c119f06c066295dbcd47d715e0a30e1bcf94c02ef8c"
+  },
+  "lltv": "800000000000000000",
+  "fee_recipient": 0,
+  "rate": "3170979198",
+  "prices": [
+    {
+      "from": 0,
+      "price": "1000000000000000000000000000000000000"
+    },
+    {
+      "from": 12346,
+      "price": "500000000000000000000000000000000000"
+    },
+    {
+      "from": 12401,
+      "price": "648000000000000000000000000000000000000"
+    },
+    {
+      "from": 12402,
+      "price": "341000000000000000000000000000000000000"
+    }
+  ],
+  "cases": [
+    {
+      "probes": "a first supply prices against the virtual pair",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "0",
+            "total_supply_shares": "0",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 0,
+            "fee": "0"
+          }
+        },
+        "positions": []
+      },
+      "actor": 1,
+      "at": 0,
+      "action": {
+        "supply": {
+          "market": 0,
+          "given": {
+            "assets": "10000000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "10000000",
+                "total_supply_shares": "10000000000000",
+                "total_borrow_assets": "0",
+                "total_borrow_shares": "0",
+                "last_update": 0,
+                "fee": "0"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "supplied": {
+                "market": 0,
+                "holder": 1,
+                "assets": "10000000",
+                "shares": "10000000000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a supply stated in shares rather than assets",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "10000000",
+            "total_supply_shares": "10000000000000",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 0,
+            "fee": "0"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 0,
+      "action": {
+        "supply": {
+          "market": 0,
+          "given": {
+            "shares": "5000000000000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000000",
+                "total_supply_shares": "15000000000000",
+                "total_borrow_assets": "0",
+                "total_borrow_shares": "0",
+                "last_update": 0,
+                "fee": "0"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "supplied": {
+                "market": 0,
+                "holder": 2,
+                "assets": "5000000",
+                "shares": "5000000000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a supply of nothing",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000000",
+            "total_supply_shares": "15000000000000",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 0,
+            "fee": "0"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 3,
+      "at": 0,
+      "action": {
+        "supply": {
+          "market": 0,
+          "given": {
+            "assets": "0"
+          }
+        }
+      },
+      "outcome": "rejected"
+    },
+    {
+      "probes": "collateral, which is not liquidity",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000000",
+            "total_supply_shares": "15000000000000",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 0,
+            "fee": "0"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 0,
+      "action": {
+        "supply_collateral": {
+          "market": 0,
+          "assets": "2000000"
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000000",
+                "total_supply_shares": "15000000000000",
+                "total_borrow_assets": "0",
+                "total_borrow_shares": "0",
+                "last_update": 0,
+                "fee": "0"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "2000000"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "collateral_added": {
+                "market": 0,
+                "holder": 2,
+                "assets": "2000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a borrow one unit past the threshold",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000000",
+            "total_supply_shares": "15000000000000",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 0,
+            "fee": "0"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "2000000"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 0,
+      "action": {
+        "borrow": {
+          "market": 0,
+          "given": {
+            "assets": "1600001"
+          }
+        }
+      },
+      "outcome": "rejected"
+    },
+    {
+      "probes": "a borrow exactly at the threshold",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000000",
+            "total_supply_shares": "15000000000000",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 0,
+            "fee": "0"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "2000000"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 0,
+      "action": {
+        "borrow": {
+          "market": 0,
+          "given": {
+            "assets": "1600000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000000",
+                "total_supply_shares": "15000000000000",
+                "total_borrow_assets": "1600000",
+                "total_borrow_shares": "1600000000000",
+                "last_update": 0,
+                "fee": "0"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "1600000000000",
+                  "collateral": "2000000"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "borrowed": {
+                "market": 0,
+                "holder": 2,
+                "assets": "1600000",
+                "shares": "1600000000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a withdrawal against what is left idle",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000000",
+            "total_supply_shares": "15000000000000",
+            "total_borrow_assets": "1600000",
+            "total_borrow_shares": "1600000000000",
+            "last_update": 0,
+            "fee": "0"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1600000000000",
+              "collateral": "2000000"
+            }
+          }
+        ]
+      },
+      "actor": 1,
+      "at": 0,
+      "action": {
+        "withdraw": {
+          "market": 0,
+          "given": {
+            "assets": "1"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "14999999",
+                "total_supply_shares": "14999999000000",
+                "total_borrow_assets": "1600000",
+                "total_borrow_shares": "1600000000000",
+                "last_update": 0,
+                "fee": "0"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "9999999000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "1600000000000",
+                  "collateral": "2000000"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "withdrawn": {
+                "market": 0,
+                "holder": 1,
+                "assets": "1",
+                "shares": "1000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a withdrawal of more than is held",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14999999",
+            "total_supply_shares": "14999999000000",
+            "total_borrow_assets": "1600000",
+            "total_borrow_shares": "1600000000000",
+            "last_update": 0,
+            "fee": "0"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "9999999000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1600000000000",
+              "collateral": "2000000"
+            }
+          }
+        ]
+      },
+      "actor": 3,
+      "at": 0,
+      "action": {
+        "withdraw": {
+          "market": 0,
+          "given": {
+            "shares": "1"
+          }
+        }
+      },
+      "outcome": "rejected"
+    },
+    {
+      "probes": "the first transition of a tick accrues",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14999999",
+            "total_supply_shares": "14999999000000",
+            "total_borrow_assets": "1600000",
+            "total_borrow_shares": "1600000000000",
+            "last_update": 0,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "9999999000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1600000000000",
+              "collateral": "2000000"
+            }
+          }
+        ]
+      },
+      "actor": 1,
+      "at": 1,
+      "action": {
+        "supply": {
+          "market": 0,
+          "given": {
+            "assets": "1"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000000",
+                "total_supply_shares": "15000000000000",
+                "total_borrow_assets": "1600000",
+                "total_borrow_shares": "1600000000000",
+                "last_update": 1,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "1600000000000",
+                  "collateral": "2000000"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "interest_accrued": {
+                "market": 0,
+                "interest": "0",
+                "fee_shares": "0"
+              }
+            },
+            {
+              "supplied": {
+                "market": 0,
+                "holder": 1,
+                "assets": "1",
+                "shares": "1000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "the second transition of the same tick does not",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000000",
+            "total_supply_shares": "15000000000000",
+            "total_borrow_assets": "1600000",
+            "total_borrow_shares": "1600000000000",
+            "last_update": 1,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1600000000000",
+              "collateral": "2000000"
+            }
+          }
+        ]
+      },
+      "actor": 1,
+      "at": 1,
+      "action": {
+        "supply": {
+          "market": 0,
+          "given": {
+            "assets": "1"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000001",
+                "total_supply_shares": "15000001000000",
+                "total_borrow_assets": "1600000",
+                "total_borrow_shares": "1600000000000",
+                "last_update": 1,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000001000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "1600000000000",
+                  "collateral": "2000000"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "supplied": {
+                "market": 0,
+                "holder": 1,
+                "assets": "1",
+                "shares": "1000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "accrual over a long gap, with a fee to mint",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000001",
+            "total_supply_shares": "15000001000000",
+            "total_borrow_assets": "1600000",
+            "total_borrow_shares": "1600000000000",
+            "last_update": 1,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1600000000000",
+              "collateral": "2000000"
+            }
+          }
+        ]
+      },
+      "actor": 3,
+      "at": 12345,
+      "action": {
+        "supply": {
+          "market": 0,
+          "given": {
+            "assets": "3"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000066",
+                "total_supply_shares": "15000009999965",
+                "total_borrow_assets": "1600062",
+                "total_borrow_shares": "1600000000000",
+                "last_update": 12345,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 0,
+                "position": {
+                  "supply_shares": "5999977",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000001000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "1600000000000",
+                  "collateral": "2000000"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "interest_accrued": {
+                "market": 0,
+                "interest": "62",
+                "fee_shares": "5999977"
+              }
+            },
+            {
+              "supplied": {
+                "market": 0,
+                "holder": 3,
+                "assets": "3",
+                "shares": "2999988"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a repayment stated in shares",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000066",
+            "total_supply_shares": "15000009999965",
+            "total_borrow_assets": "1600062",
+            "total_borrow_shares": "1600000000000",
+            "last_update": 12345,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 0,
+            "position": {
+              "supply_shares": "5999977",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1600000000000",
+              "collateral": "2000000"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 12345,
+      "action": {
+        "repay": {
+          "market": 0,
+          "given": {
+            "shares": "533333333333"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000066",
+                "total_supply_shares": "15000009999965",
+                "total_borrow_assets": "1066708",
+                "total_borrow_shares": "1066666666667",
+                "last_update": 12345,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 0,
+                "position": {
+                  "supply_shares": "5999977",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000001000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "1066666666667",
+                  "collateral": "2000000"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "repaid": {
+                "market": 0,
+                "holder": 2,
+                "assets": "533354",
+                "shares": "533333333333"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a repayment stated in assets",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000066",
+            "total_supply_shares": "15000009999965",
+            "total_borrow_assets": "1066708",
+            "total_borrow_shares": "1066666666667",
+            "last_update": 12345,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 0,
+            "position": {
+              "supply_shares": "5999977",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1066666666667",
+              "collateral": "2000000"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 12345,
+      "action": {
+        "repay": {
+          "market": 0,
+          "given": {
+            "assets": "7"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000066",
+                "total_supply_shares": "15000009999965",
+                "total_borrow_assets": "1066701",
+                "total_borrow_shares": "1066659666939",
+                "last_update": 12345,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 0,
+                "position": {
+                  "supply_shares": "5999977",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000001000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "1066659666939",
+                  "collateral": "2000000"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "repaid": {
+                "market": 0,
+                "holder": 2,
+                "assets": "7",
+                "shares": "6999728"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a borrow stated in shares",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000066",
+            "total_supply_shares": "15000009999965",
+            "total_borrow_assets": "1066701",
+            "total_borrow_shares": "1066659666939",
+            "last_update": 12345,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 0,
+            "position": {
+              "supply_shares": "5999977",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1066659666939",
+              "collateral": "2000000"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 12345,
+      "action": {
+        "borrow": {
+          "market": 0,
+          "given": {
+            "shares": "1000000000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000066",
+                "total_supply_shares": "15000009999965",
+                "total_borrow_assets": "1067701",
+                "total_borrow_shares": "1067659666939",
+                "last_update": 12345,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 0,
+                "position": {
+                  "supply_shares": "5999977",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000001000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "1067659666939",
+                  "collateral": "2000000"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "borrowed": {
+                "market": 0,
+                "holder": 2,
+                "assets": "1000",
+                "shares": "1000000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "collateral taken back from a position that can spare it",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000066",
+            "total_supply_shares": "15000009999965",
+            "total_borrow_assets": "1067701",
+            "total_borrow_shares": "1067659666939",
+            "last_update": 12345,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 0,
+            "position": {
+              "supply_shares": "5999977",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1067659666939",
+              "collateral": "2000000"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 12345,
+      "action": {
+        "withdraw_collateral": {
+          "market": 0,
+          "assets": "1"
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000066",
+                "total_supply_shares": "15000009999965",
+                "total_borrow_assets": "1067701",
+                "total_borrow_shares": "1067659666939",
+                "last_update": 12345,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 0,
+                "position": {
+                  "supply_shares": "5999977",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000001000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "1067659666939",
+                  "collateral": "1999999"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "collateral_removed": {
+                "market": 0,
+                "holder": 2,
+                "assets": "1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "collateral the debt still needs",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000066",
+            "total_supply_shares": "15000009999965",
+            "total_borrow_assets": "1067701",
+            "total_borrow_shares": "1067659666939",
+            "last_update": 12345,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 0,
+            "position": {
+              "supply_shares": "5999977",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1067659666939",
+              "collateral": "1999999"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 12345,
+      "action": {
+        "withdraw_collateral": {
+          "market": 0,
+          "assets": "1000000"
+        }
+      },
+      "outcome": "rejected"
+    },
+    {
+      "probes": "a liquidation that leaves collateral behind",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000066",
+            "total_supply_shares": "15000009999965",
+            "total_borrow_assets": "1067701",
+            "total_borrow_shares": "1067659666939",
+            "last_update": 12345,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 0,
+            "position": {
+              "supply_shares": "5999977",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "1067659666939",
+              "collateral": "1999999"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 3,
+      "at": 12346,
+      "action": {
+        "liquidate": {
+          "market": 0,
+          "borrower": 2,
+          "given": {
+            "assets": "500000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "15000066",
+                "total_supply_shares": "15000009999965",
+                "total_borrow_assets": "832699",
+                "total_borrow_shares": "832667764337",
+                "last_update": 12346,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 0,
+                "position": {
+                  "supply_shares": "5999977",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000001000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "832667764337",
+                  "collateral": "1499999"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "interest_accrued": {
+                "market": 0,
+                "interest": "0",
+                "fee_shares": "0"
+              }
+            },
+            {
+              "liquidated": {
+                "market": 0,
+                "liquidator": 3,
+                "borrower": 2,
+                "repaid": "235002",
+                "repaid_shares": "234991902602",
+                "seized": "500000",
+                "bad_debt": "0",
+                "bad_debt_shares": "0"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a liquidation that takes the last of the collateral",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "15000066",
+            "total_supply_shares": "15000009999965",
+            "total_borrow_assets": "832699",
+            "total_borrow_shares": "832667764337",
+            "last_update": 12346,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 0,
+            "position": {
+              "supply_shares": "5999977",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "832667764337",
+              "collateral": "1499999"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 3,
+      "at": 12346,
+      "action": {
+        "liquidate": {
+          "market": 0,
+          "borrower": 2,
+          "given": {
+            "assets": "1499999"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "14872369",
+                "total_supply_shares": "15000009999965",
+                "total_borrow_assets": "0",
+                "total_borrow_shares": "0",
+                "last_update": 12346,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 0,
+                "position": {
+                  "supply_shares": "5999977",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000001000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "liquidated": {
+                "market": 0,
+                "liquidator": 3,
+                "borrower": 2,
+                "repaid": "705002",
+                "repaid_shares": "704974554494",
+                "seized": "1499999",
+                "bad_debt": "127697",
+                "bad_debt_shares": "127693209843"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a liquidation of a position that is gone",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14872369",
+            "total_supply_shares": "15000009999965",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 12346,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 0,
+            "position": {
+              "supply_shares": "5999977",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 3,
+      "at": 12346,
+      "action": {
+        "liquidate": {
+          "market": 0,
+          "borrower": 2,
+          "given": {
+            "assets": "1"
+          }
+        }
+      },
+      "outcome": "rejected"
+    },
+    {
+      "probes": "the fee recipient withdrawing what accrual minted it",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14872369",
+            "total_supply_shares": "15000009999965",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 12346,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 0,
+            "position": {
+              "supply_shares": "5999977",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 0,
+      "at": 12347,
+      "action": {
+        "withdraw": {
+          "market": 0,
+          "given": {
+            "shares": "5999977"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "14872364",
+                "total_supply_shares": "15000003999988",
+                "total_borrow_assets": "0",
+                "total_borrow_shares": "0",
+                "last_update": 12347,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10000001000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "interest_accrued": {
+                "market": 0,
+                "interest": "0",
+                "fee_shares": "0"
+              }
+            },
+            {
+              "withdrawn": {
+                "market": 0,
+                "holder": 0,
+                "assets": "5",
+                "shares": "5999977"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "the last supplier withdrawing everything left",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14872364",
+            "total_supply_shares": "15000003999988",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 12347,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10000001000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 1,
+      "at": 12400,
+      "action": {
+        "withdraw": {
+          "market": 0,
+          "given": {
+            "shares": "10000001000000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "4957457",
+                "total_supply_shares": "5000002999988",
+                "total_borrow_assets": "0",
+                "total_borrow_shares": "0",
+                "last_update": 12400,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "interest_accrued": {
+                "market": 0,
+                "interest": "0",
+                "fee_shares": "0"
+              }
+            },
+            {
+              "withdrawn": {
+                "market": 0,
+                "holder": 1,
+                "assets": "9914907",
+                "shares": "10000001000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a supply into a market quoted wider than money",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "4957457",
+            "total_supply_shares": "5000002999988",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 12400,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 1,
+      "at": 12401,
+      "action": {
+        "supply": {
+          "market": 0,
+          "given": {
+            "assets": "10000000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "14957457",
+                "total_supply_shares": "15085825209652",
+                "total_borrow_assets": "0",
+                "total_borrow_shares": "0",
+                "last_update": 12401,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10085822209664",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "interest_accrued": {
+                "market": 0,
+                "interest": "0",
+                "fee_shares": "0"
+              }
+            },
+            {
+              "supplied": {
+                "market": 0,
+                "holder": 1,
+                "assets": "10000000",
+                "shares": "10085822209664"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "collateral pledged at a price wider than money",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14957457",
+            "total_supply_shares": "15085825209652",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 12401,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10085822209664",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 12401,
+      "action": {
+        "supply_collateral": {
+          "market": 0,
+          "assets": "20000"
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "14957457",
+                "total_supply_shares": "15085825209652",
+                "total_borrow_assets": "0",
+                "total_borrow_shares": "0",
+                "last_update": 12401,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10085822209664",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "20000"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "collateral_added": {
+                "market": 0,
+                "holder": 2,
+                "assets": "20000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a borrow one unit past a threshold wider than money",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14957457",
+            "total_supply_shares": "15085825209652",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 12401,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10085822209664",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "20000"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 12401,
+      "action": {
+        "borrow": {
+          "market": 0,
+          "given": {
+            "assets": "10368001"
+          }
+        }
+      },
+      "outcome": "rejected"
+    },
+    {
+      "probes": "a borrow against collateral quoted wider than money",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14957457",
+            "total_supply_shares": "15085825209652",
+            "total_borrow_assets": "0",
+            "total_borrow_shares": "0",
+            "last_update": 12401,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10085822209664",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "0",
+              "collateral": "20000"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 2,
+      "at": 12401,
+      "action": {
+        "borrow": {
+          "market": 0,
+          "given": {
+            "assets": "9000000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "14957457",
+                "total_supply_shares": "15085825209652",
+                "total_borrow_assets": "9000000",
+                "total_borrow_shares": "9000000000000",
+                "last_update": 12401,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10085822209664",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "9000000000000",
+                  "collateral": "20000"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "borrowed": {
+                "market": 0,
+                "holder": 2,
+                "assets": "9000000",
+                "shares": "9000000000000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "a liquidation at a price wider than money",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14957457",
+            "total_supply_shares": "15085825209652",
+            "total_borrow_assets": "9000000",
+            "total_borrow_shares": "9000000000000",
+            "last_update": 12401,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10085822209664",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "9000000000000",
+              "collateral": "20000"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 3,
+      "at": 12402,
+      "action": {
+        "liquidate": {
+          "market": 0,
+          "borrower": 2,
+          "given": {
+            "assets": "15000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "14957457",
+                "total_supply_shares": "15085825209652",
+                "total_borrow_assets": "4191899",
+                "total_borrow_shares": "4191899000000",
+                "last_update": 12402,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10085822209664",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "4191899000000",
+                  "collateral": "5000"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "interest_accrued": {
+                "market": 0,
+                "interest": "0",
+                "fee_shares": "0"
+              }
+            },
+            {
+              "liquidated": {
+                "market": 0,
+                "liquidator": 3,
+                "borrower": 2,
+                "repaid": "4808101",
+                "repaid_shares": "4808101000000",
+                "seized": "15000",
+                "bad_debt": "0",
+                "bad_debt_shares": "0"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "probes": "the write-off a wide price leaves behind",
+      "state": {
+        "markets": {
+          "0": {
+            "total_supply_assets": "14957457",
+            "total_supply_shares": "15085825209652",
+            "total_borrow_assets": "4191899",
+            "total_borrow_shares": "4191899000000",
+            "last_update": 12402,
+            "fee": "100000000000000000"
+          }
+        },
+        "positions": [
+          {
+            "market": 0,
+            "holder": 1,
+            "position": {
+              "supply_shares": "10085822209664",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 2,
+            "position": {
+              "supply_shares": "5000000000000",
+              "borrow_shares": "4191899000000",
+              "collateral": "5000"
+            }
+          },
+          {
+            "market": 0,
+            "holder": 3,
+            "position": {
+              "supply_shares": "2999988",
+              "borrow_shares": "0",
+              "collateral": "0"
+            }
+          }
+        ]
+      },
+      "actor": 3,
+      "at": 12402,
+      "action": {
+        "liquidate": {
+          "market": 0,
+          "borrower": 2,
+          "given": {
+            "assets": "5000"
+          }
+        }
+      },
+      "outcome": {
+        "applied": {
+          "state": {
+            "markets": {
+              "0": {
+                "total_supply_assets": "12368259",
+                "total_supply_shares": "15085825209652",
+                "total_borrow_assets": "0",
+                "total_borrow_shares": "0",
+                "last_update": 12402,
+                "fee": "100000000000000000"
+              }
+            },
+            "positions": [
+              {
+                "market": 0,
+                "holder": 1,
+                "position": {
+                  "supply_shares": "10085822209664",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 2,
+                "position": {
+                  "supply_shares": "5000000000000",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              },
+              {
+                "market": 0,
+                "holder": 3,
+                "position": {
+                  "supply_shares": "2999988",
+                  "borrow_shares": "0",
+                  "collateral": "0"
+                }
+              }
+            ]
+          },
+          "events": [
+            {
+              "liquidated": {
+                "market": 0,
+                "liquidator": 3,
+                "borrower": 2,
+                "repaid": "1602701",
+                "repaid_shares": "1602701000000",
+                "seized": "5000",
+                "bad_debt": "2589198",
+                "bad_debt_shares": "2589198000000"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

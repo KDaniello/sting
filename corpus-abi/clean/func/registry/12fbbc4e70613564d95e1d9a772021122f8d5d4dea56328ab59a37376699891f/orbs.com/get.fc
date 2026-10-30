@@ -1,0 +1,11 @@
+(int, slice, int, int, int) get_vault_data() method_id {
+    load_storage();
+
+    return (
+        storage::is_locked,
+        storage::admin,
+        storage::signer,
+        storage::last_clean_time,
+        storage::timeout
+    );
+}

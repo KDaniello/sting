@@ -1,0 +1,26 @@
+#include "../../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/classlib.fc";
+
+;; required object name
+const int SetOpcodeAdmin::NAME = "opAdmin"u;
+
+;; field names
+const int SetOpcodeAdmin::opcode = 0;
+const int SetOpcodeAdmin::admin = 1;
+
+;; @owner manager
+cell SetOpcodeAdmin::New(int opcode, int admin) method_id {
+    return cl::declare(
+        SetOpcodeAdmin::NAME,
+        unsafeTuple([
+            [cl::t::uint32, opcode], ;; SetOpcodeAdmin::opcode
+            [cl::t::address, admin]  ;; SetOpcodeAdmin::admin
+        ])
+    );
+}
+
+cell SetOpcodeAdmin::sanitize(cell $SetOpcodeAdmin) method_id {
+    return SetOpcodeAdmin::New(
+        $SetOpcodeAdmin.cl::get<uint32>(SetOpcodeAdmin::opcode),
+        $SetOpcodeAdmin.cl::get<address>(SetOpcodeAdmin::admin)
+    );
+}

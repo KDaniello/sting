@@ -1,0 +1,28 @@
+[package]
+edition = "2021"
+name = "tree-sitter-tolk"
+description = "Tolk grammar for tree-sitter — vendored fork, see README.md"
+version = "0.0.5"
+authors = ["TON Core"]
+license = "MIT"
+repository = "https://github.com/ton-blockchain/tree-sitter-tolk"
+publish = false
+build = "bindings/rust/build.rs"
+autolib = false
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
+
+[lib]
+name = "tree_sitter_tolk"
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter-language = "0.1"
+
+[dev-dependencies]
+tree-sitter = "0.26"
+
+[build-dependencies]
+cc = "1.2"

@@ -1,0 +1,4 @@
+defect_class: ID
+location: { file: "03-swapped-coins-and-address.tolk", line: 2, column: 28 }
+description: "`saveAccount(balance, owner)` writes coins/address fields in a different order than `loadAccount` reads them — shows the mismatch is positional, not type-dependent"
+source: "CertiK: Secure Smart Contract Programming in FunC — Top 10 Tips (swapped load_data/save_data args)"

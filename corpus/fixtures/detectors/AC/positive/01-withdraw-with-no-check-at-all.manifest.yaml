@@ -1,0 +1,4 @@
+defect_class: AC
+location: { file: "01-withdraw-with-no-check-at-all.tolk", line: 11, column: 5 }
+description: "`onInternalMessage` sends `storage.balance` to `storage.ownerAddress` and zeroes it out with no sender check anywhere on the path — any caller can trigger a full withdrawal, not just the owner"
+source: "sting's own addition (not a TONScanner code, docs/PROJECT_REVIEW.md direction 4) — a synthetic instance of the canonical 'missing owner/sender check on a privileged entry point' pattern; the real-corpus research behind AC found no confirmed instance of exactly this shape in this project's own corpus (see ac.rs's module doc comment), only documented v1 scope gaps, so this fixture models the textbook pattern rather than citing one real site"

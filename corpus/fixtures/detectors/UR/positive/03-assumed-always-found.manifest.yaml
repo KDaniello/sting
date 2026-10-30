@@ -1,0 +1,4 @@
+defect_class: UR
+location: { file: "03-assumed-always-found.tolk", line: 4, column: 12 }
+description: "`res.loadValue()` with no `isFound` check — a comment asserts the assumption instead of a real check; a real instance of this exact shape was found in this project's own corpus (corpus/clean/acton-contracts/elector/types.tolk's getValidatorDescr), not invented for this fixture"
+source: "TONScanner taxonomy (arXiv 2501.06459): Unchecked Return — return value of a called function is not checked"

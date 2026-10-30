@@ -1,0 +1,23 @@
+[package]
+name = "sting-ast"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+sting-core = { workspace = true }
+thiserror = { workspace = true }
+tree-sitter = { workspace = true }
+# Vendored so the grammar can carry what the live language has and upstream 0.0.5
+# does not — see vendor/tree-sitter-tolk/README.md.
+tree-sitter-tolk = { path = "../../vendor/tree-sitter-tolk", version = "0.0.5" }
+tree-sitter-func = { path = "../../vendor/tree-sitter-func", version = "1.0.0" }
+
+# The oracle in `examples/grammar_oracle.rs` asks the real compiler what the grammar
+# could not read. A diagnostic dependency, never a library one.
+[dev-dependencies]
+sting-tolkc = { workspace = true }

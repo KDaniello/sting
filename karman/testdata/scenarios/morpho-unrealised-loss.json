@@ -1,0 +1,20 @@
+{
+  "name": "morpho-unrealised-loss",
+  "seed": 13,
+  "n_ticks": 120,
+  "mechanism": {
+    "kind": "lending",
+    "market": "testdata/fixtures/morpho-market.json",
+    "borrow_rate": "3170979198",
+    "population": "stated",
+    "seconds_per_tick": 12
+  },
+  "regimes": [
+    { "name": "past", "weight_bps": 10000,
+      "shock": { "kind": "gap", "to_bps": 5500, "at_tick": 40 }, "depth_spread_bps": 1500 }
+  ],
+  "agents": [
+    { "count": 8, "behaviour": { "kind": "borrower", "collateral": "100000000", "ltv_bps": 7900, "repair_bps": 0 } },
+    { "count": 1, "behaviour": { "kind": "liquidator", "every": 1, "capacity_bps": 9999, "watching": 9 } }
+  ]
+}

@@ -1,0 +1,34 @@
+[package]
+name = "sting-sybil-features"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "What a wallet looks like as numbers: how it is spaced in time, who it dealt with, and which shape the funding graph draws around it."
+
+[[bin]]
+name = "sting-sybil-features"
+path = "src/main.rs"
+
+[dependencies]
+sting-sybil-graph = { workspace = true }
+sting-sybil-ingestion = { workspace = true }
+sting-sybil-store = { workspace = true }
+sting-sybil-types = { workspace = true }
+arrow = { workspace = true }
+clap = { workspace = true, features = ["env"] }
+petgraph = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[dev-dependencies]
+parquet = { workspace = true, features = ["arrow"] }
+insta = { workspace = true, features = ["json"] }
+proptest = { workspace = true }
+
+[lints]
+workspace = true

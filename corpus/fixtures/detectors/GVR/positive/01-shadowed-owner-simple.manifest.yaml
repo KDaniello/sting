@@ -1,0 +1,8 @@
+# Ground truth for 01-shadowed-owner-simple.tolk — same format as
+# docs/critical/BENCHMARKS.md §2.2.2, reused as-is by Block 03's benchmark
+# harness (not parsed by Block 02's own golden-fixture test, which only
+# checks finding presence/absence — see docs/blocks/02-detectors-v1.md).
+defect_class: GVR
+location: { file: "01-shadowed-owner-simple.tolk", line: 12, column: 9 }
+description: "local `var owner` shadows storage field `owner` of `WalletStorage` — assigning to it looks like updating storage but does not"
+source: "CertiK: Secure Smart Contract Programming in FunC — Top 10 Tips (namespace pollution)"

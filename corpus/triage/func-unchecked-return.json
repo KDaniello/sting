@@ -1,0 +1,51 @@
+{
+  "source": {
+    "name": "the FunC half of the published scope",
+    "targets": 11,
+    "files_func": 121,
+    "fetched": "2026-08-24",
+    "run": "cargo run -p sting-hunt -- --cache target/hunt --json corpus/hunt/first-run.json",
+    "note": "Read in place, never vendored."
+  },
+  "round": 10,
+  "question": "Does UR — a lookup read for its value without its success being consulted — cross to FunC?",
+  "answer": "No. The detector is switched off for the language, by the gate registered before the run.",
+  "totals": {
+    "findings": 3,
+    "true_positives": 0,
+    "false_positives": 3
+  },
+  "why": {
+    "claim_UR_rests_on": "an unfound lookup's value is garbage, not a safe default",
+    "what_FunC_does_instead": "every one of the 39 `?`-suffixed lookup primitives in the standard library ends in NULLSWAPIFNOT, which pushes null in the value's place when the key is absent; the 37 mutating ones (`*_add?`, `*_delete?`, `*_replace?`) return the dictionary unchanged. Neither family produces garbage, so the premise is false in the language rather than unmet in the code.",
+    "consequence": "a miss either throws on the next read — loud, not silent — or is a legitimate sentinel, which is what TEP-81 resolution relies on."
+  },
+  "findings": [
+    {
+      "target": "Nominator pool",
+      "file": "func/pool.fc",
+      "line": 396,
+      "verdict": "false_positive",
+      "cls": "ur-ternary-guarded-consequence-in-func",
+      "note": "`found ? unpack_nominator(nominator) : (0, 0)` — guard form three, which FunC gives no node of its own: the ternary rule is hidden, so the three parts are spliced flat and only the unnamed `?` and `:` mark them."
+    },
+    {
+      "target": "Nominator pool",
+      "file": "func/pool.fc",
+      "line": 448,
+      "verdict": "false_positive",
+      "cls": "ur-ternary-guarded-consequence-in-func",
+      "note": "`found ? (votes_slice~load_dict(), …) : (new_dict(), now())` — the same guard."
+    },
+    {
+      "target": "TON DNS",
+      "file": "func/nft-item.fc",
+      "line": 318,
+      "verdict": "false_positive",
+      "cls": "ur-null-on-miss-is-the-answer",
+      "note": "`dnsresolve` returns the cell `udict_get_ref?` produced without consulting `found`. On a miss that cell is null, and a null record is exactly what TEP-81 resolution means by no such record. The detector's premise does not hold here at all."
+    }
+  ],
+  "kept": "Nothing of the port. Two of the three findings were removable by a real fix — the ternary guard — and the fix was written and measured before the third made the question moot. Code nothing reaches is worse than code that was never written, so it was reverted; the measurement is what survives.",
+  "what_would_reopen_this": "A FunC lookup family whose miss is neither null nor an unchanged input, or a use of a null value that neither throws nor serves as a sentinel. Neither occurs in the 121 files measured."
+}

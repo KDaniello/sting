@@ -1,0 +1,4 @@
+defect_class: AC
+location: { file: "05-unrestricted-code-upgrade.tolk", line: 16, column: 9 }
+description: "`onInternalMessage` replaces the contract's own code via `setContractCodePostponed(code)` with no sender check anywhere on the path — a full, unauthenticated contract takeover"
+source: "hacktheton.com's real, currently-live CTF level `upgrade_level` (docs/PROJECT_REVIEW.md direction 5) — this fixture is the same shape, transcribed to isolate the pattern rather than the exact level source"

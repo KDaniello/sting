@@ -1,0 +1,553 @@
+{
+  "ir_schema_version": "0.2",
+  "source_language": "tolk",
+  "extraction_tier": "compiled",
+  "contract_name": "WalletV5",
+  "metadata": {
+    "author": "The Tolk Team",
+    "version": "5.1",
+    "description": "Wallet V5. Extensible wallet with plugins support"
+  },
+  "storage": 27,
+  "types": [
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "void"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": null,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "slice"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "builder"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "bool"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "coins"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "address"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": false
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 64,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 64,
+        "signed": false
+      }
+    },
+    {
+      "name": "ExtensionActionRequest",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1702392942,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "outActions",
+            "ty": 14
+          },
+          {
+            "name": "hasExtraActions",
+            "ty": 5
+          },
+          {
+            "name": "extraActions",
+            "ty": 22
+          }
+        ]
+      }
+    },
+    {
+      "name": "OutActionsCell",
+      "description": "\"OutActionList\" is what's pushed to c5.",
+      "prefix": null,
+      "shape": {
+        "kind": "alias",
+        "target": 3
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 13
+      }
+    },
+    {
+      "name": "OutActionWithSendMessageOnly",
+      "description": "For instance, it contains \"send message\" actions (the only we allow)\nsee block.tlb: https://github.com/ton-blockchain/ton/blob/5c392e0f2d946877bb79a09ed35068f7b0bd333a/crypto/block/block.tlb#L380",
+      "prefix": {
+        "prefix_num": 247711853,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "prev",
+            "ty": 18
+          },
+          {
+            "name": "sendMode",
+            "ty": 19
+          },
+          {
+            "name": "outMsg",
+            "ty": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "OutActionWithSendMessageOnlyOrEmpty",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "alias",
+        "target": 17
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "union",
+        "variants": [
+          {
+            "ty": 15,
+            "prefix": {
+              "prefix_num": 247711853,
+              "prefix_len": 32
+            },
+            "is_prefix_implicit": false
+          },
+          {
+            "ty": 0,
+            "prefix": {
+              "prefix_num": 0,
+              "prefix_len": 0
+            },
+            "is_prefix_implicit": false
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell_packed",
+        "inner": 16
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 8,
+        "signed": false
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell_packed",
+        "inner": 15
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 20
+      }
+    },
+    {
+      "name": "SnakedExtraActions",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "alias",
+        "target": 23
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "remaining"
+      }
+    },
+    {
+      "name": "InternalSignedRequest",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1936289396,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "walletId",
+            "ty": 9
+          },
+          {
+            "name": "validUntil",
+            "ty": 9
+          },
+          {
+            "name": "seqno",
+            "ty": 9
+          },
+          {
+            "name": "outActions",
+            "ty": 14
+          },
+          {
+            "name": "hasExtraActions",
+            "ty": 5
+          },
+          {
+            "name": "extraActions",
+            "ty": 22
+          }
+        ]
+      }
+    },
+    {
+      "name": "AllowedExternalMessageToWalletV5",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "alias",
+        "target": 26
+      }
+    },
+    {
+      "name": "ExternalSignedRequest",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1936287598,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "walletId",
+            "ty": 9
+          },
+          {
+            "name": "validUntil",
+            "ty": 9
+          },
+          {
+            "name": "seqno",
+            "ty": 9
+          },
+          {
+            "name": "outActions",
+            "ty": 14
+          },
+          {
+            "name": "hasExtraActions",
+            "ty": 5
+          },
+          {
+            "name": "extraActions",
+            "ty": 22
+          }
+        ]
+      }
+    },
+    {
+      "name": "Storage",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isSignatureAllowed",
+            "ty": 5
+          },
+          {
+            "name": "seqno",
+            "ty": 9
+          },
+          {
+            "name": "subwalletId",
+            "ty": 9
+          },
+          {
+            "name": "publicKey",
+            "ty": 28
+          },
+          {
+            "name": "extensions",
+            "ty": 29
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 256,
+        "signed": false
+      }
+    },
+    {
+      "name": "ExtensionsDict",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "alias",
+        "target": 30
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 28,
+        "value": 5
+      }
+    }
+  ],
+  "incoming_internal": [
+    {
+      "ty": 12
+    },
+    {
+      "ty": 24
+    }
+  ],
+  "incoming_external": [
+    {
+      "ty": 25
+    }
+  ],
+  "outgoing": [],
+  "get_methods": [
+    {
+      "tvm_method_id": 88459,
+      "name": "is_signature_allowed",
+      "parameters": [],
+      "return_ty": 5
+    },
+    {
+      "tvm_method_id": 85143,
+      "name": "seqno",
+      "parameters": [],
+      "return_ty": 1
+    },
+    {
+      "tvm_method_id": 81467,
+      "name": "get_subwallet_id",
+      "parameters": [],
+      "return_ty": 1
+    },
+    {
+      "tvm_method_id": 78748,
+      "name": "get_public_key",
+      "parameters": [],
+      "return_ty": 1
+    },
+    {
+      "tvm_method_id": 117729,
+      "name": "get_extensions",
+      "parameters": [],
+      "return_ty": 30
+    }
+  ],
+  "errors": [
+    {
+      "kind": "named",
+      "name": "Errors.SignatureDisabled",
+      "code": 132
+    },
+    {
+      "kind": "named",
+      "name": "Errors.InvalidSeqno",
+      "code": 133
+    },
+    {
+      "kind": "named",
+      "name": "Errors.InvalidWalletId",
+      "code": 134
+    },
+    {
+      "kind": "named",
+      "name": "Errors.InvalidSignature",
+      "code": 135
+    },
+    {
+      "kind": "named",
+      "name": "Errors.Expired",
+      "code": 136
+    },
+    {
+      "kind": "named",
+      "name": "Errors.ExternalSendMessageMustHaveIgnoreErrorsSendMode",
+      "code": 137
+    },
+    {
+      "kind": "named",
+      "name": "Errors.InvalidMessageOperation",
+      "code": 138
+    },
+    {
+      "kind": "named",
+      "name": "Errors.AddExtension",
+      "code": 139
+    },
+    {
+      "kind": "named",
+      "name": "Errors.RemoveExtension",
+      "code": 140
+    },
+    {
+      "kind": "named",
+      "name": "Errors.UnsupportedAction",
+      "code": 141
+    },
+    {
+      "kind": "named",
+      "name": "Errors.DisableSignatureWhenExtensionsIsEmpty",
+      "code": 142
+    },
+    {
+      "kind": "named",
+      "name": "Errors.ThisSignatureModeAlreadySet",
+      "code": 143
+    },
+    {
+      "kind": "named",
+      "name": "Errors.RemoveLastExtensionWhenSignatureDisabled",
+      "code": 144
+    },
+    {
+      "kind": "named",
+      "name": "Errors.ExtensionWrongWorkchain",
+      "code": 145
+    },
+    {
+      "kind": "named",
+      "name": "Errors.OnlyExtensionCanChangeSignatureMode",
+      "code": 146
+    },
+    {
+      "kind": "named",
+      "name": "Errors.InvalidC5",
+      "code": 147
+    }
+  ],
+  "confidence": null,
+  "field_confidence": null
+}

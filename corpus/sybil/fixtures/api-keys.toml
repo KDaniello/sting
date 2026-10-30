@@ -1,0 +1,14 @@
+# Tiers and keys for a local run of the scoring service. Not secrets: these are the values the
+# capability inventory's own command uses, so that the service can be started from a clean clone
+# without anybody inventing a key file first. A deployment supplies its own.
+
+[tiers.local]
+rps_limit = 50.0
+capacity = 50.0
+# The period cap, and a small one on purpose: a local run that never hits it is a local run that
+# never exercises the path a paying caller hits first.
+quota = 100000.0
+quota_window_secs = 86400.0
+
+[keys."local-development-key"]
+tier = "local"

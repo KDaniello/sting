@@ -1,0 +1,17 @@
+{
+  "model_version": "fixture.v1",
+  "trained_at": 1784218209,
+  "algorithm": "xgboost.XGBClassifier",
+  "feature_version": "v1",
+  "threshold": 0.7692573575930904,
+  "precision_floor": 0.9,
+  "calibration_method": "sigmoid",
+  "metrics": {
+    "pr_auc": 1.0,
+    "roc_auc": 1.0,
+    "brier": 0.006425744072351406,
+    "recall_at_precision_floor": 1.0,
+    "rt_batch_mean_abs_diff": 0.07792762068598488
+  },
+  "git_commit": "9e53e5c"
+}

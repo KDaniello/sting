@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "detectors": {
+    "AC": {
+      "true_positives": 22,
+      "false_positives": 45,
+      "false_negatives": 0
+    },
+    "BR": {
+      "true_positives": 46,
+      "false_positives": 0,
+      "false_negatives": 0
+    },
+    "EPS": {
+      "true_positives": 45,
+      "false_positives": 0,
+      "false_negatives": 0
+    },
+    "GVR": {
+      "true_positives": 21,
+      "false_positives": 3,
+      "false_negatives": 0
+    },
+    "ID": {
+      "true_positives": 8,
+      "false_positives": 0,
+      "false_negatives": 0
+    },
+    "LEP": {
+      "true_positives": 17,
+      "false_positives": 29,
+      "false_negatives": 0
+    },
+    "PL": {
+      "true_positives": 46,
+      "false_positives": 0,
+      "false_negatives": 0
+    },
+    "SUA": {
+      "true_positives": 45,
+      "false_positives": 0,
+      "false_negatives": 0
+    },
+    "TLB": {
+      "true_positives": 16,
+      "false_positives": 0,
+      "false_negatives": 0
+    },
+    "UBM": {
+      "true_positives": 23,
+      "false_positives": 8,
+      "false_negatives": 0
+    },
+    "UDA": {
+      "true_positives": 33,
+      "false_positives": 2,
+      "false_negatives": 0
+    },
+    "UR": {
+      "true_positives": 46,
+      "false_positives": 1,
+      "false_negatives": 0
+    },
+    "UTA": {
+      "true_positives": 45,
+      "false_positives": 0,
+      "false_negatives": 0
+    }
+  }
+}

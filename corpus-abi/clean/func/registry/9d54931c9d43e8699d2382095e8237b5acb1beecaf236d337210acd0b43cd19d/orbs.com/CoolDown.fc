@@ -1,0 +1,18 @@
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/classlib.fc";
+
+const int CoolDown::NAME = "CoolDown"u;
+
+const int CoolDown::cooldownDuration = 0;
+
+cell CoolDown::New(int cooldownDuration) inline method_id {
+    return cl::declare(
+        CoolDown::NAME,
+        unsafeTuple([
+            [cl::t::uint64, cooldownDuration]
+        ])
+    );
+}
+
+int CoolDown::getCooldownDuration(cell $self) impure inline {
+    return $self.cl::get<uint64>(CoolDown::cooldownDuration);
+}

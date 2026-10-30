@@ -1,0 +1,26 @@
+{
+  "name": "a liquidator short of the whole position never realises the loss",
+  "registered": "2026-08-19",
+  "statement": "Across a sweep of the morpho-unrealised-loss scenario, in which every run gaps the price far below the point where these positions become insolvent and a liquidator attempts a seizure on every tick, no run realises any loss against the supply side at all: the highest written_off any run reaches is zero.",
+  "basis": "The mechanism, not a previous sweep. Morpho writes debt off against the supply side in one circumstance only — a seizure that leaves the position's collateral at exactly zero while it still owes. A liquidator that takes a fixed share f of what remains seizes floor(C · f), and floor(C · f) = C requires f >= 1, so for any f strictly below the whole and any C >= 1 it leaves at least one base unit standing. The collateral is therefore strictly positive after every attempt it can make, and once C is small enough that floor(C · f) is zero the attempt seizes nothing and stops. Nothing in that argument is the depth of the fall or the number of attempts: at capacity_bps 9999 the first seizure of a hundred million base units leaves ten thousand, the second leaves one, and the third seizes nothing, for a gap of forty percent as much as for one of sixty. The scenario sweeps nine strata from 7000 down to 4000 basis points, every one of them far below the 8246.35 basis points at which these positions become insolvent, so at a capacity of the whole every run would write off; the claim is that one basis point short of the whole, none does. What that costs a reader is the loss itself: the positions are under-collateralised in every one of these runs, and the market's own accounts record nothing.",
+  "applies_to": {
+    "scenario": "morpho-unrealised-loss",
+    "seed": 13,
+    "n_runs": 900,
+    "n_ticks": 120
+  },
+  "zones": [
+    {
+      "metric": "written_off",
+      "statistic": "max",
+      "at_least": "1",
+      "says": "refuted"
+    },
+    {
+      "metric": "written_off",
+      "statistic": "max",
+      "at_most": "0",
+      "says": "confirmed"
+    }
+  ]
+}

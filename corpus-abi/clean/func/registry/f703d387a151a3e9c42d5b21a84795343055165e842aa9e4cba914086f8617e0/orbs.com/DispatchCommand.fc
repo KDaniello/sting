@@ -1,0 +1,52 @@
+#include "../../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/classlib.fc";
+
+;; required storage name
+const int md::DispatchCommand::NAME = "dsptchCmd"u;
+
+;; struct ExecuteParam {
+;;     uint32 vid; // no vid?
+;;     address target;
+;;     bytes callData;
+;;     uint256 expiration;
+;; }
+
+;; field names
+const int md::DispatchCommand::target = 0;
+const int md::DispatchCommand::callData = 1;
+const int md::DispatchCommand::expiration = 2;
+const int md::DispatchCommand::opcode = 3;
+const int md::DispatchCommand::tonAmount = 4;
+const int md::DispatchCommand::extraData = 5;
+
+cell md::DispatchCommand::New(
+    int target,
+    cell callData,
+    int expiration,
+    int opcode,
+    int tonAmount,
+    cell extraData
+) method_id {
+    return cl::declare(
+        md::DispatchCommand::NAME,
+        unsafeTuple([
+            [cl::t::address, target],             ;; md::DispatchCommand::target
+            [cl::t::objRef, callData],            ;; md::DispatchCommand::callData
+            [cl::t::uint64, expiration],          ;; md::DispatchCommand::expiration
+            [cl::t::uint32, opcode],              ;; md::DispatchCommand::opcode
+            [cl::t::coins, tonAmount],            ;; md::DispatchCommand::tonAmount
+            [cl::t::objRef, extraData]            ;; md::DispatchCommand::extraData
+        ])
+    );
+}
+
+
+cell md::DispatchCommand::sanitize(cell $DispatchCommand) method_id {
+    return md::DispatchCommand::New(
+        $DispatchCommand.cl::get<address>(md::DispatchCommand::target),
+        $DispatchCommand.cl::get<objRef>(md::DispatchCommand::callData),
+        $DispatchCommand.cl::get<uint64>(md::DispatchCommand::expiration),
+        $DispatchCommand.cl::get<uint32>(md::DispatchCommand::opcode),
+        $DispatchCommand.cl::get<coins>(md::DispatchCommand::tonAmount),
+        $DispatchCommand.cl::get<objRef>(md::DispatchCommand::extraData)
+    );
+}

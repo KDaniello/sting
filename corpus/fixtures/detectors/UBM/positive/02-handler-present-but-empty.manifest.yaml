@@ -1,0 +1,4 @@
+defect_class: UBM
+location: { file: "02-handler-present-but-empty.tolk", line: 12, column: 9 }
+description: "`onBouncedMessage` exists but only returns — it never touches storage, so the save before the bounceable send is still never reverted"
+source: "CertiK: Secure Smart Contract Programming in FunC — Top 10 Tips (Jetton-wallet partial-execution pattern)"

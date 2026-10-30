@@ -1,0 +1,321 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "verifier_Jackpot.headers.fc";
+#include "verifier_Jackpot.stdlib.fc";
+#include "verifier_Jackpot.constants.fc";
+#include "verifier_Jackpot.storage.fc";
+
+;;
+;; Contract Jackpot functions
+;;
+
+(slice, int, int, int, int, cell, cell, int, int) $Jackpot$_contract_init(slice $owner, int $bet_min, int $players_max) impure inline_ref {
+    var (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)) = (null(), 5, null(), null(), 0, null(), null(), 0, 0);
+    $self'owner = $owner;
+    $self'bet_min = $bet_min;
+    $self'players_max = $players_max;
+    return ($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket);
+}
+
+tuple $global_DictGetMin(cell $dict) impure inline_ref {
+    var ($pair'key, $pair'value, $pair'flag) = idict_get_min?($dict, 257);
+    if ($pair'flag) {
+        return $DictPair$_as_optional($DictPair$_constructor_key_value(__tact_not_null($pair'key), __tact_not_null($pair'value)));
+    } else {
+        return null();
+    }
+}
+
+tuple $global_DictGetNext(cell $dict, int $pivot) impure inline_ref {
+    var ($pair'key, $pair'value, $pair'flag) = idict_get_next?($dict, 257, $pivot);
+    if ($pair'flag) {
+        return $DictPair$_as_optional($DictPair$_constructor_key_value(__tact_not_null($pair'key), __tact_not_null($pair'value)));
+    } else {
+        return null();
+    }
+}
+
+((slice, int, int, int, int, cell, cell, int, int), int) $Jackpot$_fun_IsPlayerInGame((slice, int, int, int, int, cell, cell, int, int) $self, slice $address) impure inline_ref {
+    var (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)) = $self;
+    if ((~ null?($Player$_load_opt(__tact_dict_get_slice_cell($self'players_list, 267, $address))))) {
+        return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), true);
+    } else {
+        return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), false);
+    }
+}
+
+((slice, int, int, int, int, cell, cell, int, int), ()) $Jackpot$_fun_CleanUp((slice, int, int, int, int, cell, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)) = $self;
+    $self'players_list = null();
+    $self'players_nav_list = null();
+    $self'players_current = 0;
+    $self'locked_balance = 0;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), ());
+}
+
+((slice, int, int, int, int, cell, cell, int, int), int) $Jackpot$_fun_get_bet_min((slice, int, int, int, int, cell, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)) = $self;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), $self'bet_min);
+}
+
+((slice, int, int, int, int, cell, cell, int, int), int) $Jackpot$_fun_get_players_max((slice, int, int, int, int, cell, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)) = $self;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), $self'players_max);
+}
+
+((slice, int, int, int, int, cell, cell, int, int), int) $Jackpot$_fun_get_players_current((slice, int, int, int, int, cell, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)) = $self;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), $self'players_current);
+}
+
+((slice, int, int, int, int, cell, cell, int, int), int) $Jackpot$_fun_get_locked_balance((slice, int, int, int, int, cell, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)) = $self;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), $self'locked_balance);
+}
+
+((slice, int, int, int, int, cell, cell, int, int), int) $Jackpot$_fun_get_winner_ticket((slice, int, int, int, int, cell, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)) = $self;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), $self'winner_ticket);
+}
+
+((slice, int, int, int, int, cell, cell, int, int), int) $Jackpot$_fun_get_fee_percent((slice, int, int, int, int, cell, cell, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)) = $self;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), $self'fee_percent);
+}
+
+;;
+;; Receivers of a Contract Jackpot
+;;
+
+(((slice, int, int, int, int, cell, cell, int, int)), ()) $Jackpot$_internal_binary_OwnerCashout((slice, int, int, int, int, cell, cell, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket) = $self;
+    var ($msg'value) = $msg;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    throw_unless(42133, ( __tact_slice_eq_bits($self'owner, $ctx'sender) ));
+    throw_unless(5462, ($msg'value > 0));
+    throw_unless(30737, ((__tact_my_balance() - ($self'locked_balance + 5000000000)) > $msg'value));
+    $global_send($SendParameters$_constructor_to_value_mode_bounce_body($self'owner, $msg'value, 2, true, __gen_cell_comment_e535b81014706678771ebdbe0008d74d1484377c4ea1e811628c6ae9d6d7052d()));
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), ());
+}
+
+(((slice, int, int, int, int, cell, cell, int, int)), ()) $Jackpot$_internal_binary_SetPlayersMax((slice, int, int, int, int, cell, cell, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket) = $self;
+    var ($msg'new_players_max) = $msg;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    throw_unless(42133, ( __tact_slice_eq_bits($self'owner, $ctx'sender) ));
+    throw_unless(16129, ($msg'new_players_max <= 100));
+    throw_unless(53502, ($msg'new_players_max > 0));
+    $self'players_max = $msg'new_players_max;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), ());
+}
+
+(((slice, int, int, int, int, cell, cell, int, int)), ()) $Jackpot$_internal_binary_SetBetMin((slice, int, int, int, int, cell, cell, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket) = $self;
+    var ($msg'new_bet_min) = $msg;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    throw_unless(42133, ( __tact_slice_eq_bits($self'owner, $ctx'sender) ));
+    throw_unless(27922, ($msg'new_bet_min <= 100000000000));
+    throw_unless(2325, ($msg'new_bet_min > 0));
+    $self'bet_min = $msg'new_bet_min;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), ());
+}
+
+(((slice, int, int, int, int, cell, cell, int, int)), ()) $Jackpot$_internal_binary_SetFeePercent((slice, int, int, int, int, cell, cell, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket) = $self;
+    var ($msg'fee_percent) = $msg;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    throw_unless(42133, ( __tact_slice_eq_bits($self'owner, $ctx'sender) ));
+    throw_unless(22902, ($msg'fee_percent <= 5));
+    throw_unless(18428, ($msg'fee_percent > 1));
+    $self'fee_percent = $msg'fee_percent;
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), ());
+}
+
+(((slice, int, int, int, int, cell, cell, int, int)), ()) %$Jackpot$_internal_empty((slice, int, int, int, int, cell, cell, int, int) $self) impure inline {
+    var ($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket) = $self;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    throw_unless(15612, (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)~$Jackpot$_fun_IsPlayerInGame($ctx'sender) == false));
+    throw_unless(19324, ($ctx'value >= $self'bet_min));
+    int $from_ticket = (($self'locked_balance + 100000) / 100000);
+    $self'locked_balance = ($self'locked_balance + ($ctx'value - 20000000));
+    int $to_ticket = ($self'locked_balance / 100000);
+    $self'players_list~__tact_dict_set_slice_cell(267, $ctx'sender, $Player$_store_cell($Player$_constructor_address_bet_ticket_start_ticket_end($ctx'sender, $ctx'value, $from_ticket, $to_ticket)));
+    $self'players_current = ($self'players_current + 1);
+    $self'players_nav_list~__tact_dict_set_int_slice(257, slice_hash(__tact_address_to_slice($ctx'sender)), $ctx'sender);
+    if (($self'players_current >= $self'players_max)) {
+        randomize_lt();
+        int $totalTickets = ($self'locked_balance / 100000);
+        int $winnerticket = $global_random(0, $totalTickets);
+        $self'winner_ticket = $winnerticket;
+        tuple $foundPair = $global_DictGetMin($self'players_nav_list);
+        var ($winner'address, $winner'ticket) = $Winner$_constructor_address_ticket($self'owner, $totalTickets);
+        while ((~ null?($foundPair))) {
+            tuple $player = $Player$_load_opt(__tact_dict_get_slice_cell($self'players_list, 267, $DictPair$_get_value($DictPair$_not_null($foundPair))));
+            int $num = abs(($winnerticket - $Player$_get_ticket_start($Player$_not_null($player))));
+            if (($num < $winner'ticket)) {
+                $winner'address = $Player$_get_address($Player$_not_null($player));
+                $winner'ticket = $num;
+            }
+            $num = abs(($winnerticket - $Player$_get_ticket_end($Player$_not_null($player))));
+            if (($num < $winner'ticket)) {
+                $winner'address = $Player$_get_address($Player$_not_null($player));
+                $winner'ticket = $num;
+            }
+            $foundPair = $global_DictGetNext($self'players_nav_list, $DictPair$_get_key($DictPair$_not_null($foundPair)));
+        }
+        tuple $playerWinner = $Player$_load_opt(__tact_dict_get_slice_cell($self'players_list, 267, $winner'address));
+        $global_send($SendParameters$_constructor_to_value_mode_bounce_body($Player$_get_address($Player$_not_null($playerWinner)), (((($self'locked_balance - $Player$_get_bet($Player$_not_null($playerWinner))) / 100) * (100 - $self'fee_percent)) + $Player$_get_bet($Player$_not_null($playerWinner))), 2, false, __gen_cell_comment_bc2ede25bb37ac4fb2be64272fb8a567e004a4d369a63a081283eab61fa0e883()));
+        ($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)~$Jackpot$_fun_CleanUp();
+    }
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), ());
+}
+
+(((slice, int, int, int, int, cell, cell, int, int)), ()) $Jackpot$_internal_binary_Deploy((slice, int, int, int, int, cell, cell, int, int) $self, (int) $deploy) impure inline {
+    var ($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket)~$Jackpot$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'owner, $self'fee_percent, $self'bet_min, $self'players_max, $self'players_current, $self'players_list, $self'players_nav_list, $self'locked_balance, $self'winner_ticket), ());
+}
+
+;;
+;; Get methods of a Contract Jackpot
+;;
+
+_ %get_bet_min() method_id(95410) {
+    var self = $Jackpot$_contract_load();
+    var res = self~$Jackpot$_fun_get_bet_min();
+    return res;
+}
+
+_ %get_players_max() method_id(116682) {
+    var self = $Jackpot$_contract_load();
+    var res = self~$Jackpot$_fun_get_players_max();
+    return res;
+}
+
+_ %get_players_current() method_id(107020) {
+    var self = $Jackpot$_contract_load();
+    var res = self~$Jackpot$_fun_get_players_current();
+    return res;
+}
+
+_ %get_locked_balance() method_id(83575) {
+    var self = $Jackpot$_contract_load();
+    var res = self~$Jackpot$_fun_get_locked_balance();
+    return res;
+}
+
+_ %get_winner_ticket() method_id(85653) {
+    var self = $Jackpot$_contract_load();
+    var res = self~$Jackpot$_fun_get_winner_ticket();
+    return res;
+}
+
+_ %get_fee_percent() method_id(68801) {
+    var self = $Jackpot$_contract_load();
+    var res = self~$Jackpot$_fun_get_fee_percent();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmemmYzbcjiXDsgkgMdo5SX7CSiC6g47Lkia6bCnvZKqCr";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract Jackpot
+;;
+
+((slice, int, int, int, int, cell, cell, int, int), int) $Jackpot$_contract_router_internal((slice, int, int, int, int, cell, cell, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive OwnerCashout message
+    if (op == 1543663676) {
+        var msg = in_msg~$OwnerCashout$_load();
+        self~$Jackpot$_internal_binary_OwnerCashout(msg);
+        return (self, true);
+    }
+    
+    ;; Receive SetPlayersMax message
+    if (op == 1077438057) {
+        var msg = in_msg~$SetPlayersMax$_load();
+        self~$Jackpot$_internal_binary_SetPlayersMax(msg);
+        return (self, true);
+    }
+    
+    ;; Receive SetBetMin message
+    if (op == 2140069610) {
+        var msg = in_msg~$SetBetMin$_load();
+        self~$Jackpot$_internal_binary_SetBetMin(msg);
+        return (self, true);
+    }
+    
+    ;; Receive SetFeePercent message
+    if (op == 285412494) {
+        var msg = in_msg~$SetFeePercent$_load();
+        self~$Jackpot$_internal_binary_SetFeePercent(msg);
+        return (self, true);
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (slice_bits(in_msg) <= 32)) {
+        self~%$Jackpot$_internal_empty();
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$Jackpot$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $Jackpot$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$Jackpot$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $Jackpot$_contract_store(self);
+}

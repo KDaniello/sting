@@ -1,0 +1,23 @@
+[package]
+name = "karman-reference"
+description = "Level 0: the on-chain reference executed on revm, and the corpus it produces"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+alloy-sol-types = { workspace = true }
+sting-karman-data = { workspace = true }
+sting-karman-core = { workspace = true }
+sting-karman-mech-lending = { workspace = true }
+sting-karman-types = { workspace = true }
+sting-karman-verify = { workspace = true }
+revm = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

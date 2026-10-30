@@ -1,0 +1,41 @@
+[package]
+name = "sting-fuzz-targets"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+# Empty table: opts this crate OUT of the root workspace at ../../../Cargo.toml
+# (Cargo would otherwise walk up and try to join it, since this directory is
+# nested inside that workspace's tree) — standard cargo-fuzz convention for
+# exactly this "fuzz/ lives inside a real workspace" layout.
+[workspace]
+
+# Deliberately NOT a member of the root workspace: cargo-fuzz needs nightly-only flags
+# (-Z sanitizer=address, coverage instrumentation) that would otherwise leak
+# into every `cargo build`/`clippy`/`test` invocation across the whole
+# workspace. sting-fuzz (the parent crate, ../Cargo.toml) is a workspace
+# member and builds on stable; only this fuzz/ project requires nightly.
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+arbitrary = { version = "1.4.2", features = ["derive"] }
+libfuzzer-sys = "0.4.13"
+sting-emulator = { path = "../../sting-emulator" }
+sting-emulator-sys = { path = "../../sting-emulator-sys" }
+sting-fuzz = { path = ".." }
+
+[[bin]]
+name = "fuzz_send_message"
+path = "fuzz_targets/fuzz_send_message.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_tx_sequence"
+path = "fuzz_targets/fuzz_tx_sequence.rs"
+test = false
+doc = false
+bench = false

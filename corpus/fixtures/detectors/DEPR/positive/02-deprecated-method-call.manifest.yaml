@@ -1,0 +1,4 @@
+defect_class: DEPR
+location: { file: "02-deprecated-method-call.tolk", line: 2, column: 19 }
+description: "`sender.bitsEqual(owner)` is a deprecated method — Tolk's own stdlib marks it @deprecated, in favor of plain `sender == owner`"
+source: "ton-blockchain/ton, crypto/smartcont/tolk-stdlib/common.tolk (checked 2026-07-20) — see docs/REFERENCES.md's Tolk stdlib deprecations section"

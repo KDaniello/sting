@@ -1,0 +1,48 @@
+[files]
+extend-exclude = [
+  "LICENSE-APACHE",
+  "docs/ru/**",
+  # Third-party contract sources and the artefacts derived from them. A corpus is evidence: it is
+  # quoted as it was found on chain, and correcting a spelling in it would change the evidence.
+  "corpus/**",
+  "corpus-abi/**",
+  "crates/*/tests/fixtures/**",
+  "vendor/**",
+  "coverage-data/**",
+  # The measuring instrument's own working directory: logs, reports and research notes, none of
+  # which the platform ships.
+  "tools/**",
+  # Separate workspaces, each with its own configuration and its own gate. The root check does not
+  # reach into them.
+  "karman/**",
+  "sybil/**",
+]
+
+[default]
+# An address is not prose. A user-friendly TON address is base64url and a raw one is hex, so both
+# contain letter pairs a spell checker reads as misspelled words wherever a measurement quotes one.
+extend-ignore-re = [
+  "[EU]Q[A-Za-z0-9_-]{46}",
+  "-1:[0-9a-fA-F]{64}",
+  "0:[0-9a-fA-F]{64}",
+]
+
+[default.extend-words]
+# Domain vocabulary a spell checker dislikes.
+sting = "sting"
+tolk = "tolk"
+Tolk = "Tolk"
+# TON's own spelling of the cell serialisation format, and of the wallet standard family.
+boc = "boc"
+# Small and medium enterprise, in a sentence about who buys.
+SME = "SME"
+# A project of this owner's, named the way it is named.
+hepler = "hepler"
+# How the checker splits CertiK, the auditor cited by name.
+Certi = "Certi"
+# "mis-encoding", "mis-parse": an English prefix, not a misspelling of "miss".
+mis = "mis"
+# An institute named in a citation. A name is quoted, never corrected.
+IIT = "IIT"
+# Both spellings are in use; the code uses this one consistently.
+unparseable = "unparseable"

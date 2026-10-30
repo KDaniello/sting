@@ -1,0 +1,4 @@
+defect_class: UTA
+location: { file: "02-cross-function-transfer.tolk", line: 13, column: 5 }
+description: "the real hacktheton.com token_level shape: `onInternalMessage` reads `amount` via `.loadInt` (signed) and passes it into `transfer`, which debits `fromBalance` and credits `toBalance` by it but only validates `fromBalance` afterwards"
+source: "hacktheton.com's real, currently-live CTF level `token_level` (docs/PROJECT_REVIEW.md direction 5) — this fixture is the same shape, transcribed to isolate the pattern rather than the exact level source"

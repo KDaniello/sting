@@ -1,0 +1,171 @@
+[
+  {
+    "code_hash": "0285e0ba8e03b38a80a5baf9198ad840510ac835af1e3bfe2ceac7eceba592c5",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/02/85e0ba8e03b38a80a5baf9198ad840510ac835af1e3bfe2ceac7eceba592c5/verifier.ton.org/sources/offchain-offer-v3.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-0285e0ba8e03/Offchain-offer-v3.tolk",
+    "methods": [
+      "get_offchain_offer_v2"
+    ]
+  },
+  {
+    "code_hash": "08ba3f29715325cdfa2f28a0b77d2f3a4dbcbbf7e90d5d3e2e657b3edf8e7f7b",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/08/ba3f29715325cdfa2f28a0b77d2f3a4dbcbbf7e90d5d3e2e657b3edf8e7f7b/verifier.ton.org/sources/job_factory.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-08ba3f297153/Job_factory.tolk",
+    "methods": [
+      "get_job_address",
+      "get_next_job_id",
+      "version"
+    ]
+  },
+  {
+    "code_hash": "1167ecdc98b61e8252a0b941b63fb49691747148e44a590b9e4585ec18acdbfd",
+    "verifier": "orbs.com",
+    "original_path": "verified/11/67ecdc98b61e8252a0b941b63fb49691747148e44a590b9e4585ec18acdbfd/orbs.com/sources/jetton_wallet.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-1167ecdc98b6/Jetton_wallet.tolk",
+    "methods": [
+      "get_wallet_data"
+    ]
+  },
+  {
+    "code_hash": "1167ecdc98b61e8252a0b941b63fb49691747148e44a590b9e4585ec18acdbfd",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/11/67ecdc98b61e8252a0b941b63fb49691747148e44a590b9e4585ec18acdbfd/verifier.ton.org/sources/jetton_wallet.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-1167ecdc98b6/Jetton_wallet.tolk",
+    "methods": [
+      "get_wallet_data"
+    ]
+  },
+  {
+    "code_hash": "21eabd3331276c532778ad3fdcb5b78e5cf2ffefbc0a6dc3c64b7e237c8db621",
+    "verifier": "orbs.com",
+    "original_path": "verified/21/eabd3331276c532778ad3fdcb5b78e5cf2ffefbc0a6dc3c64b7e237c8db621/orbs.com/sources/contracts/test_counter.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-21eabd333127/Test_counter.tolk",
+    "methods": [
+      "currentCounter",
+      "initialId"
+    ]
+  },
+  {
+    "code_hash": "269a2f3c572713d01df310ba0d4e89ae6bcba9ed333f68c0a04569f5636c80c7",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/26/9a2f3c572713d01df310ba0d4e89ae6bcba9ed333f68c0a04569f5636c80c7/verifier.ton.org/sources/contracts/nobios_registry.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-269a2f3c5727/Nobios_registry.tolk",
+    "methods": [
+      "dnsresolve",
+      "get_domain_info",
+      "get_price",
+      "get_total_registered",
+      "is_expired"
+    ]
+  },
+  {
+    "code_hash": "34652d2253aa8f9cba7dff8e69faeba104d2843c0297cf7bd5969f0e299e98af",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/34/652d2253aa8f9cba7dff8e69faeba104d2843c0297cf7bd5969f0e299e98af/verifier.ton.org/sources/contracts/simple_subdomains_storage.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-34652d2253aa/Simple_subdomains_storage.tolk",
+    "methods": [
+      "dnsresolve",
+      "getallrecords"
+    ]
+  },
+  {
+    "code_hash": "45e0895153e1d0b6d5afeeb91c7017e5d63d091fd726ddc593c1b94a5ef714ab",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/45/e0895153e1d0b6d5afeeb91c7017e5d63d091fd726ddc593c1b94a5ef714ab/verifier.ton.org/sources/contracts/verifier.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-45e0895153e1/Verifier.tolk",
+    "methods": [
+      "verify"
+    ]
+  },
+  {
+    "code_hash": "944845cf18609beb1f4277492828ad10e7618c83abfb3594e88ec8d98c1fa461",
+    "verifier": "orbs.com",
+    "original_path": "verified/94/4845cf18609beb1f4277492828ad10e7618c83abfb3594e88ec8d98c1fa461/orbs.com/sources/jetton_master.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-944845cf1860/Jetton_master.tolk",
+    "methods": [
+      "get_jetton_data",
+      "get_wallet_address"
+    ]
+  },
+  {
+    "code_hash": "944845cf18609beb1f4277492828ad10e7618c83abfb3594e88ec8d98c1fa461",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/94/4845cf18609beb1f4277492828ad10e7618c83abfb3594e88ec8d98c1fa461/verifier.ton.org/sources/jetton_master.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-944845cf1860/Jetton_master.tolk",
+    "methods": [
+      "get_jetton_data",
+      "get_wallet_address"
+    ]
+  },
+  {
+    "code_hash": "a7445d26500b4d0947cebbf6231ae5ad466ad3b9ea35234b8f3a9d49929f4112",
+    "verifier": "orbs.com",
+    "original_path": "verified/a7/445d26500b4d0947cebbf6231ae5ad466ad3b9ea35234b8f3a9d49929f4112/orbs.com/sources/contracts/simple_subdomains_storage.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-a7445d26500b/Simple_subdomains_storage.tolk",
+    "methods": [
+      "dnsresolve",
+      "getallrecords"
+    ]
+  },
+  {
+    "code_hash": "a7445d26500b4d0947cebbf6231ae5ad466ad3b9ea35234b8f3a9d49929f4112",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/a7/445d26500b4d0947cebbf6231ae5ad466ad3b9ea35234b8f3a9d49929f4112/verifier.ton.org/sources/simple_subdomains_storage.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-a7445d26500b/Simple_subdomains_storage.tolk",
+    "methods": [
+      "dnsresolve",
+      "getallrecords"
+    ]
+  },
+  {
+    "code_hash": "a96de2aeb1c54cb799a1a2ecdeffed6717768212ec02e20d7f6df0f536b74437",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/a9/6de2aeb1c54cb799a1a2ecdeffed6717768212ec02e20d7f6df0f536b74437/verifier.ton.org/sources/jetton_job.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-a96de2aeb1c5/Jetton_job.tolk",
+    "methods": [
+      "get_job_data",
+      "get_state"
+    ]
+  },
+  {
+    "code_hash": "ae11944b42b45eda6c4de619534b47dc2b4094c6c02198db18cf006b09b2ab14",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/ae/11944b42b45eda6c4de619534b47dc2b4094c6c02198db18cf006b09b2ab14/verifier.ton.org/sources/job.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-ae11944b42b4/Job.tolk",
+    "methods": [
+      "get_job_data",
+      "get_state"
+    ]
+  },
+  {
+    "code_hash": "ed127401a02e22de56e609622ba4dba0f130d5b757a4cca8911c5cc5e4fb8fcb",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/ed/127401a02e22de56e609622ba4dba0f130d5b757a4cca8911c5cc5e4fb8fcb/verifier.ton.org/sources/toncast_swap_proxy.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-ed127401a02e/Toncast_swap_proxy.tolk",
+    "methods": [
+      "initialId"
+    ]
+  },
+  {
+    "code_hash": "f0449dca7dd58b13607508839087668196aaef2c7df9ef5fe5b73e0a9177255e",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/f0/449dca7dd58b13607508839087668196aaef2c7df9ef5fe5b73e0a9177255e/verifier.ton.org/sources/offchain-offer-v3.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-f0449dca7dd5/Offchain-offer-v3.tolk",
+    "methods": [
+      "get_offchain_offer_v2"
+    ]
+  },
+  {
+    "code_hash": "fa379bbcc24ff3120b56886bac49475d1f8a996bc747b18f42b4c6df5a0370d3",
+    "verifier": "verifier.ton.org",
+    "original_path": "verified/fa/379bbcc24ff3120b56886bac49475d1f8a996bc747b18f42b4c6df5a0370d3/verifier.ton.org/sources/jetton_job_factory.tolk",
+    "vendored_path": "corpus-abi/clean/tolk/registry-fa379bbcc24f/Jetton_job_factory.tolk",
+    "methods": [
+      "get_job_address",
+      "get_next_job_id",
+      "version"
+    ]
+  }
+]

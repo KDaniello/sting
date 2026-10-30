@@ -1,0 +1,104 @@
+name: Release
+
+# Triggered by a `v*` tag push. Builds `sting-cli` for three platforms — four jobs, since macOS
+# builds both architectures — and publishes them as release assets with SHA-256 checksums.
+# libemulator is deliberately not bundled: it is a large, platform-specific binary owned by
+# ton-blockchain/ton and released on its own cadence, so the release body tells the reader where to
+# get it instead.
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: macos-latest
+            target: aarch64-apple-darwin
+          - os: macos-latest
+            target: x86_64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+      - run: cargo build --release --locked -p sting-cli --target ${{ matrix.target }}
+
+      - name: Package (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          stage="sting-${{ github.ref_name }}-${{ matrix.target }}"
+          mkdir -p "$stage"
+          cp "target/${{ matrix.target }}/release/sting" "$stage/"
+          cp README.md "$stage/"
+          cp docs/domains/emulator.md "$stage/GETTING_LIBEMULATOR.md"
+          tar czf "${stage}.tar.gz" "$stage"
+          shasum -a 256 "${stage}.tar.gz" > "${stage}.tar.gz.sha256"
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $stage = "sting-${{ github.ref_name }}-${{ matrix.target }}"
+          New-Item -ItemType Directory -Path $stage | Out-Null
+          Copy-Item "target/${{ matrix.target }}/release/sting.exe" "$stage/"
+          Copy-Item README.md "$stage/"
+          Copy-Item docs/domains/emulator.md "$stage/GETTING_LIBEMULATOR.md"
+          Compress-Archive -Path $stage -DestinationPath "$stage.zip"
+          $hash = (Get-FileHash "$stage.zip" -Algorithm SHA256).Hash.ToLower()
+          "$hash  $stage.zip" | Out-File -Encoding ascii "$stage.zip.sha256"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sting-${{ matrix.target }}
+          path: |
+            sting-*.tar.gz
+            sting-*.tar.gz.sha256
+            sting-*.zip
+            sting-*.zip.sha256
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+          body: |
+            ## Getting `libemulator`
+
+            Release archives ship the `sting` binary only — `libemulator`
+            (the real TON TVM binary `sting scan` needs) is fetched
+            separately, from `ton-blockchain/ton`'s own releases. See
+            [`docs/domains/emulator.md`](https://github.com/${{ github.repository }}/blob/main/docs/domains/emulator.md)
+            §4 for the pinned tag, the asset per platform and where to place it.
+
+            Verify a downloaded archive against its `.sha256` file, e.g.:
+            ```sh
+            shasum -a 256 -c sting-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz.sha256
+            ```

@@ -1,0 +1,18 @@
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/classlib.fc";
+
+const int Vesting::NAME = "Vesting"u;
+
+const int Vesting::vestingDuration = 0;
+
+cell Vesting::New(int vestingDuration) inline method_id {
+    return cl::declare(
+        Vesting::NAME,
+        unsafeTuple([
+            [cl::t::uint64, vestingDuration]
+        ])
+    );
+}
+
+int Vesting::getVestingDuration(cell $self) impure inline {
+    return $self.cl::get<uint64>(Vesting::vestingDuration);
+}

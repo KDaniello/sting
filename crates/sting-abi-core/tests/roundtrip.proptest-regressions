@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc f1891150ee1abf70ca21d1a2e4e7758dd7e279f435f0e703dd9eefec5476dd65 # shrinks to schema = ContractSchema { ir_schema_version: "0.1", source_language: Tolk, extraction_tier: Compiled, contract_name: None, metadata: ContractMetadata { author: None, version: None, description: None }, storage: None, types: [NamedType { name: None, description: None, opcode: None, shape: Nullable(TypeRef(0)) }], incoming_internal: [], incoming_external: [], outgoing: [], get_methods: [], errors: [], confidence: None }

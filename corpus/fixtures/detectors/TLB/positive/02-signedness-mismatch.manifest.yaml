@@ -1,0 +1,4 @@
+defect_class: TLB
+location: { file: "02-signedness-mismatch.tolk", line: 2, column: 25 }
+description: "`save` writes `balance` as storeInt(.., 64) (signed) but `load` reads it back as loadUint(64) (unsigned) — a negative balance is misread as a large positive number"
+source: "sting project review 2026-07-19, direction 4 (TL-B (de)serialization mismatch, distinct from ID's order-only check)"

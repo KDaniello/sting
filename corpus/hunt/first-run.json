@@ -1,0 +1,2300 @@
+{
+  "schema_version": "1.0",
+  "reach": {
+    "targets": [
+      {
+        "target": "Simplex, Validator Node, Full Node, DHT Node",
+        "tier": "core",
+        "programme": "TON security bug bounty",
+        "commit": "3d478cbde854be03a18ab2a59f8fc3c565cf7d14",
+        "unresolved": null,
+        "files_in_scope": 1562,
+        "files_readable": 0,
+        "readable": [],
+        "unmatched_paths": [],
+        "excluded": {
+          "blockchain-explorer": 7,
+          "crypto/fift": 27,
+          "crypto/func": 171,
+          "crypto/smartcont": 72,
+          "http": 15,
+          "rldp-http-proxy": 4,
+          "storage": 52,
+          "tolk": 91,
+          "tolk-tester": 658,
+          "tonlib": 57
+        },
+        "extensions": {
+          "ans": 1,
+          "bat": 6,
+          "boc": 4,
+          "c": 2,
+          "cmake": 20,
+          "cpp": 492,
+          "fif": 46,
+          "gradle": 3,
+          "gz": 2,
+          "h": 489,
+          "hpp": 120,
+          "in": 2,
+          "jar": 1,
+          "java": 4,
+          "js": 1,
+          "json": 5,
+          "kt": 1,
+          "lgpl": 1,
+          "lock": 3,
+          "md": 23,
+          "nix": 8,
+          "no extension": 51,
+          "php": 3,
+          "png": 1,
+          "pro": 1,
+          "properties": 2,
+          "py": 129,
+          "rs": 3,
+          "sh": 24,
+          "svg": 2,
+          "tex": 4,
+          "tl": 4,
+          "tlb": 18,
+          "toml": 3,
+          "txt": 50,
+          "typed": 7,
+          "xml": 2,
+          "yaml": 5,
+          "yml": 19
+        }
+      },
+      {
+        "target": "Network config, elector, simple and v3 wallets",
+        "tier": "standard-contracts",
+        "programme": "TON security bug bounty",
+        "commit": "3d478cbde854be03a18ab2a59f8fc3c565cf7d14",
+        "unresolved": null,
+        "files_in_scope": 4,
+        "files_readable": 4,
+        "readable": [
+          "crypto/smartcont/config-code.fc",
+          "crypto/smartcont/elector-code.fc",
+          "crypto/smartcont/simple-wallet-code.fc",
+          "crypto/smartcont/wallet3-code.fc"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "fc": 4
+        }
+      },
+      {
+        "target": "Wallet V4 and subscriptions",
+        "tier": "standard-contracts",
+        "programme": "TON security bug bounty",
+        "commit": "68b56dc0f7f6a9d41a190a4c91f6dc68b18f0600",
+        "unresolved": null,
+        "files_in_scope": 7,
+        "files_readable": 2,
+        "readable": [
+          "func/stdlib.fc",
+          "func/wallet-v4-code.fc"
+        ],
+        "unmatched_paths": [],
+        "excluded": {
+          "func/simple-subscription-plugin.fc": 1
+        },
+        "extensions": {
+          "fc": 2,
+          "fif": 1,
+          "md": 1,
+          "no extension": 2,
+          "sh": 1
+        }
+      },
+      {
+        "target": "Multisig V2",
+        "tier": "standard-contracts",
+        "programme": "TON security bug bounty",
+        "commit": "9a4b13df6345c9c4068ca725e434b40f9ea5ca28",
+        "unresolved": null,
+        "files_in_scope": 47,
+        "files_readable": 10,
+        "readable": [
+          "contracts/auto/order_code.func",
+          "contracts/errors.func",
+          "contracts/helper/librarian.func",
+          "contracts/imports/stdlib.fc",
+          "contracts/messages.func",
+          "contracts/multisig.func",
+          "contracts/op-codes.func",
+          "contracts/order.func",
+          "contracts/order_helpers.func",
+          "contracts/types.func"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "example": 1,
+          "fc": 1,
+          "func": 9,
+          "iml": 1,
+          "json": 6,
+          "md": 3,
+          "no extension": 4,
+          "pdf": 2,
+          "tlb": 1,
+          "ts": 16,
+          "xml": 3
+        }
+      },
+      {
+        "target": "Highload V3",
+        "tier": "standard-contracts",
+        "programme": "TON security bug bounty",
+        "commit": "f5d9b592bd5ab5c9ae6ca627819929e140f6bd61",
+        "unresolved": null,
+        "files_in_scope": 23,
+        "files_readable": 2,
+        "readable": [
+          "contracts/highload-wallet-v3.func",
+          "contracts/imports/stdlib.fc"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "fc": 1,
+          "fif": 1,
+          "func": 1,
+          "json": 4,
+          "md": 1,
+          "no extension": 5,
+          "pdf": 1,
+          "tlb": 1,
+          "ts": 8
+        }
+      },
+      {
+        "target": "Nominator pool",
+        "tier": "standard-contracts",
+        "programme": "TON security bug bounty",
+        "commit": "2f35c36b5ad662f10fd7b01ef780c3f1949c399d",
+        "unresolved": null,
+        "files_in_scope": 69,
+        "files_readable": 3,
+        "readable": [
+          "func/pool.fc",
+          "func/stdlib.fc",
+          "toncli-tests/tests.fc"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "fc": 3,
+          "fif": 12,
+          "js": 47,
+          "md": 2,
+          "no extension": 2,
+          "sh": 2,
+          "yaml": 1
+        }
+      },
+      {
+        "target": "Fungible, non-fungible and semi-fungible tokens",
+        "tier": "standard-contracts",
+        "programme": "TON security bug bounty",
+        "commit": "1182ad99413242f09925d50e70ccb7e0e09f94d4",
+        "unresolved": null,
+        "files_in_scope": 56,
+        "files_readable": 19,
+        "readable": [
+          "ft/discovery-params.fc",
+          "ft/jetton-discovery.fc",
+          "ft/jetton-minter-ICO.fc",
+          "ft/jetton-minter-discoverable.fc",
+          "ft/jetton-minter.fc",
+          "ft/jetton-utils.fc",
+          "ft/jetton-wallet.fc",
+          "ft/op-codes.fc",
+          "ft/params.fc",
+          "misc/forward-fee-calc.fc",
+          "nft/nft-collection-editable.fc",
+          "nft/nft-collection.fc",
+          "nft/nft-item-editable-DRAFT.fc",
+          "nft/nft-item.fc",
+          "nft/nft-marketplace.fc",
+          "nft/nft-sale.fc",
+          "nft/op-codes.fc",
+          "nft/params.fc",
+          "stdlib.fc"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "addr": 1,
+          "boc": 1,
+          "fc": 19,
+          "fif": 16,
+          "js": 1,
+          "json": 2,
+          "md": 1,
+          "no extension": 2,
+          "sh": 2,
+          "ts": 11
+        }
+      },
+      {
+        "target": "TON DNS",
+        "tier": "standard-contracts",
+        "programme": "TON security bug bounty",
+        "commit": "d08131031fb659d2826cccc417ddd9b98476f814",
+        "unresolved": null,
+        "files_in_scope": 36,
+        "files_readable": 7,
+        "readable": [
+          "func/dns-utils.fc",
+          "func/nft-collection.fc",
+          "func/nft-item.fc",
+          "func/op-codes.fc",
+          "func/params.fc",
+          "func/root-dns.fc",
+          "func/stdlib.fc"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "fc": 7,
+          "fif": 4,
+          "js": 20,
+          "md": 1,
+          "no extension": 2,
+          "sh": 2
+        }
+      },
+      {
+        "target": "MyTonCtrl validator tools",
+        "tier": "tools",
+        "programme": "TON security bug bounty",
+        "commit": "64c2aa946a4e5925c2ac983f7acad4c846f55c44",
+        "unresolved": null,
+        "files_in_scope": 137,
+        "files_readable": 1,
+        "readable": [
+          "mytoncore/contracts/single-nominator-pool/single-nominator-code.fc"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "fc": 1,
+          "fif": 10,
+          "hex": 1,
+          "in": 1,
+          "json": 1,
+          "md": 3,
+          "no extension": 2,
+          "py": 98,
+          "sh": 17,
+          "tlb": 1,
+          "toml": 1,
+          "yml": 1
+        }
+      },
+      {
+        "target": "HTTP API",
+        "tier": "tools",
+        "programme": "TON security bug bounty",
+        "commit": "4b4e54fc2045a1d708cf98f91648a6927e1faa24",
+        "unresolved": null,
+        "files_in_scope": 27,
+        "files_readable": 0,
+        "readable": [],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "md": 2,
+          "no extension": 4,
+          "py": 10,
+          "sh": 5,
+          "txt": 1,
+          "yaml": 3,
+          "yml": 2
+        }
+      },
+      {
+        "target": "Python SDK",
+        "tier": "tools",
+        "programme": "TON security bug bounty",
+        "commit": "391861fec0602f0f0ddd86312089eb28e07246f2",
+        "unresolved": null,
+        "files_in_scope": 28,
+        "files_readable": 0,
+        "readable": [],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "dll": 1,
+          "dockerfile": 1,
+          "dylib": 2,
+          "ipynb": 1,
+          "md": 1,
+          "no extension": 3,
+          "py": 12,
+          "so": 3,
+          "txt": 2,
+          "yaml": 1,
+          "yml": 1
+        }
+      },
+      {
+        "target": "STON.fi DEX v1.0.0",
+        "tier": "ecosystem",
+        "programme": "STON.fi Bug Bounty",
+        "commit": "b124d4e02d6d32b8d178702a538500f145ba564e",
+        "unresolved": null,
+        "files_in_scope": 4,
+        "files_readable": 4,
+        "readable": [
+          "contracts/lp_account.func",
+          "contracts/lp_wallet.func",
+          "contracts/pool.func",
+          "contracts/router.func"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "func": 4
+        }
+      },
+      {
+        "target": "EVAA lending contracts",
+        "tier": "ecosystem",
+        "programme": "EVAA, HackenProof",
+        "commit": null,
+        "unresolved": "assets listed on a platform this run cannot read",
+        "files_in_scope": 0,
+        "files_readable": 0,
+        "readable": [],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {}
+      },
+      {
+        "target": "Torch Stable Swap",
+        "tier": "ecosystem",
+        "programme": "Torch Finance Bug Bounty",
+        "commit": "bb9d1673864f9b1676645ea17eaffb4f29252722",
+        "unresolved": null,
+        "files_in_scope": 44,
+        "files_readable": 44,
+        "readable": [
+          "contracts/base_contract/main.fc",
+          "contracts/base_contract/storages.fc",
+          "contracts/common/constants.fc",
+          "contracts/common/deploy_contracts/adapter.fc",
+          "contracts/common/deploy_contracts/utils.fc",
+          "contracts/common/deposit/adapter.fc",
+          "contracts/common/errors.fc",
+          "contracts/common/gas.fc",
+          "contracts/common/opcode.fc",
+          "contracts/common/swap/adapter.fc",
+          "contracts/common/utils.fc",
+          "contracts/common/withdraw/adapter.fc",
+          "contracts/common/workchain.fc",
+          "contracts/factory/constants.fc",
+          "contracts/factory/logs.fc",
+          "contracts/factory/main.fc",
+          "contracts/factory/storages.fc",
+          "contracts/factory/utils.fc",
+          "contracts/jetton/gas.fc",
+          "contracts/jetton/jetton_utils.fc",
+          "contracts/jetton/jetton_wallet.fc",
+          "contracts/jetton/opcodes.fc",
+          "contracts/lp_account/constants.fc",
+          "contracts/lp_account/main.fc",
+          "contracts/lp_account/storages.fc",
+          "contracts/pools/algorithms/curve_algorithm.fc",
+          "contracts/pools/base_pool/constants.fc",
+          "contracts/pools/base_pool/main.fc",
+          "contracts/pools/getters.fc",
+          "contracts/pools/handler.fc",
+          "contracts/pools/logs.fc",
+          "contracts/pools/meta_pool/constants.fc",
+          "contracts/pools/meta_pool/main.fc",
+          "contracts/pools/parser.fc",
+          "contracts/pools/refund.fc",
+          "contracts/pools/storages.fc",
+          "contracts/pools/utils.fc",
+          "contracts/vaults/jetton_vault/constants.fc",
+          "contracts/vaults/jetton_vault/main.fc",
+          "contracts/vaults/jetton_vault/storages.fc",
+          "contracts/vaults/ton_vault/constants.fc",
+          "contracts/vaults/ton_vault/main.fc",
+          "contracts/vaults/ton_vault/storages.fc",
+          "contracts/vaults/utils.fc"
+        ],
+        "unmatched_paths": [],
+        "excluded": {
+          "contracts/imports": 1,
+          "contracts/mock": 2
+        },
+        "extensions": {
+          "fc": 44
+        }
+      },
+      {
+        "target": "Telegram USD, tgUSD",
+        "tier": "ecosystem",
+        "programme": "Torch Finance Bug Bounty",
+        "commit": "e643ad49d13a593bfcce442a408d83de447634cf",
+        "unresolved": null,
+        "files_in_scope": 58,
+        "files_readable": 57,
+        "readable": [
+          "contracts/common/child-contract.tolk",
+          "contracts/common/constants.tolk",
+          "contracts/common/exit-codes.tolk",
+          "contracts/common/gas.tolk",
+          "contracts/common/gasUsed.tolk",
+          "contracts/common/guard.tolk",
+          "contracts/common/log.tolk",
+          "contracts/common/op-codes.tolk",
+          "contracts/common/recipient.tolk",
+          "contracts/common/refund.tolk",
+          "contracts/common/send.tolk",
+          "contracts/common/serdes.tolk",
+          "contracts/common/tmp-opcode.fc",
+          "contracts/common/types.tolk",
+          "contracts/jetton/gas.fc",
+          "contracts/jetton/jetton-minter.fc",
+          "contracts/jetton/jetton-utils.fc",
+          "contracts/jetton/jetton-wallet.fc",
+          "contracts/jetton/op-codes.fc",
+          "contracts/jetton/stdlib.fc",
+          "contracts/jetton/workchain.fc",
+          "contracts/library/address.tolk",
+          "contracts/library/fee.tolk",
+          "contracts/library/log.tolk",
+          "contracts/library/merkle.tolk",
+          "contracts/library/message.tolk",
+          "contracts/redeem-account/gas.tolk",
+          "contracts/redeem-account/gasUsed.tolk",
+          "contracts/redeem-account/guard.tolk",
+          "contracts/redeem-account/main.tolk",
+          "contracts/redeem-account/serdes.tolk",
+          "contracts/redeem-account/storage.tolk",
+          "contracts/tgusd-engine/balance.tolk",
+          "contracts/tgusd-engine/gas.tolk",
+          "contracts/tgusd-engine/gasUsed.tolk",
+          "contracts/tgusd-engine/guard.tolk",
+          "contracts/tgusd-engine/handler.tolk",
+          "contracts/tgusd-engine/log.tolk",
+          "contracts/tgusd-engine/main.tolk",
+          "contracts/tgusd-engine/serdes.tolk",
+          "contracts/tgusd-engine/storage.tolk",
+          "contracts/tgusd-staking/gas.tolk",
+          "contracts/tgusd-staking/gasUsed.tolk",
+          "contracts/tgusd-staking/guard.tolk",
+          "contracts/tgusd-staking/handler.tolk",
+          "contracts/tgusd-staking/log.tolk",
+          "contracts/tgusd-staking/main.tolk",
+          "contracts/tgusd-staking/serdes.tolk",
+          "contracts/tgusd-staking/shares.tolk",
+          "contracts/tgusd-staking/storage.tolk",
+          "contracts/tgusd-staking/vest.tolk",
+          "contracts/unstake-account/gas.tolk",
+          "contracts/unstake-account/gasUsed.tolk",
+          "contracts/unstake-account/guard.tolk",
+          "contracts/unstake-account/main.tolk",
+          "contracts/unstake-account/serdes.tolk",
+          "contracts/unstake-account/storage.tolk"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "fc": 8,
+          "tlb": 1,
+          "tolk": 49
+        }
+      },
+      {
+        "target": "Ton Whales nominator pool",
+        "tier": "ecosystem",
+        "programme": "Ton Whales Bounty Program",
+        "commit": "0553e1b6ddfc5c0b60505957505ce58d01bec3e7",
+        "unresolved": null,
+        "files_in_scope": 19,
+        "files_readable": 17,
+        "readable": [
+          "compiled/nominators.fc",
+          "compiled/proxy.fc",
+          "sources/modules/constants.fc",
+          "sources/modules/get.fc",
+          "sources/modules/model.fc",
+          "sources/modules/op-common.fc",
+          "sources/modules/op-controller.fc",
+          "sources/modules/op-nominators.fc",
+          "sources/modules/op-owner.fc",
+          "sources/modules/store-base.fc",
+          "sources/modules/store-nominators.fc",
+          "sources/modules/store-validator.fc",
+          "sources/modules/utils-config-mock.fc",
+          "sources/modules/utils-config.fc",
+          "sources/modules/utils.fc",
+          "sources/nominators.fc",
+          "sources/proxy.fc"
+        ],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {
+          "fc": 17,
+          "md": 1,
+          "no extension": 1
+        }
+      },
+      {
+        "target": "Tonkeeper products and services",
+        "tier": "ecosystem",
+        "programme": "Tonkeeper Bug Bounty",
+        "commit": null,
+        "unresolved": "products and services, no repository named",
+        "files_in_scope": 0,
+        "files_readable": 0,
+        "readable": [],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {}
+      },
+      {
+        "target": "TON web services",
+        "tier": "frontend",
+        "programme": "TON Society, HackenProof",
+        "commit": null,
+        "unresolved": "sites and frontend, reported through the platform",
+        "files_in_scope": 0,
+        "files_readable": 0,
+        "readable": [],
+        "unmatched_paths": [],
+        "excluded": {},
+        "extensions": {}
+      }
+    ],
+    "readable_targets": 12,
+    "total_targets": 18,
+    "readable_files": 170,
+    "total_files": 2121,
+    "excluded_files": 1158
+  },
+  "runs": [
+    {
+      "target": "Network config, elector, simple and v3 wallets",
+      "programme": "TON security bug bounty",
+      "commit": "3d478cbde854be03a18ab2a59f8fc3c565cf7d14",
+      "files_expected": 4,
+      "files_analysed": 4,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "crypto/smartcont/config-code.fc",
+          "line": 151,
+          "message": "function `unpack_validator_descr` reads `slice` parameter `cs` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "crypto/smartcont/config-code.fc",
+          "line": 235,
+          "message": "function `update_proposal_status` reads `slice` parameter `rest` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "crypto/smartcont/config-code.fc",
+          "line": 383,
+          "message": "function `register_voting_proposal` reads `slice` parameter `cs` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "crypto/smartcont/elector-code.fc",
+          "line": 144,
+          "message": "function `unpack_validator_descr` reads `slice` parameter `cs` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    },
+    {
+      "target": "Wallet V4 and subscriptions",
+      "programme": "TON security bug bounty",
+      "commit": "68b56dc0f7f6a9d41a190a4c91f6dc68b18f0600",
+      "files_expected": 2,
+      "files_analysed": 2,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "func/wallet-v4-code.fc",
+          "line": 8,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    },
+    {
+      "target": "Multisig V2",
+      "programme": "TON security bug bounty",
+      "commit": "9a4b13df6345c9c4068ca725e434b40f9ea5ca28",
+      "files_expected": 10,
+      "files_analysed": 10,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/multisig.func",
+          "line": 84,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    },
+    {
+      "target": "Highload V3",
+      "programme": "TON security bug bounty",
+      "commit": "f5d9b592bd5ab5c9ae6ca627819929e140f6bd61",
+      "files_expected": 2,
+      "files_analysed": 2,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/highload-wallet-v3.func",
+          "line": 29,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    },
+    {
+      "target": "Nominator pool",
+      "programme": "TON security bug bounty",
+      "commit": "2f35c36b5ad662f10fd7b01ef780c3f1949c399d",
+      "files_expected": 3,
+      "files_analysed": 3,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "func/pool.fc",
+          "line": 153,
+          "message": "function `unpack_nominator` reads `slice` parameter `ds` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "func/pool.fc",
+          "line": 170,
+          "message": "function `unpack_config` reads `slice` parameter `ds` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    },
+    {
+      "target": "Fungible, non-fungible and semi-fungible tokens",
+      "programme": "TON security bug bounty",
+      "commit": "1182ad99413242f09925d50e70ccb7e0e09f94d4",
+      "files_expected": 19,
+      "files_analysed": 19,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "ft/jetton-discovery.fc",
+          "line": 18,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "ft/jetton-minter-ICO.fc",
+          "line": 39,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "ft/jetton-minter-discoverable.fc",
+          "line": 43,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "ft/jetton-minter.fc",
+          "line": 42,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "ft/jetton-wallet.fc",
+          "line": 108,
+          "message": "function `receive_tokens` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "ft/jetton-wallet.fc",
+          "line": 163,
+          "message": "function `burn_tokens` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "ft/jetton-wallet.fc",
+          "line": 197,
+          "message": "function `on_bounce` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "nft/nft-collection-editable.fc",
+          "line": 70,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "nft/nft-collection.fc",
+          "line": 70,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "nft/nft-marketplace.fc",
+          "line": 20,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "nft/nft-sale.fc",
+          "line": 84,
+          "message": "function `recv_internal` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    },
+    {
+      "target": "TON DNS",
+      "programme": "TON security bug bounty",
+      "commit": "d08131031fb659d2826cccc417ddd9b98476f814",
+      "files_expected": 7,
+      "files_analysed": 7,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "func/dns-utils.fc",
+          "line": 22,
+          "message": "function `get_top_domain_bits` reads `slice` parameter `domain` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "func/dns-utils.fc",
+          "line": 36,
+          "message": "function `read_domain_from_comment` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    },
+    {
+      "target": "MyTonCtrl validator tools",
+      "programme": "TON security bug bounty",
+      "commit": "64c2aa946a4e5925c2ac983f7acad4c846f55c44",
+      "files_expected": 1,
+      "files_analysed": 1,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": []
+    },
+    {
+      "target": "STON.fi DEX v1.0.0",
+      "programme": "STON.fi Bug Bounty",
+      "commit": "b124d4e02d6d32b8d178702a538500f145ba564e",
+      "files_expected": 4,
+      "files_analysed": 4,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/lp_wallet.func",
+          "line": 51,
+          "message": "function `receive_tokens` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/lp_wallet.func",
+          "line": 100,
+          "message": "function `burn_tokens` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/lp_wallet.func",
+          "line": 131,
+          "message": "function `on_bounce` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    },
+    {
+      "target": "Torch Stable Swap",
+      "programme": "Torch Finance Bug Bounty",
+      "commit": "bb9d1673864f9b1676645ea17eaffb4f29252722",
+      "files_expected": 44,
+      "files_analysed": 44,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/base_contract/main.fc",
+          "line": 20,
+          "message": "function `route_internal` reads `slice` parameter `ctx::body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/jetton/jetton_wallet.fc",
+          "line": 73,
+          "message": "function `receive_jettons` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/jetton/jetton_wallet.fc",
+          "line": 130,
+          "message": "function `on_bounce` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/pools/utils.fc",
+          "line": 63,
+          "message": "function `unpack_swap_next` reads `slice` parameter `next_slice` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/pools/utils.fc",
+          "line": 79,
+          "message": "function `unpack_deposit_next` reads `slice` parameter `next_slice` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/pools/utils.fc",
+          "line": 95,
+          "message": "function `unpack_withdraw_next` reads `slice` parameter `next_slice` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    },
+    {
+      "target": "Telegram USD, tgUSD",
+      "programme": "Torch Finance Bug Bounty",
+      "commit": "e643ad49d13a593bfcce442a408d83de447634cf",
+      "files_expected": 57,
+      "files_analysed": 57,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/log.tolk",
+          "line": 4,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/log.tolk",
+          "line": 5,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/log.tolk",
+          "line": 6,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/log.tolk",
+          "line": 7,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/log.tolk",
+          "line": 12,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/log.tolk",
+          "line": 21,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/log.tolk",
+          "line": 29,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 4,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 8,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 9,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 10,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 12,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 13,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 14,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 17,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 18,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 19,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 20,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 21,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 22,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 23,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 24,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 25,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 26,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 27,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 28,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 29,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 30,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 31,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 32,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 33,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 34,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 35,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 38,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 39,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 40,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 41,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 42,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 43,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 44,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 45,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 46,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 47,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 48,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 49,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 52,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 55,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 56,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 57,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/op-codes.tolk",
+          "line": 58,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/send.tolk",
+          "line": 74,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/send.tolk",
+          "line": 73,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/send.tolk",
+          "line": 118,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/send.tolk",
+          "line": 117,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/send.tolk",
+          "line": 129,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/send.tolk",
+          "line": 128,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 79,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 78,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 115,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 114,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 128,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 127,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 139,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 138,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 150,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 149,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 162,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 161,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 171,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 181,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/common/serdes.tolk",
+          "line": 180,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/jetton/jetton-wallet.fc",
+          "line": 89,
+          "message": "function `receive_jettons` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/jetton/jetton-wallet.fc",
+          "line": 185,
+          "message": "function `on_bounce` reads `slice` parameter `in_msg_body` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/redeem-account/main.tolk",
+          "line": 28,
+          "message": "function `routeInternal` reads `slice` parameter `ctxSender` but does not call `.assertEnd()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/redeem-account/main.tolk",
+          "line": 28,
+          "message": "function `routeInternal` reads `slice` parameter `ctxBody` but does not call `.assertEnd()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "AC",
+          "severity": "Medium",
+          "file": "contracts/redeem-account/main.tolk",
+          "line": 221,
+          "message": "function `onInternalMessage` calls `routeInternal()` with no recognized check first; `routeInternal` mutates storage on some path with no guard of its own — an unauthenticated caller may reach it"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/redeem-account/main.tolk",
+          "line": 31,
+          "message": "`loadMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/redeem-account/main.tolk",
+          "line": 106,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/redeem-account/main.tolk",
+          "line": 190,
+          "message": "`setContractCodePostponed` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/redeem-account/main.tolk",
+          "line": 194,
+          "message": "`getContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/redeem-account/main.tolk",
+          "line": 196,
+          "message": "`setContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/redeem-account/main.tolk",
+          "line": 209,
+          "message": "`loadMessageFlags` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/redeem-account/serdes.tolk",
+          "line": 36,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/redeem-account/serdes.tolk",
+          "line": 35,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/redeem-account/storage.tolk",
+          "line": 14,
+          "message": "`getContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/redeem-account/storage.tolk",
+          "line": 30,
+          "message": "`setContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 8,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 9,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 10,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 11,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 12,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 13,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 14,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 15,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 16,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 17,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 18,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 19,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 20,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 21,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 22,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 23,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 24,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 29,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 40,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 50,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 61,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 70,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 80,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 91,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 113,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 124,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 135,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 144,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 153,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 162,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/log.tolk",
+          "line": 171,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "AC",
+          "severity": "Medium",
+          "file": "contracts/tgusd-engine/main.tolk",
+          "line": 914,
+          "message": "function `onInternalMessage` calls `routeInternal()` with no recognized check first; `routeInternal` mutates storage on some path with no guard of its own — an unauthenticated caller may reach it"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/main.tolk",
+          "line": 40,
+          "message": "`loadMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/main.tolk",
+          "line": 486,
+          "message": "`reserveToncoinsOnBalance` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-engine/main.tolk",
+          "line": 750,
+          "message": "`setContractCodePostponed` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-engine/main.tolk",
+          "line": 754,
+          "message": "`getContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-engine/main.tolk",
+          "line": 756,
+          "message": "`setContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/main.tolk",
+          "line": 841,
+          "message": "`createEmptyTuple` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/main.tolk",
+          "line": 902,
+          "message": "`loadMessageFlags` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 12,
+          "message": "`createEmptyTuple` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 217,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 216,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 226,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 225,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 234,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 247,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 246,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 256,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-engine/serdes.tolk",
+          "line": 255,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-engine/storage.tolk",
+          "line": 19,
+          "message": "`getContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-engine/storage.tolk",
+          "line": 46,
+          "message": "`setContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/guard.tolk",
+          "line": 156,
+          "message": "function `requireJettonMasterAddressNotTaken` reads `slice` parameter `tgUSDJettonWallet` but does not call `.assertEnd()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/guard.tolk",
+          "line": 156,
+          "message": "function `requireJettonMasterAddressNotTaken` reads `slice` parameter `stgUSDJettonWallet` but does not call `.assertEnd()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 4,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 5,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 6,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 7,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 8,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 9,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 10,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 11,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 12,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 13,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 14,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 15,
+          "message": "`stringCrc32` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 20,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 31,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 48,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 74,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 95,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 119,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 140,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 151,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 161,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 173,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/log.tolk",
+          "line": 182,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "AC",
+          "severity": "Medium",
+          "file": "contracts/tgusd-staking/main.tolk",
+          "line": 695,
+          "message": "function `onInternalMessage` calls `routeInternal()` with no recognized check first; `routeInternal` mutates storage on some path with no guard of its own — an unauthenticated caller may reach it"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/main.tolk",
+          "line": 36,
+          "message": "`loadMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/main.tolk",
+          "line": 356,
+          "message": "`reserveToncoinsOnBalance` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-staking/main.tolk",
+          "line": 561,
+          "message": "`setContractCodePostponed` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-staking/main.tolk",
+          "line": 565,
+          "message": "`getContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-staking/main.tolk",
+          "line": 567,
+          "message": "`setContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/main.tolk",
+          "line": 683,
+          "message": "`loadMessageFlags` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/serdes.tolk",
+          "line": 95,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/serdes.tolk",
+          "line": 94,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/serdes.tolk",
+          "line": 105,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/serdes.tolk",
+          "line": 104,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/serdes.tolk",
+          "line": 118,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/tgusd-staking/serdes.tolk",
+          "line": 117,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-staking/storage.tolk",
+          "line": 24,
+          "message": "`getContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/tgusd-staking/storage.tolk",
+          "line": 60,
+          "message": "`setContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/unstake-account/main.tolk",
+          "line": 29,
+          "message": "function `routeInternal` reads `slice` parameter `ctxSender` but does not call `.assertEnd()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "contracts/unstake-account/main.tolk",
+          "line": 29,
+          "message": "function `routeInternal` reads `slice` parameter `ctxBody` but does not call `.assertEnd()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "AC",
+          "severity": "Medium",
+          "file": "contracts/unstake-account/main.tolk",
+          "line": 166,
+          "message": "function `onInternalMessage` calls `routeInternal()` with no recognized check first; `routeInternal` mutates storage on some path with no guard of its own — an unauthenticated caller may reach it"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/unstake-account/main.tolk",
+          "line": 32,
+          "message": "`loadMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/unstake-account/main.tolk",
+          "line": 134,
+          "message": "`setContractCodePostponed` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/unstake-account/main.tolk",
+          "line": 138,
+          "message": "`getContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/unstake-account/main.tolk",
+          "line": 140,
+          "message": "`setContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/unstake-account/main.tolk",
+          "line": 154,
+          "message": "`loadMessageFlags` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/unstake-account/serdes.tolk",
+          "line": 29,
+          "message": "`storeMessageQueryId` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Info",
+          "file": "contracts/unstake-account/serdes.tolk",
+          "line": 28,
+          "message": "`storeMessageOp` is deprecated in Tolk's own standard library"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/unstake-account/storage.tolk",
+          "line": 11,
+          "message": "`getContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        },
+        {
+          "detector": "DEPR",
+          "severity": "Low",
+          "file": "contracts/unstake-account/storage.tolk",
+          "line": 22,
+          "message": "`setContractData` no longer exists in Tolk's standard library — this is not just discouraged, it will not compile with any current Tolk toolchain"
+        }
+      ]
+    },
+    {
+      "target": "Ton Whales nominator pool",
+      "programme": "Ton Whales Bounty Program",
+      "commit": "0553e1b6ddfc5c0b60505957505ce58d01bec3e7",
+      "files_expected": 17,
+      "files_analysed": 17,
+      "unparsed": [],
+      "unreadable": [],
+      "hits": [
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "compiled/nominators.fc",
+          "line": 1069,
+          "message": "function `op_update` reads `slice` parameter `in_msg` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "compiled/nominators.fc",
+          "line": 1239,
+          "message": "function `op_elector_stake_response_fail` reads `slice` parameter `in_msg` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "compiled/nominators.fc",
+          "line": 1726,
+          "message": "function `op_nominators` reads `slice` parameter `in_msg` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "sources/modules/op-common.fc",
+          "line": 130,
+          "message": "function `op_update` reads `slice` parameter `in_msg` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "sources/modules/op-controller.fc",
+          "line": 98,
+          "message": "function `op_elector_stake_response_fail` reads `slice` parameter `in_msg` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        },
+        {
+          "detector": "LEP",
+          "severity": "Info",
+          "file": "sources/modules/op-nominators.fc",
+          "line": 1,
+          "message": "function `op_nominators` reads `slice` parameter `in_msg` but does not call `.end_parse()` on every path — trailing data the caller attached would be silently ignored"
+        }
+      ]
+    }
+  ]
+}

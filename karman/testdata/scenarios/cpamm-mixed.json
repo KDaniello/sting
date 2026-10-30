@@ -1,0 +1,33 @@
+{
+  "name": "cpamm-mixed",
+  "seed": 42,
+  "n_ticks": 500,
+  "mechanism": {
+    "kind": "cpamm",
+    "token_reserve": "1000000000",
+    "quote_reserve": "1000000000"
+  },
+  "agents": [
+    { "count": 5, "behaviour": { "kind": "noise_trader", "trade_cap": 1000000 } },
+    {
+      "count": 2,
+      "behaviour": {
+        "kind": "arbitrageur",
+        "reference_quote": "1000000",
+        "reference_token": "1000000",
+        "volatility_bps": 30,
+        "entry_band_bps": 30,
+        "aggression_bps": 50
+      }
+    },
+    {
+      "count": 3,
+      "behaviour": {
+        "kind": "momentum_trader",
+        "lookback_ticks": 20,
+        "entry_band_bps": 50,
+        "aggression_bps": 20
+      }
+    }
+  ]
+}

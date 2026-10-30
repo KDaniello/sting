@@ -1,0 +1,247 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "verifier_LotteryGame.headers.fc";
+#include "verifier_LotteryGame.stdlib.fc";
+#include "verifier_LotteryGame.constants.fc";
+#include "verifier_LotteryGame.storage.fc";
+
+;;
+;; Contract LotteryGame functions
+;;
+
+(int, slice, slice, (int, int), (int, cell, cell, int), int, int) $LotteryGame$_contract_init(int $seqno, slice $comissionAddress, int $ticketPrice, int $comissionAmount) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)) = (null(), null(), null(), null(), null(), 0, 0);
+    $self'seqno = $seqno;
+    $self'owner = __tact_context_get_sender();
+    $self'comissionAddress = $comissionAddress;
+    ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket) = $LotteryState$_constructor_status_players_tickets_winnerTicket(0, null(), null(), null());
+    ($self'meta'ticketPrice, $self'meta'comissionAmount) = $LotteryMeta$_constructor_ticketPrice_comissionAmount($ticketPrice, $comissionAmount);
+    return ($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount);
+}
+
+((int, slice, slice, (int, int), (int, cell, cell, int), int, int), int) $LotteryGame$_fun_isAlreadyParticipate((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self, slice $address) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)) = $self;
+    int $i = 0;
+    while (($i < $self'playersCount)) {
+        if (( __tact_slice_eq_bits_nullable_one(__tact_dict_get_int_slice($self'state'players, 257, $i), $address) )) {
+            return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), true);
+        }
+        $i = ($i + 1);
+    }
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), false);
+}
+
+((int, slice, slice, (int, int), (int, cell, cell, int), int, int), (int, cell, cell, int)) $LotteryGame$_fun_state((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)) = $self;
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket));
+}
+
+((int, slice, slice, (int, int), (int, cell, cell, int), int, int), (int, int)) $LotteryGame$_fun_meta((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)) = $self;
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), ($self'meta'ticketPrice, $self'meta'comissionAmount));
+}
+
+((int, slice, slice, (int, int), (int, cell, cell, int), int, int), ()) $LotteryGame$_fun_requireOwner((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), ());
+}
+
+((int, slice, slice, (int, int), (int, cell, cell, int), int, int), slice) $LotteryGame$_fun_owner((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self) impure inline_ref {
+    var (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)) = $self;
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), $self'owner);
+}
+
+;;
+;; Receivers of a Contract LotteryGame
+;;
+
+((int, slice, slice, (int, int), (int, cell, cell, int), int, int), ()) $LotteryGame$_internal_text_4d8341714fb86201fe188814bb31a1d8f5e10c6d5072ac464b93f8f2f10a37d9((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount) = $self;
+    int $value = $Context$_get_value(__tact_context_get());
+    throw_unless(54648, ($self'state'status != 1));
+    throw_unless(11636, ($value >= $self'meta'ticketPrice));
+    throw_unless(45843, (($value % $self'meta'ticketPrice) == 0));
+    if ((($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)~$LotteryGame$_fun_isAlreadyParticipate(__tact_context_get_sender()) == false)) {
+        $self'state'players~__tact_dict_set_int_slice(257, $self'playersCount, __tact_context_get_sender());
+        $self'playersCount = ($self'playersCount + 1);
+    }
+    int $ticketsCount = ($value / $self'meta'ticketPrice);
+    int $i = 0;
+    while (($i < $ticketsCount)) {
+        $self'state'tickets~__tact_dict_set_int_slice(257, ($self'ticketsCount + 1), __tact_context_get_sender());
+        $self'ticketsCount = ($self'ticketsCount + 1);
+        $i = ($i + 1);
+    }
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), ());
+}
+
+((int, slice, slice, (int, int), (int, cell, cell, int), int, int), ()) $LotteryGame$_internal_text_19825c746c8d39f3b99a97e6353a4b860db0491d663e91ae2a36e6baf1a0fd96((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount) = $self;
+    throw_unless(5243, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    throw_unless(46933, ($self'state'status == 0));
+    randomize_lt();
+    int $wonAmount = ((($self'ticketsCount * $self'meta'ticketPrice) * (100 - $self'meta'comissionAmount)) / 100);
+    int $winnerTicket = $global_random(1, ($self'ticketsCount + 1));
+    slice $winner = __tact_not_null(__tact_dict_get_int_slice($self'state'tickets, 257, $winnerTicket));
+    $self'state'winnerTicket = $winnerTicket;
+    $self'state'status = 1;
+    $global_send($SendParameters$_constructor_to_bounce_value_body_mode($winner, false, $wonAmount, __gen_cell_comment_bf094b41c4092bfb0f639d2e2dd42a895e6b5468ba0fae241967e9be371a4b0d(), 2));
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), ());
+}
+
+((int, slice, slice, (int, int), (int, cell, cell, int), int, int), ()) $LotteryGame$_internal_text_270d8cabbcd94d78177d8336462910cd29aaa6f6d0d4160bb4d02ed0be6bda5d((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self) impure inline {
+    var ($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount) = $self;
+    throw_unless(15980, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    throw_unless(21300, ($self'state'status == 1));
+    $self'playersCount = 0;
+    $self'ticketsCount = 0;
+    $self'state'status = 0;
+    $self'state'players = null();
+    $self'state'tickets = null();
+    $self'state'winnerTicket = null();
+    int $amount = (__tact_my_balance() - 200000000);
+    if (($amount > 0)) {
+        $global_send($SendParameters$_constructor_to_bounce_value_body_mode($self'comissionAddress, false, $amount, __gen_cell_comment_4c053ca38f8004c25218fa1bb0dc7b1bbc2248fc4894563d9fdb8682323ded24(), 2));
+    }
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), ());
+}
+
+(((int, slice, slice, (int, int), (int, cell, cell, int), int, int)), ()) $LotteryGame$_internal_binary_Deploy((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self, (int) $deploy) impure inline {
+    var ($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)~$LotteryGame$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), ());
+}
+
+(((int, slice, slice, (int, int), (int, cell, cell, int), int, int)), ()) $LotteryGame$_internal_binary_ChangeOwner((int, slice, slice, (int, int), (int, cell, cell, int), int, int) $self, (int, slice) $msg) impure inline {
+    var ($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount) = $self;
+    var ($msg'queryId, $msg'newOwner) = $msg;
+    ($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)~$LotteryGame$_fun_requireOwner();
+    $self'owner = $msg'newOwner;
+    ($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount)~$LotteryGame$_fun_reply($ChangeOwnerOk$_store_cell($ChangeOwnerOk$_constructor_queryId_newOwner($msg'queryId, $msg'newOwner)));
+    return (($self'seqno, $self'owner, $self'comissionAddress, ($self'meta'ticketPrice, $self'meta'comissionAmount), ($self'state'status, $self'state'players, $self'state'tickets, $self'state'winnerTicket), $self'playersCount, $self'ticketsCount), ());
+}
+
+;;
+;; Get methods of a Contract LotteryGame
+;;
+
+_ %state() method_id(77589) {
+    var self = $LotteryGame$_contract_load();
+    var res = self~$LotteryGame$_fun_state();
+    return $LotteryState$_to_external(res);
+}
+
+_ %meta() method_id(108757) {
+    var self = $LotteryGame$_contract_load();
+    var res = self~$LotteryGame$_fun_meta();
+    return $LotteryMeta$_to_external(res);
+}
+
+_ %owner() method_id(83229) {
+    var self = $LotteryGame$_contract_load();
+    var res = self~$LotteryGame$_fun_owner();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable.transferable.v2"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmRZaMnawjnNiPRxKWNmzMkXbe2dty1Nd8rUVmH3SzkGft";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract LotteryGame
+;;
+
+((int, slice, slice, (int, int), (int, cell, cell, int), int, int), int) $LotteryGame$_contract_router_internal((int, slice, slice, (int, int), (int, cell, cell, int), int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$LotteryGame$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    ;; Receive ChangeOwner message
+    if (op == 2174598809) {
+        var msg = in_msg~$ChangeOwner$_load();
+        self~$LotteryGame$_internal_binary_ChangeOwner(msg);
+        return (self, true);
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "Buying a tickets" message
+        if (text_op == 0x4d8341714fb86201fe188814bb31a1d8f5e10c6d5072ac464b93f8f2f10a37d9) {
+            self~$LotteryGame$_internal_text_4d8341714fb86201fe188814bb31a1d8f5e10c6d5072ac464b93f8f2f10a37d9();
+            return (self, true);
+        }
+        
+        ;; Receive "Finish" message
+        if (text_op == 0x19825c746c8d39f3b99a97e6353a4b860db0491d663e91ae2a36e6baf1a0fd96) {
+            self~$LotteryGame$_internal_text_19825c746c8d39f3b99a97e6353a4b860db0491d663e91ae2a36e6baf1a0fd96();
+            return (self, true);
+        }
+        
+        ;; Receive "Collect" message
+        if (text_op == 0x270d8cabbcd94d78177d8336462910cd29aaa6f6d0d4160bb4d02ed0be6bda5d) {
+            self~$LotteryGame$_internal_text_270d8cabbcd94d78177d8336462910cd29aaa6f6d0d4160bb4d02ed0be6bda5d();
+            return (self, true);
+        }
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $LotteryGame$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$LotteryGame$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $LotteryGame$_contract_store(self);
+}

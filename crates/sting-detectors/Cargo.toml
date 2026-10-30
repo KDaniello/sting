@@ -1,0 +1,20 @@
+[package]
+name = "sting-detectors"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+sting-core = { workspace = true }
+sting-ast = { workspace = true }
+sting-dataflow = { workspace = true }
+sting-tolkc = { workspace = true }
+thiserror = { workspace = true }
+tree-sitter = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }

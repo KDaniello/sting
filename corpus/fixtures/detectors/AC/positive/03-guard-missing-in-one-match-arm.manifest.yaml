@@ -1,0 +1,4 @@
+defect_class: AC
+location: { file: "03-guard-missing-in-one-match-arm.tolk", line: 12, column: 13 }
+description: "`SetOwnerRequest` checks `in.senderAddress == storage.ownerAddress` before mutating, but the sibling `SetMetadataRequest` arm mutates `storage.metadata` and saves with no check at all — a guard in one match arm never protects a sibling arm, matching `onInternalMessage`'s universal op-code-dispatch shape"
+source: "sting's own addition (not a TONScanner code, docs/PROJECT_REVIEW.md direction 4) — models the real corpus's per-arm independence (every real `onInternalMessage` in `corpus/clean/acton-contracts/` dispatches this way), with one arm's check deliberately omitted to construct the bug"

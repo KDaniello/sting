@@ -1,0 +1,4 @@
+defect_class: DEPR
+location: { file: "03-old-bounce-mode-boolean.tolk", line: 3, column: 17 }
+description: "`bounce: false` is the deprecated `OldBounceMode` spelling — Tolk's own stdlib marks the plain-boolean form @deprecated, in favor of `bounce: BounceMode.NoBounce` (both compile and mean the same thing, this is a style question, not a safety one — see ubm.rs)"
+source: "ton-blockchain/ton, crypto/smartcont/tolk-stdlib/common.tolk (checked 2026-07-20) — see docs/REFERENCES.md's Tolk stdlib deprecations section"

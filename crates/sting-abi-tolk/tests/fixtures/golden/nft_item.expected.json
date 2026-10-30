@@ -1,0 +1,498 @@
+{
+  "ir_schema_version": "0.2",
+  "source_language": "tolk",
+  "extraction_tier": "compiled",
+  "contract_name": "NftItem",
+  "metadata": {
+    "author": "The Tolk Team",
+    "version": "1.1",
+    "description": "Standard NFT Item. TEP-62 and TEP-64 compliant"
+  },
+  "storage": 21,
+  "types": [
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "void"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": null,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "slice"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "builder"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "bool"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "coins"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "address"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": false
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 64,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 64,
+        "signed": false
+      }
+    },
+    {
+      "name": "AskToChangeOwnership",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1607220500,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "newOwnerAddress",
+            "ty": 7
+          },
+          {
+            "name": "sendExcessesTo",
+            "ty": 13
+          },
+          {
+            "name": "customPayload",
+            "ty": 14
+          },
+          {
+            "name": "forwardTonAmount",
+            "ty": 6
+          },
+          {
+            "name": "forwardPayload",
+            "ty": 15
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 7
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 3
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "remaining"
+      }
+    },
+    {
+      "name": "PayloadInline",
+      "description": null,
+      "prefix": {
+        "prefix_num": 0,
+        "prefix_len": 1
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "ty": 15
+          }
+        ]
+      }
+    },
+    {
+      "name": "PayloadInRef",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1,
+        "prefix_len": 1
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "ty": 18
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell_packed",
+        "inner": 15
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "union",
+        "variants": [
+          {
+            "ty": 16,
+            "prefix": {
+              "prefix_num": 0,
+              "prefix_len": 1
+            },
+            "is_prefix_implicit": false
+          },
+          {
+            "ty": 17,
+            "prefix": {
+              "prefix_num": 1,
+              "prefix_len": 1
+            },
+            "is_prefix_implicit": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "RequestStaticData",
+      "description": null,
+      "prefix": {
+        "prefix_num": 801842850,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftItemStorage",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "itemIndex",
+            "ty": 11
+          },
+          {
+            "name": "collectionAddress",
+            "ty": 7
+          },
+          {
+            "name": "ownerAddress",
+            "ty": 7
+          },
+          {
+            "name": "content",
+            "ty": 22
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "str"
+      }
+    },
+    {
+      "name": "NftItemStorageNotInitialized",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "itemIndex",
+            "ty": 11
+          },
+          {
+            "name": "collectionAddress",
+            "ty": 7
+          }
+        ]
+      }
+    },
+    {
+      "name": "NotificationForNewOwner",
+      "description": null,
+      "prefix": {
+        "prefix_num": 85167505,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "oldOwnerAddress",
+            "ty": 7
+          },
+          {
+            "name": "payload",
+            "ty": 15
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReturnExcessesBack",
+      "description": null,
+      "prefix": {
+        "prefix_num": 3576854235,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          }
+        ]
+      }
+    },
+    {
+      "name": "ResponseStaticData",
+      "description": null,
+      "prefix": {
+        "prefix_num": 2339837749,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "itemIndex",
+            "ty": 27
+          },
+          {
+            "name": "collectionAddress",
+            "ty": 7
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 256,
+        "signed": false
+      }
+    },
+    {
+      "name": "NftDataReply",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isInitialized",
+            "ty": 5
+          },
+          {
+            "name": "itemIndex",
+            "ty": 1
+          },
+          {
+            "name": "collectionAddress",
+            "ty": 7
+          },
+          {
+            "name": "ownerAddress",
+            "ty": 13
+          },
+          {
+            "name": "content",
+            "ty": 29
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 22
+      }
+    }
+  ],
+  "incoming_internal": [
+    {
+      "ty": 12
+    },
+    {
+      "ty": 20
+    }
+  ],
+  "incoming_external": [],
+  "outgoing": [
+    {
+      "ty": 24
+    },
+    {
+      "ty": 25
+    },
+    {
+      "ty": 26
+    }
+  ],
+  "get_methods": [
+    {
+      "tvm_method_id": 102351,
+      "name": "get_nft_data",
+      "parameters": [],
+      "return_ty": 28
+    }
+  ],
+  "errors": [
+    {
+      "kind": "named",
+      "name": "Errors.InvalidWorkchain",
+      "code": 333
+    },
+    {
+      "kind": "named",
+      "name": "Errors.NotFromOwner",
+      "code": 401
+    },
+    {
+      "kind": "named",
+      "name": "Errors.TooSmallRestAmount",
+      "code": 402
+    },
+    {
+      "kind": "named",
+      "name": "Errors.NotFromCollection",
+      "code": 405
+    },
+    {
+      "kind": "named",
+      "name": "Errors.IncorrectForwardPayload",
+      "code": 708
+    },
+    {
+      "kind": "plain",
+      "code": 65535
+    }
+  ],
+  "confidence": null,
+  "field_confidence": null
+}

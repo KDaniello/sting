@@ -1,0 +1,4 @@
+defect_class: LEP
+location: { file: "06-func-end-parse-in-one-branch.fc", line: 2, column: 1 }
+description: "`handle` asserts the end of `in_msg_body` inside the `if` only — the path that skips the branch returns with the tail unread"
+source: "The FunC spelling of `02-missing-in-one-branch.tolk`"

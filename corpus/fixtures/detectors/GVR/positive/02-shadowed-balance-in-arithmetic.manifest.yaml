@@ -1,0 +1,4 @@
+defect_class: GVR
+location: { file: "02-shadowed-balance-in-arithmetic.tolk", line: 12, column: 9 }
+description: "local `var balance` shadows storage field `balance` of `JettonStorage` inside an unrelated arithmetic helper"
+source: "CertiK: Secure Smart Contract Programming in FunC — Top 10 Tips (namespace pollution)"

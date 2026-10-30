@@ -1,0 +1,4 @@
+defect_class: BR
+location: { file: "01-now-picks-a-lottery-winner.tolk", line: 2, column: 12 }
+description: "`blockchain.now() % participantCount` picks a lottery winner using block-producer-controlled Unix time as the random seed — a colluding validator can bias who wins by choosing when to include the transaction"
+source: "TONScanner taxonomy (arXiv 2501.06459): Bad Randomness — transaction logical time as a randomness seed, potentially controlled by the validator"

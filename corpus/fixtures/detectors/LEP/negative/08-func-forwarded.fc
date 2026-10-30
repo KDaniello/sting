@@ -1,0 +1,8 @@
+;; The opcode is read here and the rest is handed on, and with it the duty of
+;; ending the parse. Written with the read in place on purpose: a fixture that
+;; only forwards passes because nothing was read at all, which proves nothing
+;; about forwarding.
+() route(slice in_msg_body) impure {
+  int op = in_msg_body~load_uint(32);
+  return handle_body(in_msg_body, op);
+}

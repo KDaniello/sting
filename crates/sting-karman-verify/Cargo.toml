@@ -1,0 +1,26 @@
+[package]
+name = "sting-karman-verify"
+description = "The verification ladder as code: differential, replay and stylized-fact harnesses"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+# Nothing here is published: this is a platform rather than a set of libraries, and a crate that
+# says nothing about publication is a crate a lint asks for keywords it will never use.
+publish = false
+
+[dependencies]
+sting-karman-core = { workspace = true }
+sting-karman-types = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+# The reference mechanism: these harnesses are generic over the port and own no mechanism
+# knowledge, so their own tests need a stand-in rather than a real family.
+sting-karman-core = { workspace = true, features = ["testing"] }
+
+[lints]
+workspace = true

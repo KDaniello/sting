@@ -1,0 +1,18 @@
+[package]
+name = "sting-report"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+sting-core = { workspace = true }
+serde-sarif = "0.8.0"
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+jsonschema = "0.48.0"

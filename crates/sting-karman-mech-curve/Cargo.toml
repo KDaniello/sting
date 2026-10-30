@@ -1,0 +1,24 @@
+[package]
+name = "sting-karman-mech-curve"
+description = "Inventory-curve markets: constant-product AMM and bonding curves"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+# Nothing here is published: this is a platform rather than a set of libraries, and a crate that
+# says nothing about publication is a crate a lint asks for keywords it will never use.
+publish = false
+
+[dependencies]
+sting-karman-core = { workspace = true }
+sting-karman-types = { workspace = true }
+serde = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

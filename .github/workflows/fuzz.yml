@@ -1,0 +1,132 @@
+name: Fuzz
+
+on:
+  pull_request:
+    paths:
+      - 'crates/sting-emulator-sys/**'
+      - 'crates/sting-emulator/**'
+      - 'crates/sting-fuzz/**'
+      - 'corpus/fixtures/fuzz/**'
+      - '.github/workflows/fuzz.yml'
+  schedule:
+    # Weekly rather than nightly: a fresh multi-hour run across both targets every night costs more
+    # CI budget than two targets and this corpus justify. A finding that a shorter interval would
+    # have caught sooner is what would change this number.
+    - cron: '0 3 * * 1'
+  workflow_dispatch: {}
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  fuzz-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [fuzz_send_message, fuzz_tx_sequence]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: llvm-tools
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: crates/sting-fuzz/fuzz -> target
+      - run: cargo install cargo-fuzz --locked
+      # The actual build-health gate: compiling the fuzz target under the
+      # nightly toolchain + ASan instrumentation catches a broken Cargo.toml,
+      # an API change the fuzz target didn't follow, or a toolchain/ASan
+      # incompatibility. Deliberately does not need libemulator: the .so is
+      # loaded dynamically at *run* time via `libloading`
+      # (`sting-emulator-sys`'s doc comment — no build.rs by design), never
+      # at link time, so this step can gate the PR before spending time
+      # fetching it.
+      - name: Build health check
+        working-directory: crates/sting-fuzz
+        run: cargo fuzz build ${{ matrix.target }}
+      - name: Read the pinned libemulator release
+        shell: bash
+        run: |
+          tag=$(grep -m1 '^release = ' crates/sting-emulator-sys/Cargo.toml | cut -d'"' -f2)
+          test -n "$tag"
+          echo "LIBEMULATOR_RELEASE_TAG=$tag" >> "$GITHUB_ENV"
+      - name: Fetch libemulator (Linux)
+        run: |
+          mkdir -p vendor/libemulator
+          curl -sL --fail \
+            "https://github.com/ton-blockchain/ton/releases/download/${LIBEMULATOR_RELEASE_TAG}/libemulator-linux-x86_64.so" \
+            -o vendor/libemulator/libemulator.so
+      # Exploratory, not a hard gate: corpus/fixtures/fuzz/BalanceLedger.tolk is *deliberately*
+      # vulnerable — it proves the harness finds real defects rather than merely running — and it
+      # reproduces that seeded crash within the first few iterations of any run. A hard-failing step
+      # here would therefore fail every pull request unconditionally and never signal a regression.
+      # Protection against *losing* that seeded bug
+      # already lives in crates/sting-fuzz/src/harness.rs's own committed
+      # unit tests (a plain, deterministic `cargo test`, no fuzzing needed —
+      # see `the_minimized_fuzzer_found_crash_is_still_caught`). This step
+      # stays informational: `continue-on-error` so it never blocks a PR,
+      # while the artifact upload below still surfaces whatever it found —
+      # the known crash or, if coverage ever gets past it, a new one — for a
+      # human to look at.
+      - name: Exploratory smoke run (60s/target)
+        id: smoke_run
+        working-directory: crates/sting-fuzz
+        continue-on-error: true
+        run: cargo fuzz run ${{ matrix.target }} -- -max_total_time=60
+      - uses: actions/upload-artifact@v4
+        if: steps.smoke_run.outcome == 'failure'
+        with:
+          name: fuzz-crash-${{ matrix.target }}
+          path: crates/sting-fuzz/fuzz/artifacts/${{ matrix.target }}/
+
+  fuzz-nightly:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [fuzz_send_message, fuzz_tx_sequence]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: llvm-tools
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: crates/sting-fuzz/fuzz -> target
+      - run: cargo install cargo-fuzz --locked
+      - name: Build health check
+        working-directory: crates/sting-fuzz
+        run: cargo fuzz build ${{ matrix.target }}
+      - name: Read the pinned libemulator release
+        shell: bash
+        run: |
+          tag=$(grep -m1 '^release = ' crates/sting-emulator-sys/Cargo.toml | cut -d'"' -f2)
+          test -n "$tag"
+          echo "LIBEMULATOR_RELEASE_TAG=$tag" >> "$GITHUB_ENV"
+      - name: Fetch libemulator (Linux)
+        run: |
+          mkdir -p vendor/libemulator
+          curl -sL --fail \
+            "https://github.com/ton-blockchain/ton/releases/download/${LIBEMULATOR_RELEASE_TAG}/libemulator-linux-x86_64.so" \
+            -o vendor/libemulator/libemulator.so
+      # Same reasoning as fuzz-smoke's exploratory step above: the seeded
+      # BalanceLedger.tolk bug reliably crashes this within seconds on every
+      # run, so a hard-failing gate would make every single scheduled run
+      # (and workflow_dispatch) permanently red for a known, already-tracked
+      # finding — not a real signal a maintainer should act on.
+      # continue-on-error keeps the run non-blocking; the artifact upload
+      # below already used `if: always()`, so it is unaffected by this and
+      # keeps capturing the corpus/crashes for later manual review either way.
+      - name: Long run (30 min/target)
+        id: nightly_run
+        working-directory: crates/sting-fuzz
+        continue-on-error: true
+        run: cargo fuzz run ${{ matrix.target }} -- -max_total_time=1800
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fuzz-nightly-${{ matrix.target }}
+          path: |
+            crates/sting-fuzz/fuzz/corpus/${{ matrix.target }}/
+            crates/sting-fuzz/fuzz/artifacts/${{ matrix.target }}/

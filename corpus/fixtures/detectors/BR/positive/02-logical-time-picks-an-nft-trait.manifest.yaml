@@ -1,0 +1,4 @@
+defect_class: BR
+location: { file: "02-logical-time-picks-an-nft-trait.tolk", line: 2, column: 12 }
+description: "`blockchain.logicalTime() % traitCount` picks an NFT trait using the transaction's logical time — set by whichever validator produces the block, not unpredictable to them"
+source: "TONScanner taxonomy (arXiv 2501.06459): Bad Randomness — transaction logical time as a randomness seed, potentially controlled by the validator"

@@ -1,0 +1,74 @@
+name: Abi Bench
+
+on:
+  pull_request:
+    paths:
+      - 'crates/sting-abi-tolk/**'
+      - 'crates/sting-abi-tact/**'
+      - 'crates/sting-abi-func/**'
+      - 'crates/sting-abi-bench/**'
+      - 'crates/sting-abi-cli/**'
+      - 'corpus-abi/**'
+      - 'corpus/clean/**'
+      - '.github/workflows/abi-bench.yml'
+
+env:
+  CARGO_TERM_COLOR: always
+  # Same pinned release/commit as .github/workflows/tolkc.yml, for the same
+  # reproducibility reasoning — this workflow needs the identical real
+  # toolchain, not a second independent pin that could drift from it.
+  TOLKC_RELEASE_TAG: tolk-1.4.2
+  TOLKC_STDLIB_COMMIT: da70af2be5ef2efe9f0d575ec466847e27b81842
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Fetch native tolk compiler
+        run: |
+          mkdir -p vendor/tolk
+          curl -sL --fail \
+            "https://github.com/ton-blockchain/ton/releases/download/${TOLKC_RELEASE_TAG}/tolk-linux-x86_64" \
+            -o vendor/tolk/tolk
+          chmod +x vendor/tolk/tolk
+      - name: Fetch matching tolk-stdlib sources
+        run: |
+          mkdir -p vendor/tolk/tolk-stdlib
+          for f in common gas-payments lisp-lists tvm-dicts tvm-lowlevel exotic-cells reflection strings; do
+            curl -sL --fail \
+              "https://raw.githubusercontent.com/ton-blockchain/ton/${TOLKC_STDLIB_COMMIT}/crypto/smartcont/tolk-stdlib/${f}.tolk" \
+              -o "vendor/tolk/tolk-stdlib/${f}.tolk"
+          done
+      - name: Install vendored Tact compiler
+        working-directory: vendor/tact
+        run: npm install
+      # Real regression coverage for Tier 1 extraction — `golden.rs` in
+      # both crates self-skips (prints SKIP, does not fail) without a
+      # vendored compiler on disk, which is exactly what silently happened
+      # on every push before this step existed: `ci.yml`'s plain
+      # `cargo test --workspace` never vendors anything, so these
+      # byte-exact snapshot tests (which have historically caught real
+      # bugs, see their own doc comments) provided zero automatic
+      # protection. This job already vendors both compilers for `bench`
+      # below — reusing that instead of adding a second fetch elsewhere.
+      - name: Run Tier 1 golden/regression tests (Tolk + Tact)
+        run: cargo test -p sting-abi-tolk -p sting-abi-tact --all-targets
+      - name: Run abi-layer bench
+        env:
+          TOLK_STDLIB: ${{ github.workspace }}/vendor/tolk/tolk-stdlib
+          STING_TOLKC_PATH: ${{ github.workspace }}/vendor/tolk/tolk
+          STING_TACT_JS_PATH: ${{ github.workspace }}/vendor/tact/node_modules/@tact-lang/compiler/bin/tact.js
+        run: cargo run -p sting-abi-cli -- bench --report abi-bench-report.md
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: abi-bench-report
+          path: |
+            abi-bench-report.md
+            abi-bench-report.json

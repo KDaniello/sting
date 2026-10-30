@@ -1,0 +1,32 @@
+{
+  "name": "a position becomes insolvent at the liquidation incentive times where it opened",
+  "registered": "2026-08-19",
+  "statement": "Across a sweep of the morpho-insolvency-boundary scenario, no loss is realised against the supply side in any run whose price gap leaves the collateral above 8246.35 basis points of where it was quoted at the opening, and a loss is realised in every run whose gap takes it below. The scenario weights those two sets six to four, so the median of the written_off distribution is zero and its upper quartile is not.",
+  "basis": "Algebra, not a previous sweep. A position opening at ltv_bps of what its collateral is worth owes D = 0.79 · C · p0. Morpho seizes collateral at a discount: the liquidation incentive factor for a market listed at 0.86 is LIF = min(1.15, WAD^2 / (WAD - 0.3 · (WAD - 0.86 · WAD))) = 1.043841336116910229, so seizing the whole of a position repays C · p / LIF and leaves debt behind exactly when C · p < LIF · D — that is, when the price has fallen below LIF · 0.79 = 0.824634656 of where it opened, or 8246.3466 basis points. Nothing in that expression is the size of the position, the size of the market, or the population: it is the same closed form the analytic gate holds this mechanism to, evaluated at an opening this workspace has not simulated. The scenario's held regime sweeps nine strata from 8260 down to 8740 and its past regime nine strata from 8230 down to 7750, so the nearest stratum on either side stands 13.65 and 16.35 basis points clear of the predicted line: a boundary anywhere outside that interval moves runs across it and changes both graded statistics. Every stratum of both regimes is below 9186.05 basis points, where these positions become liquidatable, so the liquidator is admitted to act in all of them and solvency is the only thing that separates the two. Interest over the forty ticks before the gap raises the debt by about a millionth of a basis point of the line and cannot reach either margin. The zones are tried in the order written: a median above zero means a loss appeared where the algebra says it cannot, an upper quartile at zero means it failed to appear where the algebra says it must, and only a sweep that is neither confirms.",
+  "applies_to": {
+    "scenario": "morpho-insolvency-boundary",
+    "seed": 11,
+    "n_runs": 900,
+    "n_ticks": 120
+  },
+  "zones": [
+    {
+      "metric": "written_off",
+      "statistic": "median",
+      "at_least": "1",
+      "says": "refuted"
+    },
+    {
+      "metric": "written_off",
+      "statistic": "p75",
+      "at_most": "0",
+      "says": "refuted"
+    },
+    {
+      "metric": "written_off",
+      "statistic": "median",
+      "at_most": "0",
+      "says": "confirmed"
+    }
+  ]
+}

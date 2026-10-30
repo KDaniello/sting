@@ -1,0 +1,4 @@
+defect_class: LEP
+location: { file: "01-missing-assert-end.tolk", line: 1, column: 1 }
+description: "`parseIncoming` reads `slice` parameter `s` via loadUint but never calls `.assertEnd()` — trailing data after the opcode is silently ignored"
+source: "TONScanner (arXiv 2501.06459) LEP class; docs/blocks/02-detectors-v1.md"

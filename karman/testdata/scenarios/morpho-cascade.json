@@ -1,0 +1,24 @@
+{
+  "name": "morpho-cascade",
+  "seed": 7,
+  "n_ticks": 120,
+  "mechanism": {
+    "kind": "lending",
+    "market": "testdata/fixtures/morpho-market.json",
+    "borrow_rate": "3170979198",
+    "population": "stated",
+    "seconds_per_tick": 12
+  },
+  "regimes": [
+    { "name": "calm", "weight_bps": 5000,
+      "shock": { "kind": "steady" }, "depth_spread_bps": 0 },
+    { "name": "stress", "weight_bps": 3000,
+      "shock": { "kind": "gap", "to_bps": 9200, "at_tick": 40 }, "depth_spread_bps": 400 },
+    { "name": "break", "weight_bps": 2000,
+      "shock": { "kind": "gap", "to_bps": 8600, "at_tick": 40 }, "depth_spread_bps": 400 }
+  ],
+  "agents": [
+    { "count": 8, "behaviour": { "kind": "borrower", "collateral": "100000000", "ltv_bps": 8400, "repair_bps": 0 } },
+    { "count": 1, "behaviour": { "kind": "liquidator", "every": 1, "capacity_bps": 10000, "watching": 12 } }
+  ]
+}

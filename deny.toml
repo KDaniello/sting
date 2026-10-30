@@ -1,0 +1,79 @@
+[graph]
+targets = [
+    { triple = "x86_64-pc-windows-msvc" },
+    { triple = "x86_64-unknown-linux-gnu" },
+    { triple = "aarch64-apple-darwin" },
+]
+
+[advisories]
+db-urls = ["https://github.com/rustsec/advisory-db"]
+yanked = "deny"
+# RUSTSEC-2024-0436: `paste` is unmaintained. It is a proc macro that pastes identifiers
+# together, it carries no advisory of a vulnerability, and it arrives four levels down from the
+# column-store client — `clickhouse` -> `polonius-the-crab` -> `higher-kinded-types` -> `paste` —
+# with no version of that client that does without it. Recorded rather than waved through: the
+# day the client drops it, this entry fails the gate as a stale ignore and gets removed.
+ignore = [{ id = "RUSTSEC-2024-0436", reason = "unmaintained proc macro, no vulnerability, transitive through clickhouse with no upgrade available" }]
+
+[licenses]
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Zlib",
+]
+confidence-threshold = 0.8
+
+# `nacl` (NaCl crypto bindings, pulled in transitively by tonlib-core for
+# wallet-signing primitives we don't currently use) is a hard, non-optional
+# dependency of tonlib-core — no feature flag removes it (checked against
+# tonlib-core's own Cargo.toml). LGPL-3.0-or-later is weak copyleft: using an
+# unmodified LGPL library as a dependency does not require sting itself to be
+# LGPL-licensed, only that modifications *to nacl itself* would need to be
+# shared — acceptable for a dependency we consume as-is. Scoped to this one
+# crate, not added to the general allow-list, so a *different* LGPL dependency
+# introduced later still fails the gate and gets the same explicit review.
+[[licenses.exceptions]]
+allow = ["LGPL-3.0-or-later"]
+name = "nacl"
+
+# `option-ext` (pulled in transitively by `dirs`/`dirs-sys`, used by
+# `sting-corpus`'s `DiskCache::default_root`) is MPL-2.0: OSI-approved weak (file-level) copyleft. Consumed
+# unmodified as a dependency, this does not require sting itself to be
+# MPL-licensed — only modifications to `option-ext`'s own files would need to
+# stay MPL/be shared, which does not apply here. Scoped to this one crate,
+# same rationale as the `nacl` exception above.
+[[licenses.exceptions]]
+allow = ["MPL-2.0"]
+name = "option-ext"
+
+# `webpki-roots` (pulled in transitively by `ureq`'s default `rustls` TLS
+# backend, the blocking HTTP client `sting-corpus` fetches through) is
+# CDLA-Permissive-2.0: a permissive *data* license (Mozilla's
+# bundled CA certificate list), not a code copyleft license — comparable in
+# effect to CC-BY, imposes no obligation on sting's own licensing. Scoped to
+# this one crate for the same reason as the exceptions above.
+[[licenses.exceptions]]
+allow = ["CDLA-Permissive-2.0"]
+name = "webpki-roots"
+
+# `target-lexicon` (a build dependency of `pyo3-build-config`, which the Python bindings of the
+# wind tunnel need to find an interpreter) is Apache-2.0 with the LLVM exception. The exception only
+# removes a condition Apache-2.0 imposes — attribution of object code linked from the library — so
+# it is strictly weaker than the Apache-2.0 already on the list. Scoped to this one crate, same
+# rationale as the exceptions above: a different crate carrying a different exception still fails
+# the gate.
+[[licenses.exceptions]]
+allow = ["Apache-2.0 WITH LLVM-exception"]
+name = "target-lexicon"
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"

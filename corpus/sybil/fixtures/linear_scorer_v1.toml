@@ -1,0 +1,35 @@
+model_version = "fixture.v1"
+bias = -0.9961090925539766
+threshold = 0.7692573575930904
+
+[weights]
+iet_mean = -2.689454031764431e-18
+iet_std = 0.0
+iet_cv = -3.4474378601129088
+iet_regularity = 0.0
+burst_count = 0.0
+longest_burst = 0.0
+active_duration = 0.0
+active_hours_entropy = 0.0
+funding_sync_delta = 0.0
+tx_count = 0.0
+in_deg = 0.0
+out_deg = 0.0
+deg_ratio = 0.0
+n_unique_in = 0.0
+n_unique_out = 0.0
+amount_mean_sent = 0.0
+amount_var_sent = 0.0
+amount_mean_recv = 0.0
+amount_var_recv = 0.0
+n_jetton_types = 0.0
+novelty_ratio = 0.0
+shared_funder_count = 0.0
+star_divergence = 0.0
+star_convergence = 0.0
+chain_flag = 0.0
+tree_flag = 0.0
+bulk_flag = 0.0
+wcc_size = 0.0
+soft_cluster_size = 0.0
+cluster_agreement = 0.0

@@ -1,0 +1,679 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "verifier_TonupLauncherFixedPriceUnrestricted.headers.fc";
+#include "verifier_TonupLauncherFixedPriceUnrestricted.stdlib.fc";
+#include "verifier_TonupLauncherFixedPriceUnrestricted.constants.fc";
+#include "verifier_TonupLauncherFixedPriceUnrestricted.storage.fc";
+
+;;
+;; Contract TonupLauncherFixedPriceUnrestricted functions
+;;
+
+(slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $TonupLauncherFixedPriceUnrestricted$_contract_init(slice $owner, (int, int, int, int, int, slice, slice, int, int) $config) impure inline_ref {
+    var (($config'min_total_ton, $config'max_total_ton, $config'min_ton_per_tx, $config'max_ton_per_user, $config'tokens_per_ton, $config'token_wallet_address, $config'unsold_token_refund_address, $config'start_time, $config'end_time)) = $config;
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = (null(), null(), 0, 0, false, 0, 1694696400, null(), 0, null(), false, false, false);
+    $self'owner = $owner;
+    ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time) = ($config'min_total_ton, $config'max_total_ton, $config'min_ton_per_tx, $config'max_ton_per_user, $config'tokens_per_ton, $config'token_wallet_address, $config'unsold_token_refund_address, $config'start_time, $config'end_time);
+    $global_emit($LauncherConfigSetEvent$_store_cell($LauncherConfigSetEvent$_constructor_config(($config'min_total_ton, $config'max_total_ton, $config'min_ton_per_tx, $config'max_ton_per_user, $config'tokens_per_ton, $config'token_wallet_address, $config'unsold_token_refund_address, $config'start_time, $config'end_time))));
+    return ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful);
+}
+
+() $global_refund_gas() impure inline {
+    $global_send($SendParameters$_constructor_to_value_mode_bounce(__tact_context_get_sender(), 0, (64 + 2), false));
+}
+
+() $global_send_ton(slice $to, int $value, int $bounce, cell $body) impure inline {
+    if (($value > 0)) {
+        $global_send($SendParameters$_constructor_value_to_bounce_mode_body($value, $to, $bounce, 2, $body));
+    }
+}
+
+() $global_send_jetton(slice $jetton_address, slice $to, int $amount, int $query_id, int $bounce, slice $forward_payload) impure inline {
+    if (($amount > 0)) {
+        $global_send($SendParameters$_constructor_value_to_mode_body_bounce(100000000, $jetton_address, 0, $TokenTransfer$_store_cell($TokenTransfer$_constructor_queryId_amount_destination_response_destination_custom_payload_forward_ton_amount_forward_payload($query_id, $amount, $to, my_address(), null(), 10000000, __tact_str_to_slice($forward_payload))), $bounce));
+    }
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), (int, int, int, int, int, slice, slice, int, int)) $TonupLauncherFixedPriceUnrestricted$_fun_config((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time));
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_totalTon((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), $self'total_ton_contributed);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_validated((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), $self'config_validated);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_balance((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), __tact_my_balance());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_participation((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, slice $addr) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    if (null?(__tact_dict_get_slice_uint($self'participation, 267, $addr, 256))) {
+        return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), 0);
+    }
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), __tact_not_null(__tact_dict_get_slice_uint($self'participation, 267, $addr, 256)));
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_numberPools((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), $self'distribution_number_pools);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), (slice, int)) $TonupLauncherFixedPriceUnrestricted$_fun_poolConfig((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, int $index) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), $PoolConfig$_not_null($PoolConfig$_load_opt(__tact_dict_get_int_cell($self'distribution_pools, 257, $index))));
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_claimStartTime((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), $self'claim_start_time);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_launchFinalized((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), $self'launch_finalized);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_launchSuccessful((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), $self'launch_successful);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_tokensAwaitingLaunch((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), $self'tokens_awaiting_launch);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), slice) $TonupLauncherFixedPriceUnrestricted$_fun_metadataName((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), __gen_slice_string_584cffffe33e57f75684e9a5e37dd57067813e18fca44b371a718a5a80a5ae98());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), slice) $TonupLauncherFixedPriceUnrestricted$_fun_metadataType((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), __gen_slice_string_1a8aac06a283c2ee2ca9048df6a8929e643e7c5850a9bac38ac6206526cfcdfc());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), slice) $TonupLauncherFixedPriceUnrestricted$_fun_metadataVersion((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), __gen_slice_string_5c0ba2f844e66631592e7ab5a4e46dc8d1ecfaa02c272b3851fcd1855efdd161());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), slice) $TonupLauncherFixedPriceUnrestricted$_fun_metadataTicker((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), __gen_slice_string_6ef266224383da290367aff1ed05b5a61c883094963be0a20f98a846f927b570());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_gasClaim((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), 150000000);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_gasRefund((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), 150000000);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_fun_gasParticipate((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), 100000000);
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), ()) $TonupLauncherFixedPriceUnrestricted$_fun_requireOwner((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), slice) $TonupLauncherFixedPriceUnrestricted$_fun_owner((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline_ref {
+    var (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), $self'owner);
+}
+
+;;
+;; Receivers of a Contract TonupLauncherFixedPriceUnrestricted
+;;
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_TransferNotification((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, (int, int, slice, slice) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var ($msg'queryId, $msg'amount, $msg'sender, $msg'forwardPayload) = $msg;
+    if (( __tact_slice_eq_bits($self'config'token_wallet_address, $Context$_get_sender(__tact_context_get())) )) {
+        accept_message();
+        $self'tokens_awaiting_launch = ($self'tokens_awaiting_launch + $msg'amount);
+    }
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_Excesses((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var ($msg'queryId) = $msg;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), ()) $TonupLauncherFixedPriceUnrestricted$_internal_text_0a0833328ac509815f762666d0411c0bfd422f48e0d183444ad2902009e6fc53((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_SetLauncherConfig((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, ((int, int, int, int, int, slice, slice, int, int)) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var (($msg'config'min_total_ton, $msg'config'max_total_ton, $msg'config'min_ton_per_tx, $msg'config'max_ton_per_user, $msg'config'tokens_per_ton, $msg'config'token_wallet_address, $msg'config'unsold_token_refund_address, $msg'config'start_time, $msg'config'end_time)) = $msg;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    throw_unless(48002, ( ((~ $self'config_validated)) ? (true) : ((now() < $self'config'start_time)) ));
+    ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time) = ($msg'config'min_total_ton, $msg'config'max_total_ton, $msg'config'min_ton_per_tx, $msg'config'max_ton_per_user, $msg'config'tokens_per_ton, $msg'config'token_wallet_address, $msg'config'unsold_token_refund_address, $msg'config'start_time, $msg'config'end_time);
+    $global_emit($LauncherConfigSetEvent$_store_cell($LauncherConfigSetEvent$_constructor_config(($msg'config'min_total_ton, $msg'config'max_total_ton, $msg'config'min_ton_per_tx, $msg'config'max_ton_per_user, $msg'config'tokens_per_ton, $msg'config'token_wallet_address, $msg'config'unsold_token_refund_address, $msg'config'start_time, $msg'config'end_time))));
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_SetClaimStartTime((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var ($msg'time) = $msg;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    $self'claim_start_time = $msg'time;
+    $global_emit($ClaimStartTimeSetEvent$_store_cell($ClaimStartTimeSetEvent$_constructor_time($msg'time)));
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_AddDistributionPool((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, ((slice, int)) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var (($msg'config'address, $msg'config'share)) = $msg;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    throw_unless(48002, (now() < $self'config'start_time));
+    throw_unless(35898, ($self'distribution_number_pools < 20));
+    $self'distribution_pools~__tact_dict_set_int_cell(257, $self'distribution_number_pools, $PoolConfig$_store_cell(($msg'config'address, $msg'config'share)));
+    $self'distribution_number_pools = ($self'distribution_number_pools + 1);
+    $global_emit($DistritutionPoolAddedEvent$_store_cell($DistritutionPoolAddedEvent$_constructor_index_config(($self'distribution_number_pools - 1), ($msg'config'address, $msg'config'share))));
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_DeleteDistributionPool((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var ($msg'index) = $msg;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    throw_unless(48002, (now() < $self'config'start_time));
+    throw_unless(1173, ($msg'index < $self'distribution_number_pools));
+    $self'distribution_pools~__tact_dict_set_int_cell(257, $msg'index, $PoolConfig$_store_cell($PoolConfig$_constructor_address_share(my_address(), 0)));
+    $global_emit($DistributionPoolModifiedEvent$_store_cell($DistributionPoolModifiedEvent$_constructor_index_config($msg'index, $PoolConfig$_constructor_address_share(my_address(), 0))));
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_ModifyDistributionPool((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, (int, (slice, int)) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var ($msg'index, ($msg'config'address, $msg'config'share)) = $msg;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    throw_unless(48002, (now() < $self'config'start_time));
+    throw_unless(1173, ($msg'index < $self'distribution_number_pools));
+    $self'distribution_pools~__tact_dict_set_int_cell(257, $msg'index, $PoolConfig$_store_cell(($msg'config'address, $msg'config'share)));
+    $global_emit($DistributionPoolModifiedEvent$_store_cell($DistributionPoolModifiedEvent$_constructor_index_config($msg'index, ($msg'config'address, $msg'config'share))));
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_ManualTransferNotification((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var ($msg'amount) = $msg;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    throw_unless(48002, (now() < $self'config'start_time));
+    $self'tokens_awaiting_launch = ($self'tokens_awaiting_launch + $msg'amount);
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), ()) $TonupLauncherFixedPriceUnrestricted$_internal_text_95dbc872c3a0b54b6004c2d3ba6c02e40c2393c83dd9f21b86c4d8231a9544f0((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    throw_unless(20619, ($self'distribution_number_pools > 0));
+    throw_unless(41029, ($self'tokens_awaiting_launch >= (($self'config'max_total_ton * $self'config'tokens_per_ton) / 1000000000)));
+    $self'config_validated = true;
+    $global_emit($ConfigValidatedEvent$_store_cell($ConfigValidatedEvent$_constructor_timestamp(now())));
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), ()) $TonupLauncherFixedPriceUnrestricted$_internal_text_efdb9e99edc1eb6a18fd98ca5ce6077a72be4f84808a5bf94d1de89d563e131a((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    throw_unless(15304, ($Context$_get_value(__tact_context_get()) >= 300000000));
+    throw_unless(42340, ( ((now() > $self'config'end_time)) ? (true) : (($self'total_ton_contributed == $self'config'max_total_ton)) ));
+    int $tokens_to_refund = 0;
+    if (($self'total_ton_contributed < $self'config'min_total_ton)) {
+        $self'launch_successful = false;
+        $tokens_to_refund = $self'tokens_awaiting_launch;
+    } else {
+        $self'launch_successful = true;
+        $tokens_to_refund = ($self'tokens_awaiting_launch - (($self'total_ton_contributed * $self'config'tokens_per_ton) / 1000000000));
+    }
+    $self'launch_finalized = true;
+    $global_emit($FinalizedEvent$_store_cell($FinalizedEvent$_constructor_timestamp_successful(now(), $self'launch_successful)));
+    if (($tokens_to_refund > 100000000)) {
+        $global_send_jetton($self'config'token_wallet_address, $self'config'unsold_token_refund_address, $tokens_to_refund, 0, false, __gen_slice_string_3f8bd49d13c13b558445a8696a0abe19ea23d46ac172f15f136e7e2aff3c2086());
+        $global_emit($FinalizationRefundEvent$_store_cell($FinalizationRefundEvent$_constructor_amount_address($tokens_to_refund, $self'config'unsold_token_refund_address)));
+    }
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), ()) $TonupLauncherFixedPriceUnrestricted$_internal_text_41edba6865897d67a7ab07fd40b6c902bc8e34e507bdf33933dda89117aef4d2((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    throw_unless(15304, ($Context$_get_value(__tact_context_get()) >= 1000000000));
+    throw_unless(42340, (now() > $self'config'end_time));
+    if ($self'launch_successful) {
+        int $amount_to_distribute = min(((__tact_my_balance() - $Context$_get_value(__tact_context_get())) - 200000000), $self'total_ton_contributed);
+        int $total_share = 0;
+        int $i = 0;
+        while (($i < $self'distribution_number_pools)) {
+            $total_share = ($total_share + $PoolConfig$_get_share($PoolConfig$_not_null($PoolConfig$_load_opt(__tact_dict_get_int_cell($self'distribution_pools, 257, $i)))));
+            $i = ($i + 1);
+        }
+        $i = 0;
+        while (($i < $self'distribution_number_pools)) {
+            int $pool_share = $PoolConfig$_get_share($PoolConfig$_not_null($PoolConfig$_load_opt(__tact_dict_get_int_cell($self'distribution_pools, 257, $i))));
+            slice $pool_address = $PoolConfig$_get_address($PoolConfig$_not_null($PoolConfig$_load_opt(__tact_dict_get_int_cell($self'distribution_pools, 257, $i))));
+            int $pool_amount = (($amount_to_distribute * $pool_share) / $total_share);
+            $global_send_ton($pool_address, $pool_amount, false, __gen_cell_comment_4dc14a591dd3d7b69af938147ebffab72c34218309a2607ab1564ede5b59c23a());
+            $i = ($i + 1);
+            $global_emit($DistributionEvent$_store_cell($DistributionEvent$_constructor_amount_address($pool_amount, $pool_address)));
+        }
+    }
+    $self'distribution_complete = true;
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), ()) $TonupLauncherFixedPriceUnrestricted$_internal_text_68e49d60dbcd3c869c5653e7877acc9972c877f11dbba9acd9aa217c899ab3c5((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    throw_unless(32513, $self'distribution_complete);
+    int $dust_to_claim = 0;
+    $dust_to_claim = ((((__tact_my_balance() - $Context$_get_value(__tact_context_get())) - 200000000) + $self'total_ton_refunded) - $self'total_ton_contributed);
+    $global_send_ton($self'owner, $dust_to_claim, false, __gen_cell_comment_b8b06dd7dc24ff63d3c8845171dc7bcbf12ff930f31494a5a8b00da7263631ba());
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_Participate((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var ($msg'amount) = $msg;
+    throw_unless(17325, ($Context$_get_value(__tact_context_get()) == ($msg'amount + 100000000)));
+    throw_unless(42340, (now() >= $self'config'start_time));
+    throw_unless(26949, (now() < $self'config'end_time));
+    throw_unless(17926, $self'config_validated);
+    throw_unless(10560, (($self'total_ton_contributed + $msg'amount) <= $self'config'max_total_ton));
+    throw_unless(47824, ($msg'amount >= $self'config'min_ton_per_tx));
+    int $current_participation = 0;
+    if ((~ null?(__tact_dict_get_slice_uint($self'participation, 267, __tact_context_get_sender(), 256)))) {
+        $current_participation = __tact_not_null(__tact_dict_get_slice_uint($self'participation, 267, __tact_context_get_sender(), 256));
+    }
+    throw_unless(62424, (($current_participation + $msg'amount) <= $self'config'max_ton_per_user));
+    $self'total_ton_contributed = ($self'total_ton_contributed + $msg'amount);
+    $self'participation~__tact_dict_set_slice_uint(267, __tact_context_get_sender(), ($current_participation + $msg'amount), 256);
+    $global_emit($ParticipatedEvent$_store_cell($ParticipatedEvent$_constructor_sender_amount(__tact_context_get_sender(), $msg'amount)));
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), ()) $TonupLauncherFixedPriceUnrestricted$_internal_text_535d44514554aee036c09a39063fe878ca30a50cb9b5f8f6f1ec24f13e3169e9((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    throw_unless(15304, ($Context$_get_value(__tact_context_get()) >= 150000000));
+    throw_unless(42340, (now() >= $self'claim_start_time));
+    throw_unless(49317, $self'launch_finalized);
+    throw_unless(31191, ($self'total_ton_contributed >= $self'config'min_total_ton));
+    throw_unless(44799, ( ((~ null?(__tact_dict_get_slice_uint($self'participation, 267, __tact_context_get_sender(), 256)))) ? ((__tact_not_null(__tact_dict_get_slice_uint($self'participation, 267, __tact_context_get_sender(), 256)) != 0)) : (false) ));
+    int $claim_amount = ((__tact_not_null(__tact_dict_get_slice_uint($self'participation, 267, __tact_context_get_sender(), 256)) * $self'config'tokens_per_ton) / 1000000000);
+    $self'participation~__tact_dict_set_slice_uint(267, __tact_context_get_sender(), 0, 256);
+    $global_send_jetton($self'config'token_wallet_address, __tact_context_get_sender(), $claim_amount, 0, true, __gen_slice_string_a50d195b92117898d30072260f28501811b149e6005edddfc6609e4cc37d4ac8());
+    $global_emit($ClaimedEvent$_store_cell($ClaimedEvent$_constructor_sender_amount(__tact_context_get_sender(), $claim_amount)));
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), ()) $TonupLauncherFixedPriceUnrestricted$_internal_text_b0ff00cda639475b5e711360e99508a2790d5ee34d0598e7d8066850f3ac6c11((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    throw_unless(15304, ($Context$_get_value(__tact_context_get()) >= 150000000));
+    throw_unless(42340, (now() >= $self'claim_start_time));
+    throw_unless(49317, $self'launch_finalized);
+    throw_unless(54891, ($self'total_ton_contributed < $self'config'min_total_ton));
+    throw_unless(44799, ( ((~ null?(__tact_dict_get_slice_uint($self'participation, 267, __tact_context_get_sender(), 256)))) ? ((__tact_not_null(__tact_dict_get_slice_uint($self'participation, 267, __tact_context_get_sender(), 256)) != 0)) : (false) ));
+    int $claim_amount = __tact_not_null(__tact_dict_get_slice_uint($self'participation, 267, __tact_context_get_sender(), 256));
+    $self'participation~__tact_dict_set_slice_uint(267, __tact_context_get_sender(), 0, 256);
+    $self'total_ton_refunded = ($self'total_ton_refunded + $claim_amount);
+    $global_send_ton(__tact_context_get_sender(), $claim_amount, false, __gen_cell_comment_73cc63e7c356e26074f0ebda69a9c9185fb7800f91f62bc094ce49e050523850());
+    $global_emit($RefundedEvent$_store_cell($RefundedEvent$_constructor_sender_amount(__tact_context_get_sender(), $claim_amount)));
+    $global_refund_gas();
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_Deploy((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, (int) $deploy) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+(((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int)), ()) $TonupLauncherFixedPriceUnrestricted$_internal_binary_ChangeOwner((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) $self, (int, slice) $msg) impure inline {
+    var ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful) = $self;
+    var ($msg'queryId, $msg'newOwner) = $msg;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_requireOwner();
+    $self'owner = $msg'newOwner;
+    ($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful)~$TonupLauncherFixedPriceUnrestricted$_fun_reply($ChangeOwnerOk$_store_cell($ChangeOwnerOk$_constructor_queryId_newOwner($msg'queryId, $msg'newOwner)));
+    return (($self'owner, ($self'config'min_total_ton, $self'config'max_total_ton, $self'config'min_ton_per_tx, $self'config'max_ton_per_user, $self'config'tokens_per_ton, $self'config'token_wallet_address, $self'config'unsold_token_refund_address, $self'config'start_time, $self'config'end_time), $self'total_ton_contributed, $self'total_ton_refunded, $self'config_validated, $self'tokens_awaiting_launch, $self'claim_start_time, $self'participation, $self'distribution_number_pools, $self'distribution_pools, $self'distribution_complete, $self'launch_finalized, $self'launch_successful), ());
+}
+
+;;
+;; Get methods of a Contract TonupLauncherFixedPriceUnrestricted
+;;
+
+_ %config() method_id(103021) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_config();
+    return $LauncherConfig$_to_external(res);
+}
+
+_ %totalTon() method_id(95408) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_totalTon();
+    return res;
+}
+
+_ %validated() method_id(110138) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_validated();
+    return res;
+}
+
+_ %balance() method_id(104128) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_balance();
+    return res;
+}
+
+_ %participation(slice $$addr) method_id(111357) {
+    slice $addr = __tact_verify_address($$addr);
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_participation($addr);
+    return res;
+}
+
+_ %numberPools() method_id(77738) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_numberPools();
+    return res;
+}
+
+_ %poolConfig(int $$index) method_id(109982) {
+    int $index = $$index;
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_poolConfig($index);
+    return $PoolConfig$_to_external(res);
+}
+
+_ %claimStartTime() method_id(102701) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_claimStartTime();
+    return res;
+}
+
+_ %launchFinalized() method_id(91882) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_launchFinalized();
+    return res;
+}
+
+_ %launchSuccessful() method_id(89526) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_launchSuccessful();
+    return res;
+}
+
+_ %tokensAwaitingLaunch() method_id(66900) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_tokensAwaitingLaunch();
+    return res;
+}
+
+_ %metadataName() method_id(129036) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_metadataName();
+    return res;
+}
+
+_ %metadataType() method_id(70893) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_metadataType();
+    return res;
+}
+
+_ %metadataVersion() method_id(91122) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_metadataVersion();
+    return res;
+}
+
+_ %metadataTicker() method_id(120350) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_metadataTicker();
+    return res;
+}
+
+_ %gasClaim() method_id(99103) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_gasClaim();
+    return res;
+}
+
+_ %gasRefund() method_id(88045) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_gasRefund();
+    return res;
+}
+
+_ %gasParticipate() method_id(81115) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_gasParticipate();
+    return res;
+}
+
+_ %owner() method_id(83229) {
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    var res = self~$TonupLauncherFixedPriceUnrestricted$_fun_owner();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable.transferable.v2"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmaebL2bm1FhNd2AXTjPw81shkZrgRpnNgwBBkbwssgbjJ";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract TonupLauncherFixedPriceUnrestricted
+;;
+
+((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int), int) $TonupLauncherFixedPriceUnrestricted$_contract_router_internal((slice, (int, int, int, int, int, slice, slice, int, int), int, int, int, int, int, cell, int, cell, int, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive TransferNotification message
+    if (op == 1935855772) {
+        var msg = in_msg~$TransferNotification$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_TransferNotification(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Excesses message
+    if (op == 3576854235) {
+        var msg = in_msg~$Excesses$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_Excesses(msg);
+        return (self, true);
+    }
+    
+    ;; Receive SetLauncherConfig message
+    if (op == 3386179862) {
+        var msg = in_msg~$SetLauncherConfig$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_SetLauncherConfig(msg);
+        return (self, true);
+    }
+    
+    ;; Receive SetClaimStartTime message
+    if (op == 1502674262) {
+        var msg = in_msg~$SetClaimStartTime$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_SetClaimStartTime(msg);
+        return (self, true);
+    }
+    
+    ;; Receive AddDistributionPool message
+    if (op == 1262522374) {
+        var msg = in_msg~$AddDistributionPool$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_AddDistributionPool(msg);
+        return (self, true);
+    }
+    
+    ;; Receive DeleteDistributionPool message
+    if (op == 4245807583) {
+        var msg = in_msg~$DeleteDistributionPool$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_DeleteDistributionPool(msg);
+        return (self, true);
+    }
+    
+    ;; Receive ModifyDistributionPool message
+    if (op == 4028846959) {
+        var msg = in_msg~$ModifyDistributionPool$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_ModifyDistributionPool(msg);
+        return (self, true);
+    }
+    
+    ;; Receive ManualTransferNotification message
+    if (op == 3469646442) {
+        var msg = in_msg~$ManualTransferNotification$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_ManualTransferNotification(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Participate message
+    if (op == 3806870373) {
+        var msg = in_msg~$Participate$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_Participate(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    ;; Receive ChangeOwner message
+    if (op == 2174598809) {
+        var msg = in_msg~$ChangeOwner$_load();
+        self~$TonupLauncherFixedPriceUnrestricted$_internal_binary_ChangeOwner(msg);
+        return (self, true);
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "fund gas" message
+        if (text_op == 0x0a0833328ac509815f762666d0411c0bfd422f48e0d183444ad2902009e6fc53) {
+            self~$TonupLauncherFixedPriceUnrestricted$_internal_text_0a0833328ac509815f762666d0411c0bfd422f48e0d183444ad2902009e6fc53();
+            return (self, true);
+        }
+        
+        ;; Receive "validate" message
+        if (text_op == 0x95dbc872c3a0b54b6004c2d3ba6c02e40c2393c83dd9f21b86c4d8231a9544f0) {
+            self~$TonupLauncherFixedPriceUnrestricted$_internal_text_95dbc872c3a0b54b6004c2d3ba6c02e40c2393c83dd9f21b86c4d8231a9544f0();
+            return (self, true);
+        }
+        
+        ;; Receive "finalize" message
+        if (text_op == 0xefdb9e99edc1eb6a18fd98ca5ce6077a72be4f84808a5bf94d1de89d563e131a) {
+            self~$TonupLauncherFixedPriceUnrestricted$_internal_text_efdb9e99edc1eb6a18fd98ca5ce6077a72be4f84808a5bf94d1de89d563e131a();
+            return (self, true);
+        }
+        
+        ;; Receive "distribute" message
+        if (text_op == 0x41edba6865897d67a7ab07fd40b6c902bc8e34e507bdf33933dda89117aef4d2) {
+            self~$TonupLauncherFixedPriceUnrestricted$_internal_text_41edba6865897d67a7ab07fd40b6c902bc8e34e507bdf33933dda89117aef4d2();
+            return (self, true);
+        }
+        
+        ;; Receive "withdraw dust" message
+        if (text_op == 0x68e49d60dbcd3c869c5653e7877acc9972c877f11dbba9acd9aa217c899ab3c5) {
+            self~$TonupLauncherFixedPriceUnrestricted$_internal_text_68e49d60dbcd3c869c5653e7877acc9972c877f11dbba9acd9aa217c899ab3c5();
+            return (self, true);
+        }
+        
+        ;; Receive "claim" message
+        if (text_op == 0x535d44514554aee036c09a39063fe878ca30a50cb9b5f8f6f1ec24f13e3169e9) {
+            self~$TonupLauncherFixedPriceUnrestricted$_internal_text_535d44514554aee036c09a39063fe878ca30a50cb9b5f8f6f1ec24f13e3169e9();
+            return (self, true);
+        }
+        
+        ;; Receive "refund" message
+        if (text_op == 0xb0ff00cda639475b5e711360e99508a2790d5ee34d0598e7d8066850f3ac6c11) {
+            self~$TonupLauncherFixedPriceUnrestricted$_internal_text_b0ff00cda639475b5e711360e99508a2790d5ee34d0598e7d8066850f3ac6c11();
+            return (self, true);
+        }
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $TonupLauncherFixedPriceUnrestricted$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$TonupLauncherFixedPriceUnrestricted$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $TonupLauncherFixedPriceUnrestricted$_contract_store(self);
+}

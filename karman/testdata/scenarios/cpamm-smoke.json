@@ -1,0 +1,13 @@
+{
+  "name": "cpamm-smoke",
+  "seed": 42,
+  "n_ticks": 500,
+  "mechanism": {
+    "kind": "cpamm",
+    "token_reserve": "1000000000",
+    "quote_reserve": "1000000000"
+  },
+  "agents": [
+    { "count": 5, "behaviour": { "kind": "noise_trader", "trade_cap": 1000000 } }
+  ]
+}

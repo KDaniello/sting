@@ -1,0 +1,71 @@
+[workspace]
+resolver = "3"
+# One crate, and the reason it is alone: the Morpho Blue reference executes on `revm`, and an EVM
+# executor inside a TON workspace is a second chain arriving without a decision
+# (`../docs/DECISIONS.md` §6). Everything else this project had is in the tree under `sting-karman-*`;
+# what stays here is the reference, the corpus it produces, and the documents that describe both.
+members = ["crates/karman-reference"]
+
+[workspace.dependencies]
+# The crates that travelled, reached by path: this workspace is a leaf of the tree rather than a
+# copy of it, and a version of its own here would be a second answer to what version they are.
+sting-karman-types = { path = "../crates/sting-karman-types", version = "0.0.0" }
+sting-karman-core = { path = "../crates/sting-karman-core", version = "0.0.0" }
+sting-karman-mech-lending = { path = "../crates/sting-karman-mech-lending", version = "0.0.0" }
+sting-karman-data = { path = "../crates/sting-karman-data", version = "0.0.0" }
+sting-karman-verify = { path = "../crates/sting-karman-verify", version = "0.0.0" }
+
+alloy-sol-types = "1"
+# The reference EVM of level 0. Default features off: the optional precompiles bring a C
+# toolchain and a signature stack that executing one Solidity contract has no use for.
+revm = { version = "42", default-features = false, features = ["std"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2.0.18"
+
+[workspace.package]
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.98.0"
+license = "Apache-2.0"
+repository = "https://github.com/karman-dev/karman"
+authors = ["The Karman contributors"]
+
+[workspace.lints.rust]
+missing_debug_implementations = "warn"
+# The public surface documents itself or it does not build. A review can be skipped and a lint
+# cannot, which is the difference between a gate and an intention.
+missing_docs = "warn"
+unreachable_pub = "warn"
+rust_2018_idioms = { level = "warn", priority = -1 }
+unused_must_use = "deny"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+# Nondeterminism in a result-producing tool is the one unforgivable bug class.
+# These are the mechanical half of docs/ARCHITECTURE.md 8, rules 1 and 2.
+disallowed_methods = "deny"
+disallowed_types = "deny"
+missing_panics_doc = "warn"
+missing_safety_doc = "deny"
+undocumented_unsafe_blocks = "deny"
+
+[workspace.lints.rustdoc]
+all = { level = "warn", priority = -1 }
+broken_intra_doc_links = "deny"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 16
+debug = 1
+panic = "unwind"
+
+[profile.maxperf]
+inherits = "release"
+lto = "fat"
+codegen-units = 1
+
+[profile.bench]
+inherits = "release"
+debug = true

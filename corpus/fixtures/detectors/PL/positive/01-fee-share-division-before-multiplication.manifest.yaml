@@ -1,0 +1,4 @@
+defect_class: PL
+location: { file: "01-fee-share-division-before-multiplication.tolk", line: 2, column: 12 }
+description: "`poolAmount / totalShares * userShares` truncates the pool-share ratio before multiplying by userShares — should be `poolAmount * userShares / totalShares` to lose precision only once, on the largest possible numerator"
+source: "TONScanner taxonomy (arXiv 2501.06459): Precision Loss — division before multiplication, rounding loss of assets in DeFi"

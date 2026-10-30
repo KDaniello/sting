@@ -1,0 +1,4 @@
+defect_class: UTA
+location: { file: "01-same-function-signed-amount.tolk", line: 7, column: 5 }
+description: "`amount` is read via `.loadInt` (signed) in the same function, then used to debit `fromBalance` and credit `toBalance` — only `fromBalance` is validated afterwards, so a negative `amount` mints value into `toBalance` unchecked"
+source: "sting's own addition (not a TONScanner code, docs/PROJECT_REVIEW.md direction 5) — a same-function simplification of the real, cross-function shape found on hacktheton.com's token_level (see 02-cross-function-transfer.tolk for the faithful shape)"

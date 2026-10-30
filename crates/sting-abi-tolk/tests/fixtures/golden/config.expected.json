@@ -1,0 +1,578 @@
+{
+  "ir_schema_version": "0.2",
+  "source_language": "tolk",
+  "extraction_tier": "compiled",
+  "contract_name": "Config",
+  "metadata": {
+    "author": "The Tolk Team",
+    "version": "1.0.0",
+    "description": "TON Config contract. Manages network configuration parameters"
+  },
+  "storage": 23,
+  "types": [
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "void"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": null,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "slice"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "builder"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "bool"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "coins"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "address"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": false
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 64,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 64,
+        "signed": false
+      }
+    },
+    {
+      "name": "SetNextValidatorSetRequest",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1314280276,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "vset",
+            "ty": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "SetCustomParamRequest",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1849906028,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "paramId",
+            "ty": 8
+          },
+          {
+            "name": "receiverAddress",
+            "ty": 7
+          },
+          {
+            "name": "value",
+            "ty": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "NewVotingProposalRequest",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1851150418,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "expireAt",
+            "ty": 9
+          },
+          {
+            "name": "critical",
+            "ty": 5
+          },
+          {
+            "name": "proposal",
+            "ty": 19
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigProposal",
+      "description": null,
+      "prefix": {
+        "prefix_num": 243,
+        "prefix_len": 8
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "paramId",
+            "ty": 8
+          },
+          {
+            "name": "paramValue",
+            "ty": 16
+          },
+          {
+            "name": "ifHashEqual",
+            "ty": 18
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 3
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 256,
+        "signed": false
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 17
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell_packed",
+        "inner": 15
+      }
+    },
+    {
+      "name": "VoteForProposalRequest",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1450144869,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "signature",
+            "ty": 21
+          },
+          {
+            "name": "signedVoteBody",
+            "ty": 22
+          }
+        ]
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "bits",
+        "width": 512
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "remaining"
+      }
+    },
+    {
+      "name": "Storage",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "config",
+            "ty": 24
+          },
+          {
+            "name": "storedSeqno",
+            "ty": 9
+          },
+          {
+            "name": "publicKey",
+            "ty": 17
+          },
+          {
+            "name": "voteDict",
+            "ty": 26
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigDict",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "alias",
+        "target": 25
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 8,
+        "value": 3
+      }
+    },
+    {
+      "name": "VoteDict",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "alias",
+        "target": 27
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 17,
+        "value": 2
+      }
+    },
+    {
+      "name": "AnswerBody",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ansTag",
+            "ty": 9
+          },
+          {
+            "name": "queryId",
+            "ty": 11
+          }
+        ]
+      }
+    },
+    {
+      "name": "ElectorCodeChangeAction",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1313042276,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "queryId",
+            "ty": 11
+          },
+          {
+            "name": "payload",
+            "ty": 22
+          }
+        ]
+      }
+    },
+    {
+      "name": "tuple",
+      "description": "`tuple` represents a TVM tuple. Essentially, it's \"an array of unknown elements\".\nReading an individual element results in `unknown`, cast it to perform some actions:\n```\n// wrong:\nvar elem = someTuple.get(0);    // unknown\nreturn elem + 123;              // error, can not apply `+`\n\n// correct:\nvar elem = someTuple.get(0) as int;\nreturn elem + 123;\n```",
+      "prefix": null,
+      "shape": {
+        "kind": "alias",
+        "target": 32
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "unknown"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "array",
+        "inner": 31
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 30
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "lisp_list",
+        "inner": 30
+      }
+    }
+  ],
+  "incoming_internal": [
+    {
+      "ty": 12
+    },
+    {
+      "ty": 13
+    },
+    {
+      "ty": 14
+    },
+    {
+      "ty": 20
+    }
+  ],
+  "incoming_external": [
+    {
+      "ty": 2
+    }
+  ],
+  "outgoing": [
+    {
+      "ty": 28
+    },
+    {
+      "ty": 29
+    }
+  ],
+  "get_methods": [
+    {
+      "tvm_method_id": 85143,
+      "name": "seqno",
+      "parameters": [],
+      "return_ty": 1
+    },
+    {
+      "tvm_method_id": 94347,
+      "name": "get_proposal",
+      "parameters": [
+        {
+          "name": "proposalHash",
+          "ty": 1
+        }
+      ],
+      "return_ty": 33
+    },
+    {
+      "tvm_method_id": 107394,
+      "name": "list_proposals",
+      "parameters": [],
+      "return_ty": 34
+    },
+    {
+      "tvm_method_id": 75077,
+      "name": "proposal_storage_price",
+      "parameters": [
+        {
+          "name": "critical",
+          "ty": 1
+        },
+        {
+          "name": "seconds",
+          "ty": 1
+        },
+        {
+          "name": "bits",
+          "ty": 1
+        },
+        {
+          "name": "refs",
+          "ty": 1
+        }
+      ],
+      "return_ty": 1
+    }
+  ],
+  "errors": [
+    {
+      "kind": "plain",
+      "code": 0
+    },
+    {
+      "kind": "named",
+      "name": "ERROR_INVALID_VALIDATOR_SET",
+      "code": 9
+    },
+    {
+      "kind": "named",
+      "name": "ERROR_BAD_SEQNO",
+      "code": 33
+    },
+    {
+      "kind": "named",
+      "name": "ERROR_INVALID_SIGNATURE",
+      "code": 34
+    },
+    {
+      "kind": "named",
+      "name": "ERROR_VALID_UNTIL_EXPIRED",
+      "code": 35
+    },
+    {
+      "kind": "named",
+      "name": "ERROR_INVALID_MESSAGE",
+      "code": 37
+    },
+    {
+      "kind": "named",
+      "name": "ERROR_EXTERNAL_BODY_TOO_DEEP",
+      "code": 39
+    },
+    {
+      "kind": "named",
+      "name": "ERROR_WRONG_CURRENT_VSET",
+      "code": 40
+    },
+    {
+      "kind": "named",
+      "name": "ERROR_WRONG_VALIDATOR_DESCRIPTION",
+      "code": 41
+    },
+    {
+      "kind": "named",
+      "name": "ERROR_INVALID_PROPOSAL_STATUS",
+      "code": 44
+    }
+  ],
+  "confidence": null,
+  "field_confidence": null
+}

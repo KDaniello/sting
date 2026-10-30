@@ -1,0 +1,4 @@
+defect_class: UR
+location: { file: "02-load-value-written-backwards-in-ternary.tolk", line: 3, column: 36 }
+description: "`lookup.isFound ? null : lookup.loadValue()` calls `.loadValue()` in the *not found* branch of the ternary — exactly backwards, as wrong as no guard at all"
+source: "TONScanner taxonomy (arXiv 2501.06459): Unchecked Return — return value of a called function is not checked"

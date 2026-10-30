@@ -1,0 +1,4 @@
+defect_class: UDA
+location: { file: "01-raw-cell-relay.tolk", line: 5, column: 5 }
+description: "`sendRawMessage(relayMsg, 64)` sends a message whose destination address (`recipient`) was read directly from the incoming message body (`inMsgBody.loadAddress()`) with no check at all — an open relay, the real `hacktheton.com` `proxy_level` shape this detector was built for"
+source: "sting's own addition (docs/PROJECT_REVIEW.md direction 5 session 2 Фаза 8), first taint-tracking detector"

@@ -1,0 +1,15 @@
+# What a human who already knows the contract writes down, so that `sting verify` can drive the
+# exploit strategy the bridge tests already prove instead of a Rust literal per contract.
+#
+# This one is the unchecked-bounced-message shape on a jetton-style contract: a mint that debits
+# and then sends. The two values are the contract's own — the opcode its dispatch reads, and an
+# amount large enough for the debit to matter — and a caller checking a different contract writes
+# a different pair rather than reusing these.
+#
+# A finding whose detector class has no section here is still reported and still scored on static
+# evidence alone. A hypothesis file covers what its author wants confirmed dynamically, and is not
+# expected to cover every class.
+
+[UBM]
+mint_op = "0x4d494e54"
+mint_amount = 1000000000

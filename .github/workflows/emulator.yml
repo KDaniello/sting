@@ -1,0 +1,45 @@
+name: Emulator
+
+on:
+  pull_request:
+    paths:
+      - 'crates/sting-emulator-sys/**'
+      - 'crates/sting-emulator/**'
+      - 'crates/sting-pipeline/**'
+      - 'corpus/fixtures/emulator/**'
+      - 'corpus/fixtures/bridge/**'
+      - '.github/workflows/emulator.yml'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: libemulator-linux-x86_64.so
+            local_name: libemulator.so
+          - os: windows-latest
+            asset: libemulator.dll
+            local_name: libemulator.dll
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Read the pinned libemulator release
+        shell: bash
+        run: |
+          tag=$(grep -m1 '^release = ' crates/sting-emulator-sys/Cargo.toml | cut -d'"' -f2)
+          test -n "$tag"
+          echo "LIBEMULATOR_RELEASE_TAG=$tag" >> "$GITHUB_ENV"
+      - name: Fetch libemulator (${{ matrix.os }})
+        shell: bash
+        run: |
+          mkdir -p vendor/libemulator
+          curl -sL --fail \
+            "https://github.com/ton-blockchain/ton/releases/download/${LIBEMULATOR_RELEASE_TAG}/${{ matrix.asset }}" \
+            -o "vendor/libemulator/${{ matrix.local_name }}"
+      - run: cargo test -p sting-emulator-sys -p sting-emulator -p sting-pipeline

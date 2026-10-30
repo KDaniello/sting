@@ -1,0 +1,25 @@
+root = true
+
+[*]
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+indent_style = space
+indent_size = 4
+
+[*.{md,yml,yaml,json,toml}]
+indent_size = 2
+
+# A hard line break in Markdown is two trailing spaces, and trimming them silently rewrites the
+# document.
+[*.md]
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab
+
+# Contract sources and the artefacts derived from them are quoted as they were found on chain, so
+# no editor rule touches them.
+[{corpus/**,corpus-abi/**}]
+insert_final_newline = false
+trim_trailing_whitespace = false

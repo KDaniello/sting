@@ -1,0 +1,143 @@
+#include "imports/stdlib.fc";
+
+#include "errors.fc";
+
+#include "op-codes.fc";
+
+#include "messages.fc";
+
+
+
+int bounceble_message() asm "0x18 PUSHINT";
+
+int non_bounceble_message() asm "0x10 PUSHINT";
+
+int send_all_and_destroy() asm "160 PUSHINT";
+
+
+
+;; storage scheme
+
+
+
+(int, slice, slice, int) load_data() impure inline {
+
+    slice ds = get_data().begin_parse();
+
+    return (
+
+            ds~load_uint(64), ;; limit (deposit value)
+
+            ds~load_msg_addr(), ;; master address
+
+            ds~load_msg_addr(), ;; owner address
+
+            ds~load_uint(32) ;; record num
+
+    );
+
+}
+
+
+
+() save_data(int limit, slice master_address, slice owner_address, int record_num) impure inline {
+
+    set_data(begin_cell()
+
+            .store_uint(limit, 64)
+
+            .store_slice(master_address)
+
+            .store_slice(owner_address)
+
+            .store_uint(record_num, 32)
+
+            .end_cell()
+
+    );
+
+}
+
+
+
+
+
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice in_msg_body) impure {
+
+    slice cs = in_msg_full.begin_parse();
+
+    int flags = cs~load_uint(4);
+
+
+
+    if (flags & 1) { ;; ignore all bounced messages
+
+        return ();
+
+    }
+
+    slice sender_address = cs~load_msg_addr();
+
+    (int limit, slice master_address, slice owner_address, int record_num) = load_data();
+
+    throw_unless(error::not_an_admin(), equal_slices(sender_address, master_address));
+
+    
+
+    int op = in_msg_body~load_uint(32);
+
+    int query_id = in_msg_body~load_uint(64);
+
+
+
+    if(op == op::activate()){
+
+        throw_if(error::no_address_attached(), in_msg_body.slice_empty?());  ;; no owner address attached
+
+        slice actual_owner_address = in_msg_body~load_msg_addr();
+
+        save_data(limit, master_address, actual_owner_address, record_num);
+
+        return();
+
+    }
+
+
+
+    if(op == op::send_payment()){
+
+        var msg = begin_cell()
+
+                .store_uint(non_bounceble_message(), 6)
+
+                .store_slice(owner_address)
+
+                .store_coins(0)
+
+                .store_uint(no_init_state_body_along(), default_message_layout())
+
+                .store_uint(0, 32)
+
+                .store_slice("TOPyramid payment!");
+
+        send_raw_message(msg.end_cell(), send_all_and_destroy());
+
+        return();
+
+    }
+
+
+
+    throw(error::unknown_op());
+
+}
+
+
+
+(int, slice, slice, int) get_record_data() method_id {
+
+    (int limit, slice master_address, slice owner_address, int record_num) = load_data();
+
+    return (limit, master_address, owner_address, record_num);
+
+}

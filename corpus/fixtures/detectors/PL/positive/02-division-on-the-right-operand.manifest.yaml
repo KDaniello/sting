@@ -1,0 +1,4 @@
+defect_class: PL
+location: { file: "02-division-on-the-right-operand.tolk", line: 2, column: 12 }
+description: "`userWeight * (totalReward / totalWeight)` — the division is the multiplication's right operand, not the left, but the same truncation-before-multiply shape applies"
+source: "TONScanner taxonomy (arXiv 2501.06459): Precision Loss — division before multiplication, rounding loss of assets in DeFi"

@@ -1,0 +1,27 @@
+[package]
+name = "sting-sybil-python"
+description = "The Arrow bridge: a feature table built in Rust and read in Python without being serialised"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[lib]
+# Python imports `sybil_native`, which is what the module function is called; the library target
+# is named apart from it so nothing collides on a build artifact.
+name = "sybil_native"
+crate-type = ["cdylib"]
+# A dynamic library built to be imported by Python has no rustdoc audience.
+doc = false
+
+[dependencies]
+sting-sybil-features = { workspace = true }
+arrow = { workspace = true }
+pyo3 = { workspace = true }
+pyo3-arrow = { workspace = true }
+
+[lints]
+workspace = true

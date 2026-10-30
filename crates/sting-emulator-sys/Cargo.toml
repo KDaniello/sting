@@ -1,0 +1,45 @@
+[package]
+name = "sting-emulator-sys"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+# NOTE: cannot use `[lints] workspace = true` here — Cargo does not allow mixing
+# workspace inheritance with a local override in the same [lints] table. This crate
+# is the ONE documented exception to the workspace-wide `unsafe_code = "forbid""
+# (see docs/ARCHITECTURE.md §3.1), so its lints are spelled out explicitly instead,
+# kept in sync by hand with [workspace.lints] in the root Cargo.toml.
+# The one `libemulator` build this crate accepts. `build.rs` reads this table
+# and compiles the commit in, so the pin has a single spelling and cannot drift
+# from what the code asserts. TON's emulator moves per-commit rather than per
+# release, so the commit is the version; the release is provenance, not identity.
+[package.metadata.libemulator]
+commit = "3f598aa2f0911317b626f4093177241e61798c61"
+date = "2026-07-15 13:49:38 +0300"
+release = "v2026.06"
+source = "https://github.com/ton-blockchain/ton/releases/tag/v2026.06"
+
+[lints.rust]
+unsafe_code = "allow"
+missing_docs = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+cargo = { level = "warn", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+undocumented_unsafe_blocks = "deny"
+multiple_crate_versions = "allow"
+module_name_repetitions = "allow"
+
+[build-dependencies]
+toml = "1.1.3"
+
+[dependencies]
+libloading = "0.9.0"
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }

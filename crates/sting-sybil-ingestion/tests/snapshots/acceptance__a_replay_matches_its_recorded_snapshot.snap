@@ -1,0 +1,11 @@
+---
+source: crates/sting-sybil-ingestion/tests/acceptance.rs
+assertion_line: 145
+expression: store.summary()
+---
+{
+  "tx_count": 5,
+  "message_count": 0,
+  "checkpoint": 101,
+  "op_code_counts": {}
+}

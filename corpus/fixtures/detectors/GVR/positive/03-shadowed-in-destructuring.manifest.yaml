@@ -1,0 +1,4 @@
+defect_class: GVR
+location: { file: "03-shadowed-in-destructuring.tolk", line: 16, column: 10 }
+description: "tuple-destructured local `var (owner, extra)` shadows storage field `owner` of `VestingStorage`"
+source: "CertiK: Secure Smart Contract Programming in FunC — Top 10 Tips (namespace pollution)"

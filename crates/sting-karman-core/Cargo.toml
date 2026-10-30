@@ -1,0 +1,32 @@
+[package]
+name = "sting-karman-core"
+description = "Ports, deterministic engine and conformance suite; no I/O, no network, no clocks"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+# Nothing here is published: this is a platform rather than a set of libraries, and a crate that
+# says nothing about publication is a crate a lint asks for keywords it will never use.
+publish = false
+
+[dependencies]
+sting-karman-types = { workspace = true }
+rand_chacha = { workspace = true }
+rand_core = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+toml = { workspace = true }
+
+[features]
+# The reference mechanism in `testing`, for crates above the ports that must exercise generic
+# code without depending on a real mechanism family.
+testing = []
+
+[dev-dependencies]
+proptest = { workspace = true }
+
+[lints]
+workspace = true

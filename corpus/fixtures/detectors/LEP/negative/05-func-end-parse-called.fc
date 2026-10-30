@@ -1,0 +1,6 @@
+;; The body is read and its end is asserted, which is the whole contract.
+() recv_internal(int msg_value, cell in_msg_full, slice in_msg_body) impure {
+  int op = in_msg_body~load_uint(32);
+  int query_id = in_msg_body~load_uint(64);
+  in_msg_body.end_parse();
+}

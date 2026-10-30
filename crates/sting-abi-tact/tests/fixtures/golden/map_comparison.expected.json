@@ -1,0 +1,793 @@
+{
+  "ir_schema_version": "0.2",
+  "source_language": "tact",
+  "extraction_tier": "compiled",
+  "contract_name": "MapComparisonTestContract",
+  "metadata": {
+    "author": null,
+    "version": null,
+    "description": null
+  },
+  "storage": 12,
+  "types": [
+    {
+      "name": "DataSize",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cells",
+            "ty": 13
+          },
+          {
+            "name": "bits",
+            "ty": 13
+          },
+          {
+            "name": "refs",
+            "ty": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "SignedBundle",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "signature",
+            "ty": 14
+          },
+          {
+            "name": "signedData",
+            "ty": 15
+          }
+        ]
+      }
+    },
+    {
+      "name": "StateInit",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "code",
+            "ty": 16
+          },
+          {
+            "name": "data",
+            "ty": 16
+          }
+        ]
+      }
+    },
+    {
+      "name": "Context",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bounceable",
+            "ty": 17
+          },
+          {
+            "name": "sender",
+            "ty": 18
+          },
+          {
+            "name": "value",
+            "ty": 13
+          },
+          {
+            "name": "raw",
+            "ty": 19
+          }
+        ]
+      }
+    },
+    {
+      "name": "SendParameters",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mode",
+            "ty": 13
+          },
+          {
+            "name": "body",
+            "ty": 20
+          },
+          {
+            "name": "code",
+            "ty": 20
+          },
+          {
+            "name": "data",
+            "ty": 20
+          },
+          {
+            "name": "value",
+            "ty": 13
+          },
+          {
+            "name": "to",
+            "ty": 18
+          },
+          {
+            "name": "bounce",
+            "ty": 17
+          }
+        ]
+      }
+    },
+    {
+      "name": "MessageParameters",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mode",
+            "ty": 13
+          },
+          {
+            "name": "body",
+            "ty": 20
+          },
+          {
+            "name": "value",
+            "ty": 13
+          },
+          {
+            "name": "to",
+            "ty": 18
+          },
+          {
+            "name": "bounce",
+            "ty": 17
+          }
+        ]
+      }
+    },
+    {
+      "name": "DeployParameters",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mode",
+            "ty": 13
+          },
+          {
+            "name": "body",
+            "ty": 20
+          },
+          {
+            "name": "value",
+            "ty": 13
+          },
+          {
+            "name": "bounce",
+            "ty": 17
+          },
+          {
+            "name": "init",
+            "ty": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "StdAddress",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "workchain",
+            "ty": 21
+          },
+          {
+            "name": "address",
+            "ty": 22
+          }
+        ]
+      }
+    },
+    {
+      "name": "VarAddress",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "workchain",
+            "ty": 23
+          },
+          {
+            "name": "address",
+            "ty": 19
+          }
+        ]
+      }
+    },
+    {
+      "name": "BasechainAddress",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "hash",
+            "ty": 24
+          }
+        ]
+      }
+    },
+    {
+      "name": "Compare",
+      "description": null,
+      "prefix": {
+        "prefix_num": 1473646961,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "m1",
+            "ty": 26
+          },
+          {
+            "name": "m2",
+            "ty": 26
+          }
+        ]
+      }
+    },
+    {
+      "name": "CompareDeep",
+      "description": null,
+      "prefix": {
+        "prefix_num": 3800136638,
+        "prefix_len": 32
+      },
+      "shape": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "m1",
+            "ty": 26
+          },
+          {
+            "name": "m2",
+            "ty": 26
+          }
+        ]
+      }
+    },
+    {
+      "name": "MapComparisonTestContract$Data",
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 257,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "bits",
+        "width": 512
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "remaining"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "bool"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "address"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "slice"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 16
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 8,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 256,
+        "signed": false
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 32,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "nullable",
+        "inner": 13
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": 8,
+        "signed": false
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 25,
+        "value": 17
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "int",
+        "bits": null,
+        "signed": true
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 27,
+        "value": 27
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "cell"
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 27,
+        "value": 29
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 27,
+        "value": 18
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 18,
+        "value": 27
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 18,
+        "value": 29
+      }
+    },
+    {
+      "name": null,
+      "description": null,
+      "prefix": null,
+      "shape": {
+        "kind": "map",
+        "key": 18,
+        "value": 18
+      }
+    }
+  ],
+  "incoming_internal": [
+    {
+      "ty": 10
+    },
+    {
+      "ty": 11
+    }
+  ],
+  "incoming_external": [],
+  "outgoing": [],
+  "get_methods": [
+    {
+      "tvm_method_id": 69033,
+      "name": "compareIntInt",
+      "parameters": [
+        {
+          "name": "m1",
+          "ty": 28
+        },
+        {
+          "name": "m2",
+          "ty": 28
+        }
+      ],
+      "return_ty": 17
+    },
+    {
+      "tvm_method_id": 116487,
+      "name": "compareIntCell",
+      "parameters": [
+        {
+          "name": "m1",
+          "ty": 30
+        },
+        {
+          "name": "m2",
+          "ty": 30
+        }
+      ],
+      "return_ty": 17
+    },
+    {
+      "tvm_method_id": 116486,
+      "name": "compareIntAddress",
+      "parameters": [
+        {
+          "name": "m1",
+          "ty": 31
+        },
+        {
+          "name": "m2",
+          "ty": 31
+        }
+      ],
+      "return_ty": 17
+    },
+    {
+      "tvm_method_id": 96411,
+      "name": "compareAddressInt",
+      "parameters": [
+        {
+          "name": "m1",
+          "ty": 32
+        },
+        {
+          "name": "m2",
+          "ty": 32
+        }
+      ],
+      "return_ty": 17
+    },
+    {
+      "tvm_method_id": 121653,
+      "name": "compareAddressCell",
+      "parameters": [
+        {
+          "name": "m1",
+          "ty": 33
+        },
+        {
+          "name": "m2",
+          "ty": 33
+        }
+      ],
+      "return_ty": 17
+    },
+    {
+      "tvm_method_id": 103155,
+      "name": "compareAddressAddress",
+      "parameters": [
+        {
+          "name": "m1",
+          "ty": 34
+        },
+        {
+          "name": "m2",
+          "ty": 34
+        }
+      ],
+      "return_ty": 17
+    }
+  ],
+  "errors": [
+    {
+      "kind": "named",
+      "name": "Stack underflow",
+      "code": 2
+    },
+    {
+      "kind": "named",
+      "name": "Stack overflow",
+      "code": 3
+    },
+    {
+      "kind": "named",
+      "name": "Integer overflow",
+      "code": 4
+    },
+    {
+      "kind": "named",
+      "name": "Integer out of expected range",
+      "code": 5
+    },
+    {
+      "kind": "named",
+      "name": "Invalid opcode",
+      "code": 6
+    },
+    {
+      "kind": "named",
+      "name": "Type check error",
+      "code": 7
+    },
+    {
+      "kind": "named",
+      "name": "Cell overflow",
+      "code": 8
+    },
+    {
+      "kind": "named",
+      "name": "Cell underflow",
+      "code": 9
+    },
+    {
+      "kind": "named",
+      "name": "Dictionary error",
+      "code": 10
+    },
+    {
+      "kind": "named",
+      "name": "'Unknown' error",
+      "code": 11
+    },
+    {
+      "kind": "named",
+      "name": "Fatal error",
+      "code": 12
+    },
+    {
+      "kind": "named",
+      "name": "Out of gas error",
+      "code": 13
+    },
+    {
+      "kind": "named",
+      "name": "Virtualization error",
+      "code": 14
+    },
+    {
+      "kind": "named",
+      "name": "Action list is invalid",
+      "code": 32
+    },
+    {
+      "kind": "named",
+      "name": "Action list is too long",
+      "code": 33
+    },
+    {
+      "kind": "named",
+      "name": "Action is invalid or not supported",
+      "code": 34
+    },
+    {
+      "kind": "named",
+      "name": "Invalid source address in outbound message",
+      "code": 35
+    },
+    {
+      "kind": "named",
+      "name": "Invalid destination address in outbound message",
+      "code": 36
+    },
+    {
+      "kind": "named",
+      "name": "Not enough Toncoin",
+      "code": 37
+    },
+    {
+      "kind": "named",
+      "name": "Not enough extra currencies",
+      "code": 38
+    },
+    {
+      "kind": "named",
+      "name": "Outbound message does not fit into a cell after rewriting",
+      "code": 39
+    },
+    {
+      "kind": "named",
+      "name": "Cannot process a message",
+      "code": 40
+    },
+    {
+      "kind": "named",
+      "name": "Library reference is null",
+      "code": 41
+    },
+    {
+      "kind": "named",
+      "name": "Library change action error",
+      "code": 42
+    },
+    {
+      "kind": "named",
+      "name": "Exceeded maximum number of cells in the library or the maximum depth of the Merkle tree",
+      "code": 43
+    },
+    {
+      "kind": "named",
+      "name": "Account state size exceeded limits",
+      "code": 50
+    },
+    {
+      "kind": "named",
+      "name": "Null reference exception",
+      "code": 128
+    },
+    {
+      "kind": "named",
+      "name": "Invalid serialization prefix",
+      "code": 129
+    },
+    {
+      "kind": "named",
+      "name": "Invalid incoming message",
+      "code": 130
+    },
+    {
+      "kind": "named",
+      "name": "Constraints error",
+      "code": 131
+    },
+    {
+      "kind": "named",
+      "name": "Access denied",
+      "code": 132
+    },
+    {
+      "kind": "named",
+      "name": "Contract stopped",
+      "code": 133
+    },
+    {
+      "kind": "named",
+      "name": "Invalid argument",
+      "code": 134
+    },
+    {
+      "kind": "named",
+      "name": "Code of a contract was not found",
+      "code": 135
+    },
+    {
+      "kind": "named",
+      "name": "Invalid standard address",
+      "code": 136
+    },
+    {
+      "kind": "named",
+      "name": "Not a basechain address",
+      "code": 138
+    },
+    {
+      "kind": "named",
+      "name": "Maps are not equal",
+      "code": 53111
+    }
+  ],
+  "confidence": null,
+  "field_confidence": null
+}

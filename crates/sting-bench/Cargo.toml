@@ -1,0 +1,22 @@
+[package]
+name = "sting-bench"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+sting-core = { workspace = true }
+sting-ast = { workspace = true }
+sting-detectors = { workspace = true }
+sting-pipeline = { workspace = true }
+sting-tolkc = { workspace = true }
+tempfile = { workspace = true }
+tree-sitter = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_norway = "0.9.42"
+thiserror = { workspace = true }

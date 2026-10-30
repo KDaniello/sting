@@ -1,0 +1,5 @@
+;; An address is compared, never consumed. There is no tail to assert the end of,
+;; and demanding one would be meaningless rather than merely unmet.
+() require_owner(slice sender_address, slice owner_address) impure {
+  throw_unless(101, equal_slices(sender_address, owner_address));
+}

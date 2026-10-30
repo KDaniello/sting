@@ -1,0 +1,205 @@
+# Every number a gate names, written here the moment it is measured, with the
+# command that produced it and the host it ran on. A number quoted in a
+# document and absent from this file is a number nobody can check
+# (docs/ROADMAP.md §14).
+#
+# An entry carrying `fact` is checked against the tree by
+# `scripts/doc-numbers.py`, which derives that fact from the code. `direction`
+# says what the entry promises: `at_least` is a floor the tree must not fall
+# below, `at_most` a ceiling, `exact` a value that must not move at all. The
+# number itself stays what the gate was passed with — a file rewritten on every
+# new test is a copy of the tree, not a record.
+#
+# An entry without a `fact` is a measurement no script can rederive. It names
+# the command instead.
+#
+# Below the milestones are the golden runs: a mechanism's own numbers, pinned by the test that
+# produces them. A golden value changes only together with the change that legitimately moved it,
+# and the commit message says why. They live here rather than in a second file called the same
+# thing in a second workspace — which is what they were, and which is how one of them was read by
+# the other's reader after the merge.
+
+[host]
+name = "windows 11 pro 10.0.26200, x86-64"
+toolchain = "the version rust-toolchain.toml pins"
+
+[m0.documents_without_a_mirror]
+value = 0
+command = "python scripts/check-docs.py"
+date = "2026-08-21"
+
+[m0.rules_at_zero]
+value = 16
+command = "python scripts/check-docs.py"
+date = "2026-08-21"
+note = "16 of 17 rules; the seventeenth counts Cyrillic under sybil/, held for the merge"
+
+[m0.crates]
+value = 29
+fact = "crates"
+direction = "at_least"
+command = "python scripts/doc-numbers.py"
+date = "2026-08-21"
+
+[m0.tests]
+value = 901
+fact = "tests"
+direction = "at_least"
+command = "python scripts/doc-numbers.py"
+date = "2026-08-21"
+
+["m0.1".cyrillic_in_tracked_sources]
+value = 0
+command = "python scripts/check-docs.py"
+date = "2026-08-21"
+note = "one allowlisted file, crates/sting-pipeline/src/controllers/report.rs, holds Cyrillic as test data"
+
+["m0.1".cyrillic_in_unmerged_projects]
+value = 61
+command = "python scripts/check-docs.py"
+date = "2026-08-21"
+note = "sybil/, held until the merge; the baseline only ever lowers"
+
+[m1.corpus_files]
+value = 297
+fact = "corpus_files"
+direction = "at_least"
+command = "python scripts/doc-numbers.py"
+date = "2026-08-21"
+
+[m1.corpus_files_parsed_with_no_error_node]
+value = 297
+command = "cargo test -p sting-ast --test tolk_version_matrix"
+date = "2026-08-21"
+note = "the parse share before the grammar work was 84.8%: 45 of 297 files carried an ERROR node"
+
+[m1.detectors]
+value = 14
+fact = "detectors"
+direction = "at_least"
+command = "python scripts/doc-numbers.py"
+date = "2026-08-21"
+
+[m1.precision_default_set]
+value = 96.4
+fact = "precision_default"
+direction = "at_least"
+command = "python scripts/doc-numbers.py"
+date = "2026-08-21"
+
+[m1.precision_measured]
+value = 82.0
+fact = "precision_measured"
+direction = "at_least"
+command = "python scripts/doc-numbers.py"
+date = "2026-08-21"
+
+[m2.global_version_emulated]
+value = 14
+command = "cargo run -p sting-cli -- doctor"
+date = "2026-08-21"
+note = "read from the vendored mainnet config, parameter 8; mainnet has been on 15 since 2026-07-23"
+
+[m2.detectors_ruled_against_gv12_to_gv15]
+value = 14
+command = "docs/domains/detectors.md §9, one row each"
+date = "2026-08-21"
+note = "one verdict changed: UBM, by gv12 and again by gv14"
+
+[m2.method_ids]
+value = 1388
+fact = "method_ids"
+direction = "at_least"
+command = "python scripts/doc-numbers.py"
+date = "2026-08-21"
+
+[m2.unique_mainnet_code_hashes]
+value = 391
+command = "abi-layer tact-share --db coverage-data/pilot.sqlite3"
+date = "2026-08-21"
+
+[m2.tact_declared_at_least_percent]
+value = 1.5
+command = "abi-layer tact-share --db coverage-data/pilot.sqlite3"
+date = "2026-08-21"
+note = "6 of 389 probed codes carry two compiler markers or three"
+
+[m2.tact_declared_at_most_percent]
+value = 3.3
+command = "abi-layer tact-share --db coverage-data/pilot.sqlite3"
+date = "2026-08-21"
+note = "13 of 389, counting the 7 that carry exactly one marker; a floor for Tact's real share, since its markers are optional and off by default since 1.6.0"
+
+[m3.rust_clients_reaching_a_chain]
+value = 1
+command = "python scripts/check-lints.py"
+date = "2026-08-22"
+note = "eight before: five under crates/, one in sybil's ingestion, a shell script under karman, and the Python tool that stays"
+
+[m3.crates_naming_an_http_client]
+value = 0
+command = "python scripts/check-lints.py"
+date = "2026-08-22"
+note = "outside sting-chain, under crates/; two more remain in the closed project and are counted rather than exempted"
+
+[m3.census_stages_identical_byte_for_byte]
+value = 3
+command = "sweep-ton-census --into <dir> --days 1 --also <collection>, against the shell path it replaces"
+date = "2026-08-22"
+note = "of four; the fourth is equal after parsing, ten items of ten, and cannot be byte-identical because the item service reorders its own keys between two identical requests"
+
+[m3.public_hosts_answering_live]
+value = 6
+command = "curl against each of three services on both networks"
+date = "2026-08-22"
+note = "toncenter v2 and v3 and tonapi v2, mainnet and testnet"
+
+[m3.config_read_cost_ms]
+value = 1.5
+command = "cargo run --release -p sting-emulator --example config_parse_cost"
+date = "2026-08-21"
+note = "the global-version check, paid once per emulator creation and never per message"
+
+# Conformance golden run: Cpamm 1_000_000_000/1_000_000_000, one CoinFlipTrader,
+# 500 ticks, seed 42, stream 0. Produced by `conformance_golden` in sting-karman-mech-curve.
+[cpamm]
+golden_token_reserve = 990255899
+golden_quote_reserve = 1009840231
+
+# Conformance golden run: one lending market at 80% LLTV, a tenth of interest to the fee
+# recipient, ten percent a year, twelve seconds a tick, eight Participants, 500 ticks, seed 42,
+# stream 0. Produced by `conformance_golden` in sting-karman-mech-lending. The run applied 3167 actions
+# and refused 833, so these pin a market that was built up and unwound rather than one that
+# stood still.
+[lending]
+golden_supply_assets = 14277386
+golden_supply_shares = 14276927103005
+golden_borrow_assets = 5305708
+golden_borrow_shares = 5306141667469
+
+# Liquidation cascade: the same market, priced at parity until the fiftieth tick and thirty
+# percent lower from then on. One lender, four borrowers opening at 79% of an 80% threshold, one
+# liquidator that keeps trying. 200 ticks, seed 42, stream 0. Produced by
+# `a_seeded_cascade_writes_off_debt_only_when_collateral_runs_out` in sting-karman-mech-lending. What
+# gates is that both outcomes occur — liquidations that leave collateral behind write nothing
+# off, and the ones that take the last of it write off everything still owed.
+cascade_written_off = 528006472
+cascade_liquidations = 7
+cascade_write_offs = 4
+cascade_supply_assets = 3472000013
+cascade_interest = 6485
+
+# The engine against the cadCAD reference on the shared scenario, by
+# `python/reference/compare.py`. The gap and the threshold are the two-sample Kolmogorov-Smirnov
+# statistic and its five-percent critical value, in ten-thousandths; what gates is that the gap
+# stays under the threshold, and that the same test rejects a reference with a different
+# population. The seconds are one host's and gate nothing (karman/docs/PROFILER.md).
+[reference.cpamm_smoke]
+runs = 1000
+ticks = 500
+seed = 42
+largest_gap_ten_thousandths = 480
+threshold_ten_thousandths = 607
+gap_against_a_different_population_ten_thousandths = 920
+engine_milliseconds = 10
+cadcad_milliseconds = 1580

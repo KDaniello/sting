@@ -1,0 +1,26 @@
+[package]
+name = "sting-chain"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[features]
+# The asynchronous caller's adapter. Off by default: four of the five callers
+# are synchronous, and none of them should link a runtime to make a request.
+async = ["dep:tokio"]
+
+[dependencies]
+dotenvy = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["rt"], optional = true }
+ureq = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["rt", "rt-multi-thread", "macros"] }

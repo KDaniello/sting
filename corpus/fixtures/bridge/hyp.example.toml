@@ -1,0 +1,64 @@
+# Example hypothesis-spec file for `sting verify --hypotheses <this file>`
+# (sting_pipeline::HypothesisSpec).
+#
+# Each section below is the *answer* to "which op code/fields/get-method
+# actually reach the flagged code path" for one of the four fixtures in this
+# directory (corpus/fixtures/bridge/*.tolk) — sting does not derive this
+# itself (see sting_pipeline::Hypothesis's own doc comment for why that is a
+# confirmed-out-of-scope, research-grade problem, not a gap). Values here are
+# real, taken directly from the fixtures' own source, not placeholders — a
+# hypothesis file for your own contract needs the equivalent values for
+# *your* dispatch convention and storage layout.
+#
+# A hypothesis file only needs to cover the finding classes you actually
+# want dynamically verified — `sting verify` scores every other finding on
+# static evidence alone, exactly like `sting lint`.
+#
+# Try it for real (needs vendor/libemulator/, docs/domains/emulator.md §4,
+# and one of these fixtures actually deployed somewhere sting can fetch it
+# from — see docs/domains/emulator.md §6 for a full worked example):
+#   sting verify corpus/fixtures/bridge/IdSwappedPattern.tolk <address> \
+#       --hypotheses corpus/fixtures/bridge/hyp.example.toml
+
+# GVR (Global Var Redefined) — GvrShadowPattern.tolk. `OP_BUGGY_INCREMENT`
+# ("INCR") reaches a code path that shadows `storage.counter` with a fresh
+# local instead of updating it; `getCounter` reads the field back.
+# Covered by unit tests (crates/sting-pipeline/src/controllers/bridge.rs)
+# against a scripted emulator, not yet by a real-libemulator end-to-end test
+# (unlike ID/UBM below).
+[GVR]
+trigger_op = "0x494e4352"
+get_method = "getCounter"
+
+# LEP (Lack End Parse) — LepTailPattern.tolk. `OP_SET_VALUE` ("SETV") reaches
+# `parseSetValue`, which reads one `u32` field and never calls
+# `assertEnd()` — any trailing bytes after it are silently ignored instead
+# of rejected. Same unit-test-only coverage note as GVR above.
+[LEP]
+trigger_op = "0x53455456"
+trailing_bytes = [222, 173, 190, 239]
+
+[[LEP.fields]]
+type = "u32"
+value = 123
+
+# ID (Improper Deserialization) — IdSwappedPattern.tolk. `OP_SAVE_FIELDS`
+# ("SAVE") writes two distinct field values; `loadFields`/`getFields` read
+# them back in the wrong order. Proven against a real `vendor/libemulator`
+# run, not just a scripted mock — see
+# crates/sting-pipeline/tests/bridge_id_end_to_end.rs (the same test that
+# found and fixed a real bug in verify_id's own stack-decoding order).
+[ID]
+save_op = "0x53415645"
+field_a = 100
+field_b = 200
+get_method = "getFields"
+
+# UBM (Unsafe Balance/Bounce handling) — UbmMintPattern.tolk. `OP_MINT`
+# ("MINT") commits a storage update and then queues a bounceable send with
+# no `onBouncedMessage` handler to revert it if the send bounces. Also
+# proven against a real `vendor/libemulator` run — see
+# crates/sting-pipeline/tests/bridge_ubm_end_to_end.rs.
+[UBM]
+mint_op = "0x4d494e54"
+mint_amount = 1000000000

@@ -1,0 +1,31 @@
+[package]
+name = "sting-karman-app"
+description = "The composition: where a scenario becomes a world, and the operations every surface offers over it"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+# Nothing here is published: this is a platform rather than a set of libraries, and a crate that
+# says nothing about publication is a crate a lint asks for keywords it will never use.
+publish = false
+
+[dependencies]
+sting-karman-agents = { workspace = true }
+sting-karman-core = { workspace = true }
+sting-karman-data = { workspace = true }
+sting-karman-mech-curve = { workspace = true }
+sting-karman-mech-lending = { workspace = true }
+sting-karman-mech-showcase = { workspace = true }
+sting-karman-mech-vouch = { workspace = true }
+sting-karman-report = { workspace = true }
+sting-karman-scenario = { workspace = true }
+sting-karman-types = { workspace = true }
+sting-karman-verify = { workspace = true }
+rayon = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true

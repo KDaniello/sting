@@ -1,0 +1,30 @@
+[package]
+name = "sting-karman-python"
+description = "PyO3 bindings over the scenario contract: the same composition the terminal drives"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+# Nothing here is published: this is a platform rather than a set of libraries, and a crate that
+# says nothing about publication is a crate a lint asks for keywords it will never use.
+publish = false
+
+[lib]
+# Named apart from the binary: two targets called `karman` collide on their build artifacts,
+# which cargo warns about today and refuses tomorrow. Python still imports `karman`, because
+# maturin names the module and the module name is what `PyInit_` answers to.
+name = "karman_sdk"
+crate-type = ["cdylib"]
+# A dynamic library built to be imported by Python has no rustdoc audience.
+doc = false
+
+[dependencies]
+sting-karman-app = { workspace = true }
+sting-karman-scenario = { workspace = true }
+pyo3 = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

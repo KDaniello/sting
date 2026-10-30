@@ -1,0 +1,332 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "verifier_Inshrimption.headers.fc";
+#include "verifier_Inshrimption.stdlib.fc";
+#include "verifier_Inshrimption.storage.fc";
+
+;;
+;; Contract Inshrimption functions
+;;
+
+(int, slice, cell, int, int, int) $Inshrimption$_contract_init(int $initSeqno) impure inline_ref {
+    var (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)) = (null(), null(), null(), 500, 100000000, 10000000);
+    $self'currSeqno = $initSeqno;
+    $self'owner = __tact_context_get_sender();
+    return ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee);
+}
+
+((int, slice, cell, int, int, int), int) $Inshrimption$_fun_getKey((int, slice, cell, int, int, int) $self, slice $address, int $amount, int $price, int $nonce) impure inline_ref {
+    var (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)) = $self;
+    int $addrHash = cell_hash(end_cell(__tact_store_address(begin_cell(), $address)));
+    tuple $stringBuilder = __tact_string_builder_start_string();
+    $stringBuilder~__tact_string_builder_append(__tact_int_to_string($addrHash));
+    $stringBuilder~__tact_string_builder_append(__tact_int_to_string($amount));
+    $stringBuilder~__tact_string_builder_append(__tact_int_to_string($price));
+    $stringBuilder~__tact_string_builder_append(__tact_int_to_string($nonce));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), string_hash(__tact_string_builder_end_slice($stringBuilder)));
+}
+
+((int, slice, cell, int, int, int), int) $Inshrimption$_fun_sellFeePerc((int, slice, cell, int, int, int) $self) impure inline_ref {
+    var (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)) = $self;
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), $self'sellFeePerc);
+}
+
+((int, slice, cell, int, int, int), int) $Inshrimption$_fun_msgFee((int, slice, cell, int, int, int) $self) impure inline_ref {
+    var (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)) = $self;
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), $self'msgFee);
+}
+
+((int, slice, cell, int, int, int), int) $Inshrimption$_fun_inscribeFee((int, slice, cell, int, int, int) $self) impure inline_ref {
+    var (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)) = $self;
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), $self'inscribeFee);
+}
+
+((int, slice, cell, int, int, int), int) $Inshrimption$_fun_balance((int, slice, cell, int, int, int) $self) impure inline_ref {
+    var (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)) = $self;
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), __tact_my_balance());
+}
+
+((int, slice, cell, int, int, int), int) $Inshrimption$_fun_contractSeqno((int, slice, cell, int, int, int) $self) impure inline_ref {
+    var (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)) = $self;
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), $self'currSeqno);
+}
+
+((int, slice, cell, int, int, int), ()) $Inshrimption$_fun_requireOwner((int, slice, cell, int, int, int) $self) impure inline_ref {
+    var (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+((int, slice, cell, int, int, int), slice) $Inshrimption$_fun_owner((int, slice, cell, int, int, int) $self) impure inline_ref {
+    var (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)) = $self;
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), $self'owner);
+}
+
+;;
+;; Receivers of a Contract Inshrimption
+;;
+
+((int, slice, cell, int, int, int), ()) $Inshrimption$_internal_text_250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca((int, slice, cell, int, int, int) $self) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_requireOwner();
+    $global_send($SendParameters$_constructor_to_value_mode($self'owner, __tact_my_balance(), (128 + 2)));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+((int, slice, cell, int, int, int), ()) $Inshrimption$_internal_text_65aafa134241f0dfe2a3ebbccbd3a0816ed94baf41b0c7064b9fa3f3289d60de((int, slice, cell, int, int, int) $self) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_requireOwner();
+    $global_send($SendParameters$_constructor_to_value_mode($self'owner, 10000000000, (1 + 2)));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+((int, slice, cell, int, int, int), ()) $Inshrimption$_internal_text_410fd01763c829ea82d82e089dfabb49ebd3a09173d27d10d1f4c4391076dc80((int, slice, cell, int, int, int) $self) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_requireOwner();
+    $global_send($SendParameters$_constructor_to_value_mode($self'owner, 100000000000, (1 + 2)));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+((int, slice, cell, int, int, int), ()) $Inshrimption$_internal_text_ce32596f190fb403051eb007d564f9bfba9e28b3dacb56c7d2703d6e3bf65e27((int, slice, cell, int, int, int) $self) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_requireOwner();
+    $global_send($SendParameters$_constructor_to_value_mode($self'owner, 1000000000000, (1 + 2)));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+((int, slice, cell, int, int, int), ()) $Inshrimption$_internal_any_text((int, slice, cell, int, int, int) $self, slice $msg) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    throw_unless(7446, ($Context$_get_value(__tact_context_get()) >= $self'inscribeFee));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+(((int, slice, cell, int, int, int)), ()) %$Inshrimption$_internal_empty((int, slice, cell, int, int, int) $self) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    throw_unless(48086, ($Context$_get_value(__tact_context_get()) >= $self'inscribeFee));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+(((int, slice, cell, int, int, int)), ()) $Inshrimption$_internal_binary_Buy((int, slice, cell, int, int, int) $self, (slice, int, int, int) $msg) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    var ($msg'seller, $msg'amount, $msg'price, $msg'nonce) = $msg;
+    throw_unless(52161, ($Context$_get_value(__tact_context_get()) >= ($msg'price + $self'msgFee)));
+    int $recordKey = ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_getKey($msg'seller, $msg'amount, $msg'price, $msg'nonce);
+    throw_unless(3737, null?(__tact_dict_get_int_int($self'used, 257, $recordKey, 257)));
+    int $sendValue = (($msg'price * (10000 - $self'sellFeePerc)) / 10000);
+    throw_unless(10045, ($sendValue > 0));
+    $self'used~__tact_dict_set_int_int(257, $recordKey, 0, 257);
+    $global_send($SendParameters$_constructor_to_bounce_value_mode($msg'seller, true, $sendValue, 1));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+(((int, slice, cell, int, int, int)), ()) $Inshrimption$_internal_binary_Cancel((int, slice, cell, int, int, int) $self, (int, int, int) $msg) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    var ($msg'amount, $msg'price, $msg'nonce) = $msg;
+    int $recordKey = ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_getKey(__tact_context_get_sender(), $msg'amount, $msg'price, $msg'nonce);
+    $self'used~__tact_dict_set_int_int(257, $recordKey, 0, 257);
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+(((int, slice, cell, int, int, int)), ()) $Inshrimption$_internal_binary_Fee((int, slice, cell, int, int, int) $self, (int, int, int) $msg) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    var ($msg'sellPerc, $msg'msg, $msg'inscribe) = $msg;
+    ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_requireOwner();
+    $self'sellFeePerc = $msg'sellPerc;
+    $self'msgFee = $msg'msg;
+    $self'inscribeFee = $msg'inscribe;
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+(((int, slice, cell, int, int, int)), ()) $Inshrimption$_internal_binary_Deploy((int, slice, cell, int, int, int) $self, (int) $deploy) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+(((int, slice, cell, int, int, int)), ()) $Inshrimption$_internal_binary_ChangeOwner((int, slice, cell, int, int, int) $self, (int, slice) $msg) impure inline {
+    var ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee) = $self;
+    var ($msg'queryId, $msg'newOwner) = $msg;
+    ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_requireOwner();
+    $self'owner = $msg'newOwner;
+    ($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee)~$Inshrimption$_fun_reply($ChangeOwnerOk$_store_cell($ChangeOwnerOk$_constructor_queryId_newOwner($msg'queryId, $msg'newOwner)));
+    return (($self'currSeqno, $self'owner, $self'used, $self'sellFeePerc, $self'msgFee, $self'inscribeFee), ());
+}
+
+;;
+;; Get methods of a Contract Inshrimption
+;;
+
+_ %sellFeePerc() method_id(128560) {
+    var self = $Inshrimption$_contract_load();
+    var res = self~$Inshrimption$_fun_sellFeePerc();
+    return res;
+}
+
+_ %msgFee() method_id(101665) {
+    var self = $Inshrimption$_contract_load();
+    var res = self~$Inshrimption$_fun_msgFee();
+    return res;
+}
+
+_ %inscribeFee() method_id(68024) {
+    var self = $Inshrimption$_contract_load();
+    var res = self~$Inshrimption$_fun_inscribeFee();
+    return res;
+}
+
+_ %balance() method_id(104128) {
+    var self = $Inshrimption$_contract_load();
+    var res = self~$Inshrimption$_fun_balance();
+    return res;
+}
+
+_ %contractSeqno() method_id(72750) {
+    var self = $Inshrimption$_contract_load();
+    var res = self~$Inshrimption$_fun_contractSeqno();
+    return res;
+}
+
+_ %owner() method_id(83229) {
+    var self = $Inshrimption$_contract_load();
+    var res = self~$Inshrimption$_fun_owner();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable.transferable.v2"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmURGpyfDxZsuZVDxfwpqne7zzjTf8uQuyc3783MuZg7pL";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract Inshrimption
+;;
+
+((int, slice, cell, int, int, int), int) $Inshrimption$_contract_router_internal((int, slice, cell, int, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive empty message
+    if ((op == 0) & (slice_bits(in_msg) <= 32)) {
+        self~%$Inshrimption$_internal_empty();
+        return (self, true);
+    }
+    
+    ;; Receive Buy message
+    if (op == 1539672808) {
+        var msg = in_msg~$Buy$_load();
+        self~$Inshrimption$_internal_binary_Buy(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Cancel message
+    if (op == 1988840720) {
+        var msg = in_msg~$Cancel$_load();
+        self~$Inshrimption$_internal_binary_Cancel(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Fee message
+    if (op == 3552426304) {
+        var msg = in_msg~$Fee$_load();
+        self~$Inshrimption$_internal_binary_Fee(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$Inshrimption$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    ;; Receive ChangeOwner message
+    if (op == 2174598809) {
+        var msg = in_msg~$ChangeOwner$_load();
+        self~$Inshrimption$_internal_binary_ChangeOwner(msg);
+        return (self, true);
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "Withdraw" message
+        if (text_op == 0x250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca) {
+            self~$Inshrimption$_internal_text_250b76e2b9576fc6b4c45129483006b0003a0c39b6f7ae413d177f4e3479dbca();
+            return (self, true);
+        }
+        
+        ;; Receive "Withdraw10" message
+        if (text_op == 0x65aafa134241f0dfe2a3ebbccbd3a0816ed94baf41b0c7064b9fa3f3289d60de) {
+            self~$Inshrimption$_internal_text_65aafa134241f0dfe2a3ebbccbd3a0816ed94baf41b0c7064b9fa3f3289d60de();
+            return (self, true);
+        }
+        
+        ;; Receive "Withdraw100" message
+        if (text_op == 0x410fd01763c829ea82d82e089dfabb49ebd3a09173d27d10d1f4c4391076dc80) {
+            self~$Inshrimption$_internal_text_410fd01763c829ea82d82e089dfabb49ebd3a09173d27d10d1f4c4391076dc80();
+            return (self, true);
+        }
+        
+        ;; Receive "Withdraw1000" message
+        if (text_op == 0xce32596f190fb403051eb007d564f9bfba9e28b3dacb56c7d2703d6e3bf65e27) {
+            self~$Inshrimption$_internal_text_ce32596f190fb403051eb007d564f9bfba9e28b3dacb56c7d2703d6e3bf65e27();
+            return (self, true);
+        }
+        if (slice_bits(in_msg) >= 32) {
+            self~$Inshrimption$_internal_any_text(in_msg.skip_bits(32));
+            return (self, true);
+        }
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $Inshrimption$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$Inshrimption$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $Inshrimption$_contract_store(self);
+}

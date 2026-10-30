@@ -1,0 +1,25 @@
+[package]
+name = "sting-karman-tvm"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "The wind tunnel's executor port over a real virtual machine: a get-method against a real contract, as a number."
+
+[dependencies]
+sting-emulator = { workspace = true }
+# Only for the library handle `sting-emulator`'s own safe loader hands back; nothing here calls
+# into the binding directly.
+sting-emulator-sys = { workspace = true }
+sting-karman-core = { workspace = true }
+
+
+[dev-dependencies]
+sting-karman-mech-curve = { workspace = true }
+sting-karman-types = { workspace = true }
+
+[lints]
+workspace = true

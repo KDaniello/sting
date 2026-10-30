@@ -1,0 +1,252 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "verifier_TonupTosRegistry.headers.fc";
+#include "verifier_TonupTosRegistry.stdlib.fc";
+#include "verifier_TonupTosRegistry.constants.fc";
+#include "verifier_TonupTosRegistry.storage.fc";
+
+;;
+;; Contract TonupTosRegistry functions
+;;
+
+(slice, cell, int) $TonupTosRegistry$_contract_init(slice $owner) impure inline_ref {
+    var (($self'owner, $self'accepted, $self'number_users)) = (null(), null(), 0);
+    $self'owner = $owner;
+    return ($self'owner, $self'accepted, $self'number_users);
+}
+
+() $global_refund_gas() impure inline {
+    $global_send($SendParameters$_constructor_to_value_mode_bounce(__tact_context_get_sender(), 0, (64 + 2), false));
+}
+
+() $global_send_ton_with_ramaining(slice $to, int $value, int $bounce, cell $body) impure inline {
+    if (($value > 0)) {
+        $global_send($SendParameters$_constructor_value_to_bounce_mode_body($value, $to, $bounce, (2 + 64), $body));
+    }
+}
+
+((slice, cell, int), int) $TonupTosRegistry$_fun_hasAccepted((slice, cell, int) $self, slice $addr) impure inline_ref {
+    var (($self'owner, $self'accepted, $self'number_users)) = $self;
+    if ((~ null?(__tact_dict_get_slice_int($self'accepted, 267, $addr, 1)))) {
+        return (($self'owner, $self'accepted, $self'number_users), __tact_not_null(__tact_dict_get_slice_int($self'accepted, 267, $addr, 1)));
+    } else {
+        return (($self'owner, $self'accepted, $self'number_users), false);
+    }
+}
+
+((slice, cell, int), slice) $TonupTosRegistry$_fun_consentMessage((slice, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'accepted, $self'number_users)) = $self;
+    return (($self'owner, $self'accepted, $self'number_users), __gen_slice_string_e9499578caa291c965ee1e04fc4f9e6fab5902015526720f692b2a1d786745ed());
+}
+
+((slice, cell, int), int) $TonupTosRegistry$_fun_currentVersion((slice, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'accepted, $self'number_users)) = $self;
+    return (($self'owner, $self'accepted, $self'number_users), 1);
+}
+
+((slice, cell, int), int) $TonupTosRegistry$_fun_numberUsers((slice, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'accepted, $self'number_users)) = $self;
+    return (($self'owner, $self'accepted, $self'number_users), $self'number_users);
+}
+
+((slice, cell, int), int) $TonupTosRegistry$_fun_balance((slice, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'accepted, $self'number_users)) = $self;
+    return (($self'owner, $self'accepted, $self'number_users), __tact_my_balance());
+}
+
+((slice, cell, int), ()) $TonupTosRegistry$_fun_requireOwner((slice, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'accepted, $self'number_users)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'owner, $self'accepted, $self'number_users), ());
+}
+
+((slice, cell, int), slice) $TonupTosRegistry$_fun_owner((slice, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'accepted, $self'number_users)) = $self;
+    return (($self'owner, $self'accepted, $self'number_users), $self'owner);
+}
+
+;;
+;; Receivers of a Contract TonupTosRegistry
+;;
+
+((slice, cell, int), ()) $TonupTosRegistry$_internal_text_d3419dbd05e1f5d23e8d4a0dab655775e2db99d7d14125824a15679a95628a16((slice, cell, int) $self) impure inline {
+    var ($self'owner, $self'accepted, $self'number_users) = $self;
+    throw_unless(5437, (~ ($self'owner, $self'accepted, $self'number_users)~$TonupTosRegistry$_fun_hasAccepted(__tact_context_get_sender())));
+    throw_unless(33150, ($Context$_get_value(__tact_context_get()) >= 100000000));
+    $self'accepted~__tact_dict_set_slice_int(267, __tact_context_get_sender(), true, 1);
+    $self'number_users = ($self'number_users + 1);
+    $global_emit($ConsentEvent$_store_cell($ConsentEvent$_constructor_addr_timestamp(__tact_context_get_sender(), now())));
+    $global_refund_gas();
+    return (($self'owner, $self'accepted, $self'number_users), ());
+}
+
+(((slice, cell, int)), ()) %$TonupTosRegistry$_internal_empty((slice, cell, int) $self) impure inline {
+    var ($self'owner, $self'accepted, $self'number_users) = $self;
+    return (($self'owner, $self'accepted, $self'number_users), ());
+}
+
+((slice, cell, int), ()) $TonupTosRegistry$_internal_text_68e49d60dbcd3c869c5653e7877acc9972c877f11dbba9acd9aa217c899ab3c5((slice, cell, int) $self) impure inline {
+    var ($self'owner, $self'accepted, $self'number_users) = $self;
+    ($self'owner, $self'accepted, $self'number_users)~$TonupTosRegistry$_fun_requireOwner();
+    $global_send_ton_with_ramaining($self'owner, (__tact_my_balance() - 200000000), false, __gen_cell_comment_b8b06dd7dc24ff63d3c8845171dc7bcbf12ff930f31494a5a8b00da7263631ba());
+    return (($self'owner, $self'accepted, $self'number_users), ());
+}
+
+(((slice, cell, int)), ()) $TonupTosRegistry$_internal_binary_ReadConsent((slice, cell, int) $self, (slice) $msg) impure inline {
+    var ($self'owner, $self'accepted, $self'number_users) = $self;
+    var ($msg'addr) = $msg;
+    if ((~ null?(__tact_dict_get_slice_int($self'accepted, 267, $msg'addr, 1)))) {
+        ($self'owner, $self'accepted, $self'number_users)~$TonupTosRegistry$_fun_reply($ConsentReply$_store_cell($ConsentReply$_constructor_addr_accepted($msg'addr, __tact_not_null(__tact_dict_get_slice_int($self'accepted, 267, $msg'addr, 1)))));
+    } else {
+        ($self'owner, $self'accepted, $self'number_users)~$TonupTosRegistry$_fun_reply($ConsentReply$_store_cell($ConsentReply$_constructor_addr_accepted($msg'addr, false)));
+    }
+    return (($self'owner, $self'accepted, $self'number_users), ());
+}
+
+(((slice, cell, int)), ()) $TonupTosRegistry$_internal_binary_Deploy((slice, cell, int) $self, (int) $deploy) impure inline {
+    var ($self'owner, $self'accepted, $self'number_users) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'owner, $self'accepted, $self'number_users)~$TonupTosRegistry$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'owner, $self'accepted, $self'number_users), ());
+}
+
+;;
+;; Get methods of a Contract TonupTosRegistry
+;;
+
+_ %hasAccepted(slice $$addr) method_id(65860) {
+    slice $addr = __tact_verify_address($$addr);
+    var self = $TonupTosRegistry$_contract_load();
+    var res = self~$TonupTosRegistry$_fun_hasAccepted($addr);
+    return res;
+}
+
+_ %consentMessage() method_id(86932) {
+    var self = $TonupTosRegistry$_contract_load();
+    var res = self~$TonupTosRegistry$_fun_consentMessage();
+    return res;
+}
+
+_ %currentVersion() method_id(96959) {
+    var self = $TonupTosRegistry$_contract_load();
+    var res = self~$TonupTosRegistry$_fun_currentVersion();
+    return res;
+}
+
+_ %numberUsers() method_id(114645) {
+    var self = $TonupTosRegistry$_contract_load();
+    var res = self~$TonupTosRegistry$_fun_numberUsers();
+    return res;
+}
+
+_ %balance() method_id(104128) {
+    var self = $TonupTosRegistry$_contract_load();
+    var res = self~$TonupTosRegistry$_fun_balance();
+    return res;
+}
+
+_ %owner() method_id(83229) {
+    var self = $TonupTosRegistry$_contract_load();
+    var res = self~$TonupTosRegistry$_fun_owner();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmVuAGt2FGfhQypu1MhZ6eq2DwCr9SY8qHUp43GE8JX4Tg";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract TonupTosRegistry
+;;
+
+((slice, cell, int), int) $TonupTosRegistry$_contract_router_internal((slice, cell, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive empty message
+    if ((op == 0) & (slice_bits(in_msg) <= 32)) {
+        self~%$TonupTosRegistry$_internal_empty();
+        return (self, true);
+    }
+    
+    ;; Receive ReadConsent message
+    if (op == 4013754791) {
+        var msg = in_msg~$ReadConsent$_load();
+        self~$TonupTosRegistry$_internal_binary_ReadConsent(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$TonupTosRegistry$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "I accept the ToS of TonUP. SHA256:8a5b2206e5cb5b3c1992e4f7e01c2a2f3daf34e1bf0d1b33fc4956be837b75ca" message
+        if (text_op == 0xd3419dbd05e1f5d23e8d4a0dab655775e2db99d7d14125824a15679a95628a16) {
+            self~$TonupTosRegistry$_internal_text_d3419dbd05e1f5d23e8d4a0dab655775e2db99d7d14125824a15679a95628a16();
+            return (self, true);
+        }
+        
+        ;; Receive "withdraw dust" message
+        if (text_op == 0x68e49d60dbcd3c869c5653e7877acc9972c877f11dbba9acd9aa217c899ab3c5) {
+            self~$TonupTosRegistry$_internal_text_68e49d60dbcd3c869c5653e7877acc9972c877f11dbba9acd9aa217c899ab3c5();
+            return (self, true);
+        }
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $TonupTosRegistry$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$TonupTosRegistry$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $TonupTosRegistry$_contract_store(self);
+}

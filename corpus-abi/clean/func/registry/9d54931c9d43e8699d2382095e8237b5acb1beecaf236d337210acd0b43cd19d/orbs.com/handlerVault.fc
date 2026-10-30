@@ -1,0 +1,397 @@
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/actions/RawCall.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/actions/sendJettons.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/actions/call.fc";
+
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/classlib.fc";
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/dataStructures/AddressList.fc";
+
+#include "../structs/CoolDown.fc";
+#include "../structs/Vesting.fc";
+#include "../structs/Coins.fc";
+
+#include "../token/op-codes.fc";
+
+#include "consts.fc";
+#include "handlerCore.fc";
+
+slice address_none() asm "<b 0 2 u, b> <s PUSHSLICE";
+
+
+;;; ================ GETTER FUNCTIONS =====================
+
+int getMintNanos() impure inline method_id {
+    return getContractStorage().Vault::getMintNanos();
+}
+
+int getUnvestedAmount() impure inline method_id {
+    cell $storage = getContractStorage();
+
+    int lastDistributionTimestamp = $storage.Vault::getLastDistributionTimestamp();
+    int vestingAmount = $storage.Vault::getVestingAmount();
+    int vestingDuration = $storage.Vault::getVestingDuration();
+
+    int timeSinceLastDistribution = now() - lastDistributionTimestamp;
+    if (timeSinceLastDistribution >= vestingDuration) {
+        return 0;
+    }
+
+    int deltaT = vestingDuration - timeSinceLastDistribution;
+    return (deltaT * vestingAmount) / vestingDuration;
+}
+
+int getTotalAssets() impure inline method_id {
+    return getContractStorage().Vault::getAssetBalance() - getUnvestedAmount();
+}
+
+int getTotalShares() impure inline method_id {
+    return getContractStorage().Vault::getTotalShares();
+}
+
+
+;;; ========================== HELPER FUNCTIONS =====================================
+
+;; $AddressList is not a struct, but rather a compacted cell
+(cell, tuple) _initialize(cell $MdObj) impure inline {
+    (cell $storage, tuple actions) = preamble();
+
+    (cell $AddressList, cell $Coins) = $MdObj.md::MdObj::deserialize();
+
+    slice addressListSlice = $AddressList.begin_parse();
+
+    int assetWalletAddress = addressListSlice~AddressList::next();
+    int shareMinterAddress = addressListSlice~AddressList::next();
+    int rewarderAddress = addressListSlice~AddressList::next();
+
+    int mintNanos = $Coins.Coins::getAmount();
+
+    return (
+        $storage
+            .cl::set(Vault::assetWalletAddress, assetWalletAddress)
+            .cl::set(Vault::shareMinterAddress, shareMinterAddress)
+            .cl::set(Vault::rewarderAddress, rewarderAddress)
+            .cl::set(Vault::mintNanos, mintNanos),
+        actions
+    );
+}
+
+(int, slice) _preprocessRedeemMd(cell rawMd) impure inline {
+    slice rawMdSlice = rawMd.begin_parse();
+    int redeemFlag = rawMdSlice~load_bool();
+    return (
+        redeemFlag,
+        rawMdSlice
+    );
+}
+
+;; masterOpcode = op::internal_transfer | op::internal_transfer_timelocked
+cell _buildMintMasterMessage(int amount, int cooldownPeriod, int masterOpcode) impure inline {
+    return beginTonMessage(masterOpcode)
+        .store_coins(amount)
+        .store_uint64(cooldownPeriod)
+        .store_slice(address_none())
+        .store_slice(address_none())
+        .store_coins(0)
+        .store_dict(null())
+        .end_cell();
+}
+
+;; This is to be used for triggering sending tokens to a user ON this chain.
+tuple _mintJettons(cell $storage, tuple actions, int to, int amount, int cooldownPeriod, int masterOpcode) impure inline {
+    int customMintNanos = $storage.Vault::getMintNanos();
+
+    actions~pushAction<rawCall>(
+        Vault::getShareMinterAddress($storage),
+        beginTonMessage(op::mint)
+            .store_slice(hashpartToBasechainAddressStd(to))
+            .store_coins(customMintNanos)
+            .store_ref(_buildMintMasterMessage(amount, cooldownPeriod, masterOpcode))
+            .end_cell()
+    );
+
+    return actions;
+}
+
+tuple _unlockAssets(cell $storage, tuple actions, int to, int amount) impure inline {
+    actions~pushAction<sendJettons>(
+        Vault::getAssetWalletAddress($storage),
+        to,
+        amount,
+        to
+    );
+
+    return actions;
+}
+
+
+;;; ========================== SHARE/ASSET CONVERSION FUNCTIONS =====================================
+;; 'convertToShares' and 'convertToAssets' are always conservative 
+;; in the amount of shares they give per asset deposited and
+;; in the amount of assets they give per share redeemed
+;; this follows the EIP4626 implementation to always favor the 
+;; Vault (older users) vs. the new ones
+
+;; returns floor(x*y/z)
+int mulDiv_floor(int x, int y, int z) asm "MULDIV";
+
+int convertToShares(int amountAssets) impure inline method_id {
+    int totalAssets = getTotalAssets();
+    int totalShares = getTotalShares();
+    ;; Handle edge case of empty vault
+    if ((totalShares == 0) | (totalAssets == 0)) {
+        return amountAssets; ;; 1:1 ratio for first deposit
+    }
+    ;; floor((amountAssets * totalShares) / totalAssets)
+    return mulDiv_floor(amountAssets, totalShares, totalAssets);
+}
+
+int convertToAssets(int amountShares) impure inline method_id {
+    int totalAssets = getTotalAssets();
+    int totalShares = getTotalShares();
+    ;; Handle edge case of empty vault
+    if ((totalShares == 0) | (totalAssets == 0)) {
+        return 0; ;; you will get nothing if the vault is empty and you try to redeem
+    }
+    ;; floor((amountShares * totalAssets) / totalShares)
+    return mulDiv_floor(amountShares, totalAssets, totalShares);
+}
+
+
+;;; ========================== DEPOSIT/REDEEM FUNCTIONS =====================================
+
+tuple _depositRewards(cell $unused) impure inline method_id {
+    (cell $storage, tuple actions) = preamble();
+
+    ;; The amount of assets that are being deposited
+    int incomingAssets = _getIncomingAmount();
+
+    ;; if we're still vesting, give the admin their money back
+    if (getUnvestedAmount() > 0) {
+        ;; non-terminal action (event) should happen
+        ;; before terminal action (sendJettons)
+        actions~pushAction<event>(
+            EVENT::RewardsRefunded,
+            Coins::New(incomingAssets)
+        );
+
+        actions = _unlockAssets(
+            $storage,
+            actions,
+            $storage.Vault::getRewarderAddress(),
+            incomingAssets
+        );
+
+    } else {
+        int assetBalance = $storage.Vault::getAssetBalance();
+
+        ;; we can override the vesting amount,
+        ;; because (getUnvestedAmount == 0) means all pre-existing rewards have been vested, 
+        ;; and can be overriden
+        setContractStorage(
+            $storage
+                .cl::set(Vault::assetBalance, assetBalance + incomingAssets)
+                .cl::set(Vault::lastDistributionTimestamp, now())
+                .cl::set(Vault::vestingAmount, incomingAssets)
+        );
+
+        actions~pushAction<event>(
+            EVENT::RewardsDeposited,
+            Coins::New(incomingAssets)
+        );
+    }
+
+    return actions;
+}
+
+;; NOTE: we read the sender address from the fowarded Md to the vault.
+;; This is easier to reason about because it's not accessed or modified
+;; by the jetton contracts as it's being passed around.
+tuple _depositUser(cell $Address) impure inline method_id {
+    (cell $storage, tuple actions) = preamble();
+
+    (int assetBalance, int totalShares) = $storage.Vault::getAssetBalanceAndTotalShares();
+
+    ;; Determine the incoming assets and increase the contracts balance of those assets
+    int incomingAssets = _getIncomingAmount();
+
+    ;; Determine how many shares to mint to the user and update the total outstanding shares
+    int sharesToMint = convertToShares(incomingAssets);
+
+    setContractStorage(
+        $storage
+            .cl::set(Vault::assetBalance, assetBalance + incomingAssets)
+            .cl::set(Vault::totalShares, totalShares + sharesToMint)
+    );
+
+    actions = _mintJettons(
+        $storage,
+        actions,
+        $Address.Address::getAddress(),
+        sharesToMint,
+        0, ;; no cooldown period for initially geting the shares
+        op::internal_transfer
+    );
+    return actions;
+}
+
+tuple _redeemStep1(cell $Address) impure inline method_id {
+    (cell $storage, tuple actions) = preamble();
+
+    int incomingShares = _getIncomingAmount();
+    int assetsToUnlock = convertToAssets(incomingShares);
+
+    (int assetBalance, int totalShares) = $storage.Vault::getAssetBalanceAndTotalShares();
+
+    setContractStorage(
+        $storage
+            .cl::set(Vault::assetBalance, assetBalance - assetsToUnlock)
+            .cl::set(Vault::totalShares, totalShares - incomingShares)
+    );
+
+    ;; mint an amount denomintated in 'assets' to the users wallet
+    ;; this is flagged in the jetton minter by the cooldown duration being > 0
+    ;; This assumes that 'now()' is ALWAYS > 0
+    actions = _mintJettons(
+        $storage, 
+        actions, 
+        $Address.Address::getAddress(), 
+        assetsToUnlock,           ;; the locked assets get "minted" inside the jetton
+        now() + $storage.Vault::getCooldownDuration(),
+        op::internal_transfer_timelocked
+    ); 
+
+    return actions;
+}
+
+tuple _redeemStep2(cell $Address) impure inline method_id {
+    (cell $storage, tuple actions) = preamble();
+
+    int amountAssets = _getIncomingAmount();
+
+    actions = _unlockAssets(
+        $storage, 
+        actions, 
+        $Address.Address::getAddress(), 
+        amountAssets
+    );
+    
+    return actions;
+}
+
+tuple handleTransferNotification($md) impure inline method_id {
+    cell $storage = getContractStorage();
+    int origin = getOrigin();
+    cell $Address = Address::New(origin);
+
+    if (getCaller() == $storage.Vault::getAssetWalletAddress()) {
+        if (origin == $storage.Vault::getRewarderAddress()) {
+            return _depositRewards($Address);
+        } else {
+            return _depositUser($Address);
+        }
+
+    } elseif (getCaller() == $storage.Vault::getShareMinterAddress()) {
+        (int redeemFlag, slice $unused) = _preprocessRedeemMd($md);
+        ifnot (redeemFlag) {
+            return _redeemStep1($Address);
+        } else {
+            return _redeemStep2($Address);
+        }
+
+    } else {
+        throw(ERROR::InvalidCaller);
+    }
+
+    ;; Wont ever hit, but compiler requires this
+    return emptyActions();
+}
+
+
+;;; ========================== OWNER FUNCTIONS =====================================
+
+tuple setMintNanos(cell $Coins) impure inline {
+    (cell $storage, tuple actions) = preamble();
+
+    setContractStorage(
+        $storage.cl::set(
+            Vault::mintNanos,
+            $Coins.Coins::getAmount()
+        )
+    );
+
+    actions~pushAction<event>(EVENT::MintNanosSet, $Coins);
+    return actions;
+}
+
+tuple setRewarderAddress(cell $Address) impure inline {
+    (cell $storage, tuple actions) = preamble();
+    setContractStorage(
+        $storage.cl::set(
+            Vault::rewarderAddress,
+            $Address.Address::getAddress()
+        )
+    );
+    actions~pushAction<event>(EVENT::RewarderSet, $Address);
+    return actions;
+}
+
+tuple setAssetWalletAddress(cell $Address) impure inline {
+    (cell $storage, tuple actions) = preamble();
+
+    setContractStorage(
+        $storage.cl::set(Vault::assetWalletAddress, $Address.Address::getAddress())
+    );
+
+    actions~pushAction<event>(EVENT::AssetWalletAddressSet, $Address);
+    return actions;
+}
+
+tuple setShareMinterAddress(cell $Address) impure inline {
+    (cell $storage, tuple actions) = preamble();
+
+    setContractStorage(
+        $storage.cl::set(Vault::shareMinterAddress, $Address.Address::getAddress())
+    );
+
+    actions~pushAction<event>(EVENT::ShareMinterAddressSet, $Address);
+    return actions;
+}
+
+tuple setCooldownDuration(cell $CoolDown) impure inline {
+    (cell $storage, tuple actions) = preamble();
+
+    int cooldownDuration = $CoolDown.CoolDown::getCooldownDuration();
+
+    ;; Cannot exceed 90 days
+    throw_if(ERROR::InvalidCooldownDuration, cooldownDuration > MAX_COOLDOWN_DURATION);
+
+    setContractStorage(
+        $storage.cl::set(Vault::cooldownDuration, cooldownDuration)
+    );
+
+    actions~pushAction<event>(EVENT::CooldownDurationSet, $CoolDown);
+    return actions;
+}
+
+tuple setVestingDuration(cell $Vesting) impure inline {
+    (cell $storage, tuple actions) = preamble();
+
+    ;; Cannot set vesting duration if there are still unvested assets
+    throw_if(ERROR::VestingNotCompleted, getUnvestedAmount() > 0);
+
+    int vestingDuration = $Vesting.Vesting::getVestingDuration();
+
+    ;; Cannot exceed 90 days
+    throw_if(ERROR::InvalidVestingDuration, vestingDuration > MAX_VESTING_DURATION);
+
+    ;; we can override the vesting amount,
+    ;; because (getUnvestedAmount == 0) means all pre-existing rewards have been vested, 
+    ;; and can be overriden
+    setContractStorage(
+        $storage
+            .cl::set(Vault::vestingDuration, vestingDuration)
+            .cl::set(Vault::vestingAmount, 0)
+    );
+
+    actions~pushAction<event>(EVENT::VestingDurationSet, $Vesting);
+    return actions;
+}

@@ -1,0 +1,34 @@
+# The repository stores LF. The working tree is left to the platform: forcing LF into it would
+# renormalise two hundred files in one commit and fight `core.autocrlf` on every checkout.
+* text=auto
+
+*.rs   text diff=rust
+*.md   text diff=markdown
+*.toml text
+*.py   text diff=python
+*.sh   text eol=lf
+*.fc   text
+*.func text
+*.tact text
+*.tolk text
+*.fif  text
+
+# A corpus is evidence. Every finding reports a byte offset into it, and a line ending replaced on
+# checkout moves every offset after it — so the bytes are frozen exactly as they were fetched, on
+# every platform, and never normalised.
+/corpus/**     -text
+/corpus-abi/** -text
+crates/*/tests/fixtures/** -text
+
+# Vendored toolchain binaries and the cell serialisation format: bytes, never diffed, never
+# normalised.
+*.dll  binary
+*.so   binary
+*.exe  binary
+*.boc  binary
+*.pdb  binary
+
+# Lock files are generated: a diff of one is noise in review, and a merge of one is resolved by
+# regenerating it rather than by hand.
+Cargo.lock -diff
+uv.lock    -diff

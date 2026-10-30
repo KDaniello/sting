@@ -1,0 +1,4 @@
+defect_class: LEP
+location: { file: "05-func-missing-end-parse.fc", line: 3, column: 1 }
+description: "`recv_internal` reads `slice` parameter `in_msg_body` with `~load_uint` and never calls `.end_parse()` — trailing data after the query id is silently ignored"
+source: "The FunC spelling of the same class; the shape occurs in ton-blockchain/token-contract and ston-fi/dex-core"

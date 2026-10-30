@@ -1,0 +1,4 @@
+defect_class: AC
+location: { file: "02-delegated-to-an-unguarded-helper.tolk", line: 11, column: 13 }
+description: "the `SetFeePercentRequest` arm delegates straight to `setFeePercent`, a same-file helper whose own body mutates `storage.feePercent` and saves it with no sender check anywhere along the way — any caller can change the fee"
+source: "sting's own addition (not a TONScanner code, docs/PROJECT_REVIEW.md direction 4) — models the real corpus's dispatcher-delegates-to-a-same-file-helper shape (`elector/Elector.tolk`'s `onInternalMessage` calling `processNewStake`/`recoverStake`/`configSetConfirmed`), but with the helper's own body left genuinely unguarded rather than the real (intentionally public or config-hash-authorized) Elector shapes"

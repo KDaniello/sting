@@ -1,0 +1,4 @@
+defect_class: PL
+location: { file: "03-chained-percentage-of-percentage.tolk", line: 2, column: 12 }
+description: "`(baseAmount / baseReserve) * (quoteAmount / quoteReserve)` — both operands of the multiplication are themselves divisions, doubling the truncation before either ratio is combined"
+source: "TONScanner taxonomy (arXiv 2501.06459): Precision Loss — division before multiplication, rounding loss of assets in DeFi"

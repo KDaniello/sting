@@ -1,0 +1,330 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "verifier_TonupTosRegistryV2.headers.fc";
+#include "verifier_TonupTosRegistryV2.stdlib.fc";
+#include "verifier_TonupTosRegistryV2.native.fc";
+#include "verifier_TonupTosRegistryV2.constants.fc";
+#include "verifier_TonupTosRegistryV2.storage.fc";
+
+;;
+;; Contract TonupTosRegistryV2 functions
+;;
+
+(slice, int) $TonupTosRegistryV2$_contract_init(slice $owner) impure inline_ref {
+    var (($self'owner, $self'number_users)) = (null(), 0);
+    $self'owner = $owner;
+    return ($self'owner, $self'number_users);
+}
+
+() $global_send_ton(slice $to, int $value, int $bounce, cell $body) impure inline {
+    if (($value > 0)) {
+        $global_send($SendParameters$_constructor_value_to_bounce_mode_body($value, $to, $bounce, 2, $body));
+    }
+}
+
+() $global_send_jetton_text(slice $jetton_address, slice $to, int $amount, int $query_id, int $bounce, slice $forward_payload) impure inline {
+    if (($amount > 0)) {
+        $global_send($SendParameters$_constructor_value_to_mode_body_bounce(100000000, $jetton_address, 0, $JettonTransfer$_store_cell($JettonTransfer$_constructor_query_id_amount_destination_response_destination_custom_payload_forward_ton_amount_forward_payload($query_id, $amount, $to, my_address(), null(), 10000000, __tact_str_to_slice($forward_payload))), $bounce));
+    }
+}
+
+int $Slice$_fun_ss_starts_with(slice $self, slice $prefix) impure inline_ref {
+    var ($self) = $self;
+    int $bits = slice_bits($prefix);
+    if (($bits > slice_bits($self))) {
+        return false;
+    }
+    return (equal_slices(preload_bits($prefix, $bits), preload_bits($self, $bits)) != 0);
+}
+
+slice $Slice$_fun_ss_parse_address(slice $self) impure inline_ref {
+    var ($self) = $self;
+    int $bits = slice_bits($self);
+    throw_unless(5047, ($bits >= 384));
+    slice $addr_dec = $Slice$_fun_fromBase64(preload_bits($self, 384));
+    $addr_dec~skip_bits(16);
+    int $addr = preload_uint($addr_dec, 256);
+    return $Builder$_fun_asSlice(store_uint(store_uint(begin_cell(), 1024, 11), $addr, 256));
+}
+
+() $Cell$_fun_send_and_deploy(cell $self, (cell, cell) $to) impure inline {
+    var ($self) = $self;
+    var (($to'code, $to'data)) = $to;
+    $global_send($SendParameters$_constructor_to_value_bounce_mode_body_code_data($global_contractAddress(($to'code, $to'data)), 0, false, (64 + 2), $self, $to'code, $to'data));
+}
+
+int $String$_fun_ss_starts_with(slice $self, slice $prefix) impure inline {
+    var ($self) = $self;
+    return $Slice$_fun_ss_starts_with(__tact_str_to_slice($self), __tact_str_to_slice($prefix));
+}
+
+((slice, int), slice) $TonupTosRegistryV2$_fun_user_child_address((slice, int) $self, slice $user) impure inline {
+    var (($self'owner, $self'number_users)) = $self;
+    return (($self'owner, $self'number_users), $global_contractAddress($TonupTosV2Child$_init_child(__tact_context_sys, my_address(), $user)));
+}
+
+((slice, int), (cell, cell)) $TonupTosRegistryV2$_fun_user_child_init((slice, int) $self, slice $user) impure inline {
+    var (($self'owner, $self'number_users)) = $self;
+    return (($self'owner, $self'number_users), $TonupTosV2Child$_init_child(__tact_context_sys, my_address(), $user));
+}
+
+((slice, int), int) $TonupTosRegistryV2$_fun_msg_value((slice, int) $self, int $value) impure inline_ref {
+    var (($self'owner, $self'number_users)) = $self;
+    int $msg_value = $value;
+    int $ton_balance_before_msg = (__tact_my_balance() - $msg_value);
+    int $storage_fee = (200000000 - min($ton_balance_before_msg, 200000000));
+    $msg_value = ($msg_value - ($storage_fee + 30000000));
+    return (($self'owner, $self'number_users), $msg_value);
+}
+
+((slice, int), slice) $TonupTosRegistryV2$_fun_userChildAddress((slice, int) $self, slice $user) impure inline_ref {
+    var (($self'owner, $self'number_users)) = $self;
+    return (($self'owner, $self'number_users), ($self'owner, $self'number_users)~$TonupTosRegistryV2$_fun_user_child_address($user));
+}
+
+((slice, int), slice) $TonupTosRegistryV2$_fun_consentMessage((slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'number_users)) = $self;
+    return (($self'owner, $self'number_users), __gen_slice_string_56297aad0afc6172c35cfde6f587e2fa0265f458da5ef4bcc69e7ebc77ca7884());
+}
+
+((slice, int), int) $TonupTosRegistryV2$_fun_currentVersion((slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'number_users)) = $self;
+    return (($self'owner, $self'number_users), 2);
+}
+
+((slice, int), int) $TonupTosRegistryV2$_fun_numberUsers((slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'number_users)) = $self;
+    return (($self'owner, $self'number_users), $self'number_users);
+}
+
+((slice, int), int) $TonupTosRegistryV2$_fun_balance((slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'number_users)) = $self;
+    return (($self'owner, $self'number_users), __tact_my_balance());
+}
+
+((slice, int), ()) $TonupTosRegistryV2$_fun_requireOwner((slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'number_users)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'owner, $self'number_users), ());
+}
+
+((slice, int), slice) $TonupTosRegistryV2$_fun_owner((slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'number_users)) = $self;
+    return (($self'owner, $self'number_users), $self'owner);
+}
+
+;;
+;; Receivers of a Contract TonupTosRegistryV2
+;;
+
+((slice, int), ()) $TonupTosRegistryV2$_internal_any_text((slice, int) $self, slice $msg) impure inline {
+    var ($self'owner, $self'number_users) = $self;
+    throw_unless(33150, ($Context$_get_value(__tact_context_get()) >= 200000000));
+    if ($String$_fun_ss_starts_with($msg, __gen_slice_string_56297aad0afc6172c35cfde6f587e2fa0265f458da5ef4bcc69e7ebc77ca7884())) {
+        slice $ref = __tact_create_address(0, 0);
+        slice $s = __tact_str_to_slice($msg);
+        if ((slice_bits($s) == 872)) {
+            $s~skip_bits(488);
+            slice $refs = $Slice$_fun_ss_parse_address($s);
+            $ref = $refs~__tact_load_address();
+        }
+        var ($winit'code, $winit'data) = ($self'owner, $self'number_users)~$TonupTosRegistryV2$_fun_user_child_init(__tact_context_get_sender());
+        $Cell$_fun_send_and_deploy($GiveConsent$_store_cell($GiveConsent$_constructor_addr_referrer(__tact_context_get_sender(), $ref)), ($winit'code, $winit'data));
+    }
+    return (($self'owner, $self'number_users), ());
+}
+
+(((slice, int)), ()) $TonupTosRegistryV2$_internal_binary_ConsentReply((slice, int) $self, (slice, int) $msg) impure inline {
+    var ($self'owner, $self'number_users) = $self;
+    var ($msg'addr, $msg'accepted) = $msg;
+    throw_unless(49729, ( __tact_slice_eq_bits(($self'owner, $self'number_users)~$TonupTosRegistryV2$_fun_user_child_address($msg'addr), __tact_context_get_sender()) ));
+    throw_unless(29763, $msg'accepted);
+    $self'number_users = ($self'number_users + 1);
+    int $msg_value = ($self'owner, $self'number_users)~$TonupTosRegistryV2$_fun_msg_value($Context$_get_value(__tact_context_get()));
+    int $fwd_fee = $Context$_fun_readForwardFee(__tact_context_get());
+    $msg_value = ($msg_value - $fwd_fee);
+    $global_send_ton($msg'addr, $msg_value, false, __gen_cell_comment_24ef058204d5a3be3a35936b985a6e3a760fbecc2969aa5700e78f984327ec24());
+    return (($self'owner, $self'number_users), ());
+}
+
+((slice, int), ()) $TonupTosRegistryV2$_internal_text_0a0833328ac509815f762666d0411c0bfd422f48e0d183444ad2902009e6fc53((slice, int) $self) impure inline {
+    var ($self'owner, $self'number_users) = $self;
+    return (($self'owner, $self'number_users), ());
+}
+
+((slice, int), ()) $TonupTosRegistryV2$_internal_text_68e49d60dbcd3c869c5653e7877acc9972c877f11dbba9acd9aa217c899ab3c5((slice, int) $self) impure inline {
+    var ($self'owner, $self'number_users) = $self;
+    ($self'owner, $self'number_users)~$TonupTosRegistryV2$_fun_requireOwner();
+    int $dust_to_claim = 0;
+    $dust_to_claim = ((__tact_my_balance() - $Context$_get_value(__tact_context_get())) - 200000000);
+    $global_send_ton($self'owner, $dust_to_claim, false, __gen_cell_comment_b8b06dd7dc24ff63d3c8845171dc7bcbf12ff930f31494a5a8b00da7263631ba());
+    return (($self'owner, $self'number_users), ());
+}
+
+(((slice, int)), ()) $TonupTosRegistryV2$_internal_binary_RescueJetton((slice, int) $self, (slice, int, slice) $msg) impure inline {
+    var ($self'owner, $self'number_users) = $self;
+    var ($msg'jetton_wallet_address, $msg'amount, $msg'receiver) = $msg;
+    ($self'owner, $self'number_users)~$TonupTosRegistryV2$_fun_requireOwner();
+    $global_send_jetton_text($msg'jetton_wallet_address, $msg'receiver, $msg'amount, 0, false, __gen_slice_string_6ab6f075e1d85040dc7683d3d4a0fab3335c17e0bef7bd2197dfccb0083ba7cc());
+    return (($self'owner, $self'number_users), ());
+}
+
+(((slice, int)), ()) $TonupTosRegistryV2$_internal_binary_Deploy((slice, int) $self, (int) $deploy) impure inline {
+    var ($self'owner, $self'number_users) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'owner, $self'number_users)~$TonupTosRegistryV2$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'owner, $self'number_users), ());
+}
+
+;;
+;; Get methods of a Contract TonupTosRegistryV2
+;;
+
+_ %msg_value(int $$value) method_id(72550) {
+    int $value = $$value;
+    var self = $TonupTosRegistryV2$_contract_load();
+    var res = self~$TonupTosRegistryV2$_fun_msg_value($value);
+    return res;
+}
+
+_ %userChildAddress(slice $$user) method_id(87453) {
+    slice $user = __tact_verify_address($$user);
+    var self = $TonupTosRegistryV2$_contract_load();
+    var res = self~$TonupTosRegistryV2$_fun_userChildAddress($user);
+    return res;
+}
+
+_ %consentMessage() method_id(86932) {
+    var self = $TonupTosRegistryV2$_contract_load();
+    var res = self~$TonupTosRegistryV2$_fun_consentMessage();
+    return res;
+}
+
+_ %currentVersion() method_id(96959) {
+    var self = $TonupTosRegistryV2$_contract_load();
+    var res = self~$TonupTosRegistryV2$_fun_currentVersion();
+    return res;
+}
+
+_ %numberUsers() method_id(114645) {
+    var self = $TonupTosRegistryV2$_contract_load();
+    var res = self~$TonupTosRegistryV2$_fun_numberUsers();
+    return res;
+}
+
+_ %balance() method_id(104128) {
+    var self = $TonupTosRegistryV2$_contract_load();
+    var res = self~$TonupTosRegistryV2$_fun_balance();
+    return res;
+}
+
+_ %owner() method_id(83229) {
+    var self = $TonupTosRegistryV2$_contract_load();
+    var res = self~$TonupTosRegistryV2$_fun_owner();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmTgkpUVQxRZJw82kfJoiTTxkzXmpdtnL6X6hnfeiv9L3v";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract TonupTosRegistryV2
+;;
+
+((slice, int), int) $TonupTosRegistryV2$_contract_router_internal((slice, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive ConsentReply message
+    if (op == 3418464814) {
+        var msg = in_msg~$ConsentReply$_load();
+        self~$TonupTosRegistryV2$_internal_binary_ConsentReply(msg);
+        return (self, true);
+    }
+    
+    ;; Receive RescueJetton message
+    if (op == 3835594867) {
+        var msg = in_msg~$RescueJetton$_load();
+        self~$TonupTosRegistryV2$_internal_binary_RescueJetton(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$TonupTosRegistryV2$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "fund gas" message
+        if (text_op == 0x0a0833328ac509815f762666d0411c0bfd422f48e0d183444ad2902009e6fc53) {
+            self~$TonupTosRegistryV2$_internal_text_0a0833328ac509815f762666d0411c0bfd422f48e0d183444ad2902009e6fc53();
+            return (self, true);
+        }
+        
+        ;; Receive "withdraw dust" message
+        if (text_op == 0x68e49d60dbcd3c869c5653e7877acc9972c877f11dbba9acd9aa217c899ab3c5) {
+            self~$TonupTosRegistryV2$_internal_text_68e49d60dbcd3c869c5653e7877acc9972c877f11dbba9acd9aa217c899ab3c5();
+            return (self, true);
+        }
+        if (slice_bits(in_msg) >= 32) {
+            self~$TonupTosRegistryV2$_internal_any_text(in_msg.skip_bits(32));
+            return (self, true);
+        }
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $TonupTosRegistryV2$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$TonupTosRegistryV2$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $TonupTosRegistryV2$_contract_store(self);
+}

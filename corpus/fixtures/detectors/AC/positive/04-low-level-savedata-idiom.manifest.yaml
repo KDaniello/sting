@@ -1,0 +1,4 @@
+defect_class: AC
+location: { file: "04-low-level-savedata-idiom.tolk", line: 27, column: 9 }
+description: "`onInternalMessage` unlocks the contract and calls the free-function `saveData()` with no sender check anywhere on the path — the low-level `global`-variable idiom's equivalent of an unguarded `.save()`"
+source: "hacktheton.com's real, currently-live CTF level `tolk_level` (docs/PROJECT_REVIEW.md direction 5) — this fixture is the same shape, transcribed to isolate the pattern rather than the exact level source"

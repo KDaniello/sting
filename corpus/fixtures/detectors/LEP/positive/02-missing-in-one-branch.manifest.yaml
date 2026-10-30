@@ -1,0 +1,4 @@
+defect_class: LEP
+location: { file: "02-missing-in-one-branch.tolk", line: 1, column: 1 }
+description: "`parseWithFlag` calls `.assertEnd()` only on the `hasExtra` branch — the `else` path leaves `s` unterminated"
+source: "TONScanner (arXiv 2501.06459) LEP class; docs/blocks/02-detectors-v1.md"

@@ -1,0 +1,4 @@
+defect_class: ID
+location: { file: "01-swapped-two-fields.tolk", line: 2, column: 25 }
+description: "`save(balance, owner)` writes fields in a different order than `load` reads them (balance,owner vs owner,balance) — same-typed int fields, undetectable by the type checker"
+source: "CertiK: Secure Smart Contract Programming in FunC — Top 10 Tips (swapped load_data/save_data args)"

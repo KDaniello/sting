@@ -1,0 +1,15 @@
+target/
+.git/
+corpus/
+*.log
+
+# `vendor/tree-sitter-func/` (and other `vendor/*` entries not listed
+# below) is real, git-tracked source the workspace build depends on
+# (`Cargo.toml`'s `sting-abi-func` path dependency) — must NOT be excluded
+# here, unlike the platform-specific vendored binaries/node_modules below,
+# which the image resolves at runtime instead (see
+# `Dockerfile.abi-service`'s own header comment for why).
+vendor/tolk/
+vendor/fift/
+vendor/libemulator/
+vendor/tact/node_modules/

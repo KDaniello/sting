@@ -1,0 +1,15 @@
+msrv = "1.96.1"
+
+# Nondeterminism sources banned by docs/ARCHITECTURE.md 8, rules 1 and 2.
+# A simulator whose runs cannot be reproduced bit-for-bit has no verifiable results.
+disallowed-methods = [
+  { path = "std::time::Instant::now", reason = "simulation time is the scheduler's tick; see docs/ARCHITECTURE.md 8 rule 1" },
+  { path = "std::time::SystemTime::now", reason = "simulation time is the scheduler's tick; see docs/ARCHITECTURE.md 8 rule 1" },
+]
+
+disallowed-types = [
+  { path = "std::collections::HashMap", reason = "iteration order is unstable across runs; use BTreeMap in simulation paths. See docs/ARCHITECTURE.md 8 rule 2" },
+  { path = "std::collections::HashSet", reason = "iteration order is unstable across runs; use BTreeSet in simulation paths. See docs/ARCHITECTURE.md 8 rule 2" },
+]
+
+too-many-arguments-threshold = 8

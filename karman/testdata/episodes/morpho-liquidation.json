@@ -1,0 +1,234 @@
+{
+  "origin": {
+    "chain_id": 1,
+    "contract": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "market": "0x94b823e6bd8ea533b4e33fbc307faea0b307301bc48763acc4d4aa4def7636cd",
+    "from_block": 25788677,
+    "to_block": 25788917,
+    "opening_timestamp": 1787136299
+  },
+  "lltv": "860000000000000000",
+  "opening": {
+    "origin": {
+      "chain_id": 1,
+      "protocol": "morpho-blue",
+      "contract": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+      "market": "0x94b823e6bd8ea533b4e33fbc307faea0b307301bc48763acc4d4aa4def7636cd",
+      "block": 25788677
+    },
+    "total_supply_assets": "4554807123777",
+    "total_supply_shares": "4440443954340422871",
+    "total_borrow_assets": "4157275029478",
+    "total_borrow_shares": "4038366987828734167",
+    "last_update": 1787136299,
+    "fee": "0",
+    "holders": [
+      {
+        "holder": "0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+        "supply_shares": "218442894216443109",
+        "borrow_shares": "0",
+        "collateral": "0"
+      },
+      {
+        "holder": "0xbeefff209270748ddd194831b3fa287a5386f5bc",
+        "supply_shares": "290193106138185948",
+        "borrow_shares": "0",
+        "collateral": "0"
+      }
+    ]
+  },
+  "prices": [
+    {
+      "from": 1176,
+      "price": "1916603555400000000000000000"
+    },
+    {
+      "from": 1812,
+      "price": "1916603555400000000000000000"
+    },
+    {
+      "from": 1824,
+      "price": "1916603555400000000000000000"
+    },
+    {
+      "from": 1896,
+      "price": "1916603555400000000000000000"
+    },
+    {
+      "from": 2940,
+      "price": "1916603555400000000000000000"
+    }
+  ],
+  "rates": [
+    {
+      "from": 1176,
+      "per_second": "1792962996"
+    },
+    {
+      "from": 1824,
+      "per_second": "1797641842"
+    },
+    {
+      "from": 1896,
+      "per_second": "1797843320"
+    },
+    {
+      "from": 2940,
+      "per_second": "1797985218"
+    }
+  ],
+  "steps": [
+    {
+      "at": 1176,
+      "actor": 0,
+      "action": {
+        "withdraw": {
+          "market": 0,
+          "given": {
+            "assets": "556343888"
+          }
+        }
+      },
+      "events": [
+        {
+          "interest_accrued": {
+            "market": 0,
+            "interest": "8765725",
+            "fee_shares": "0"
+          }
+        },
+        {
+          "withdrawn": {
+            "market": 0,
+            "holder": 0,
+            "assets": "556343888",
+            "shares": "542374030901601"
+          }
+        }
+      ]
+    },
+    {
+      "at": 1812,
+      "actor": 1,
+      "action": {
+        "supply_collateral": {
+          "market": 0,
+          "assets": "4695806795642554"
+        }
+      },
+      "events": [
+        {
+          "collateral_added": {
+            "market": 0,
+            "holder": 1,
+            "assets": "4695806795642554"
+          }
+        }
+      ]
+    },
+    {
+      "at": 1824,
+      "actor": 1,
+      "action": {
+        "borrow": {
+          "market": 0,
+          "given": {
+            "assets": "7739999"
+          }
+        }
+      },
+      "events": [
+        {
+          "interest_accrued": {
+            "market": 0,
+            "interest": "4842705",
+            "fee_shares": "0"
+          }
+        },
+        {
+          "borrowed": {
+            "market": 0,
+            "holder": 1,
+            "assets": "7739999",
+            "shares": "7518591844313"
+          }
+        }
+      ]
+    },
+    {
+      "at": 1896,
+      "actor": 2,
+      "action": {
+        "liquidate": {
+          "market": 0,
+          "borrower": 1,
+          "given": {
+            "assets": "3990710584046494"
+          }
+        }
+      },
+      "events": [
+        {
+          "interest_accrued": {
+            "market": 0,
+            "interest": "538140",
+            "fee_shares": "0"
+          }
+        },
+        {
+          "liquidated": {
+            "market": 0,
+            "liquidator": 2,
+            "borrower": 1,
+            "repaid": "7327371",
+            "repaid_shares": "7117765414564",
+            "seized": "3990710584046494",
+            "bad_debt": "0",
+            "bad_debt_shares": "0"
+          }
+        }
+      ]
+    },
+    {
+      "at": 2940,
+      "actor": 3,
+      "action": {
+        "supply": {
+          "market": 0,
+          "given": {
+            "assets": "404522566"
+          }
+        }
+      },
+      "events": [
+        {
+          "interest_accrued": {
+            "market": 0,
+            "interest": "7803641",
+            "fee_shares": "0"
+          }
+        },
+        {
+          "supplied": {
+            "market": 0,
+            "holder": 3,
+            "assets": "404522566",
+            "shares": "394363817560578"
+          }
+        }
+      ]
+    }
+  ],
+  "closing": {
+    "total_supply_assets": "4554677252666",
+    "total_supply_shares": "4440295944127081848",
+    "total_borrow_assets": "4157297392317",
+    "total_borrow_shares": "4038367388655163916"
+  },
+  "actors": [
+    "0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+    "0xf16e1061c62c913bc3246e7889876ed0f05af0d6",
+    "0xec547cb4d4510501626e91957b2d5220b379a6c1",
+    "0xbeefff209270748ddd194831b3fa287a5386f5bc"
+  ]
+}

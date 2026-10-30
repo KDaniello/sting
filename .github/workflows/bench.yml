@@ -1,0 +1,32 @@
+name: Bench
+
+on:
+  pull_request:
+    paths:
+      # A change to a detector or to the corpus changes the measured number.
+      - 'crates/sting-detectors/**'
+      - 'corpus/**'
+      # Not in that literal list, but the harness computing the gated
+      # metric is just as much a source of a real regression as the
+      # detectors/corpus it measures — a silent scoring bug would defeat
+      # the gate's whole purpose.
+      - 'crates/sting-bench/**'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo run -p sting-cli -- bench --report bench-report.md
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-report
+          path: |
+            bench-report.md
+            bench-report.json

@@ -1,0 +1,15 @@
+[package]
+name = "sting-tep"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = "1.0.103"
+num-bigint = "0.4.8"
+sting-address = { workspace = true }
+tonlib-core = { workspace = true }

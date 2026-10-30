@@ -1,0 +1,8 @@
+{
+  "name": "sting-vendor-tact",
+  "private": true,
+  "description": "Pinned @tact-lang/compiler install for TactExtractor (crates/sting-abi-tact) - see README.md",
+  "dependencies": {
+    "@tact-lang/compiler": "1.6.13"
+  }
+}

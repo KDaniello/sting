@@ -1,0 +1,40 @@
+{
+  "tier1": {
+    "errors": {
+      "matched": 898,
+      "total": 898
+    },
+    "get_methods": {
+      "matched": 154,
+      "total": 154
+    },
+    "incoming_external": {
+      "matched": 8,
+      "total": 8
+    },
+    "incoming_internal": {
+      "matched": 118,
+      "total": 118
+    },
+    "outgoing": {
+      "matched": 71,
+      "total": 71
+    },
+    "storage": {
+      "matched": 45,
+      "total": 45
+    }
+  },
+  "tier2": {
+    "get_methods": {
+      "true_positives": 6,
+      "false_positives": 0,
+      "false_negatives": 0
+    },
+    "storage_fields": {
+      "true_positives": 0,
+      "false_positives": 11,
+      "false_negatives": 0
+    }
+  }
+}

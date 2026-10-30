@@ -1,0 +1,4 @@
+defect_class: LEP
+location: { file: "03-missing-in-match-arm.tolk", line: 1, column: 1 }
+description: "`parseByOpcode`'s `else` arm reads a field from `s` but never calls `.assertEnd()`, unlike the `1` arm"
+source: "TONScanner (arXiv 2501.06459) LEP class; docs/blocks/02-detectors-v1.md"

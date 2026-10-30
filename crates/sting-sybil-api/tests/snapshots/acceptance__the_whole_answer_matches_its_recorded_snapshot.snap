@@ -1,0 +1,16 @@
+---
+source: crates/sting-sybil-api/tests/acceptance.rs
+expression: json
+---
+{
+  "address": "0:known",
+  "band": "high",
+  "model_version": "test.v1",
+  "partial": false,
+  "reasons": [
+    "cluster_agreement (contributes 3.000)",
+    "iet_cv (contributes -0.100)"
+  ],
+  "risk": 0.8698915256370021,
+  "schema_version": "1.0"
+}

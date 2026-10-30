@@ -1,0 +1,17 @@
+[package]
+name = "sting-fift"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+thiserror = { workspace = true }
+wait-timeout = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+sting-tolkc = { workspace = true }

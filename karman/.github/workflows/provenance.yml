@@ -1,0 +1,74 @@
+# Is the vendored reference still the code it says it is?
+#
+# Deliberately not part of the pull-request gate. The claim it checks is about a chain rather
+# than about this repository, and it needs a public node to check it — a gate that fails because
+# somebody else's endpoint was busy is a gate that teaches people to ignore it. The tests already
+# refuse a vendored artifact that disagrees with its own recorded hash; this asks the other half,
+# which is whether that hash is what the chain reports.
+name: Provenance
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  vendored-reference:
+    name: Vendored reference
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ask a node what it holds at the address the artifact names
+        run: |
+          set -euo pipefail
+          address=$(jq -r .address testdata/reference/morpho-blue.json)
+          block=$(jq -r .block testdata/reference/morpho-blue.json)
+          claimed=$(jq -r .code_hash testdata/reference/morpho-blue.json)
+          hex=$(printf '0x%x' "$block")
+          reported=$(curl -sS -m 60 -X POST https://eth.drpc.org \
+            -H 'Content-Type: application/json' \
+            -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_getProof\",\"params\":[\"$address\",[],\"$hex\"]}" \
+            | jq -r .result.codeHash)
+          echo "artifact: $claimed"
+          echo "chain:    $reported"
+          test "$claimed" = "$reported"
+
+  pulled-market:
+    name: Pulled market
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ask the same node what that market held at that block
+        run: |
+          set -euo pipefail
+          contract=$(jq -r .origin.contract testdata/fixtures/morpho-market.json)
+          market=$(jq -r .origin.market testdata/fixtures/morpho-market.json)
+          block=$(printf '0x%x' "$(jq -r .origin.block testdata/fixtures/morpho-market.json)")
+          answer=$(curl -sS -m 60 -X POST https://eth.drpc.org             -H 'Content-Type: application/json'             -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_call\",\"params\":[{\"to\":\"$contract\",\"data\":\"0x5c60e39a${market#0x}\"},\"$block\"]}"             | jq -r .result)
+          for at in 0 1 2 3 4 5; do
+            word=0x${answer:$((2 + at * 64)):64}
+            printf '%d
+' "$word"
+          done > chain.txt
+          jq -r '.total_supply_assets, .total_supply_shares, .total_borrow_assets,
+                 .total_borrow_shares, .last_update, .fee'             testdata/fixtures/morpho-market.json > fixture.txt
+          diff -u fixture.txt chain.txt
+
+  recorded-episode:
+    name: Recorded episode
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ask the node where that market stood when the episode ended
+        run: |
+          set -euo pipefail
+          episode=testdata/episodes/morpho-liquidation.json
+          contract=$(jq -r .origin.contract $episode)
+          market=$(jq -r .origin.market $episode)
+          block=$(printf '0x%x' "$(jq -r .origin.to_block $episode)")
+          answer=$(curl -sS -m 60 -X POST https://eth.drpc.org             -H 'Content-Type: application/json'             -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_call\",\"params\":[{\"to\":\"$contract\",\"data\":\"0x5c60e39a${market#0x}\"},\"$block\"]}"             | jq -r .result)
+          for at in 0 1 2 3; do printf '%d
+' "0x${answer:$((2 + at * 64)):64}"; done > chain.txt
+          jq -r '.closing.total_supply_assets, .closing.total_supply_shares,
+                 .closing.total_borrow_assets, .closing.total_borrow_shares' $episode > fixture.txt
+          diff -u fixture.txt chain.txt

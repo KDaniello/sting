@@ -1,0 +1,4 @@
+defect_class: TLB
+location: { file: "03-coins-vs-uint-mismatch.tolk", line: 2, column: 25 }
+description: "`save` writes `amount` as storeCoins(..) (VarUInteger16, self-describing length prefix) but `load` reads it back as loadUint(64) — completely different bit layout, not just a different width"
+source: "sting project review 2026-07-19, direction 4 (TL-B (de)serialization mismatch, distinct from ID's order-only check)"

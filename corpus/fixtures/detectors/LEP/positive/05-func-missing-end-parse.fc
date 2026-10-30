@@ -1,0 +1,10 @@
+;; A message body is read and its end is never asserted, so a caller can append
+;; anything after the opcode and the handler ignores it.
+() recv_internal(int msg_value, cell in_msg_full, slice in_msg_body) impure {
+  int op = in_msg_body~load_uint(32);
+  int query_id = in_msg_body~load_uint(64);
+  if (op == 1) {
+    return ();
+  }
+  throw(0xffff);
+}

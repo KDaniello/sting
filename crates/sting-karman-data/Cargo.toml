@@ -1,0 +1,28 @@
+[package]
+name = "sting-karman-data"
+description = "The workspace's single I/O boundary: fixtures on disk, and every network adapter"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+# Nothing here is published: this is a platform rather than a set of libraries, and a crate that
+# says nothing about publication is a crate a lint asks for keywords it will never use.
+publish = false
+
+[dependencies]
+sting-karman-core = { workspace = true }
+# The transport every part of the platform reaches a chain through. This crate is the workspace's
+# one I/O boundary, which is exactly where it belongs.
+sting-chain = { workspace = true }
+sting-karman-types = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+
+[lints]
+workspace = true

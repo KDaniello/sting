@@ -1,0 +1,16 @@
+[files]
+extend-exclude = [
+  "LICENSE-APACHE",
+  "docs/ru/**",
+  "testdata/**",
+]
+
+[default.extend-words]
+# Domain vocabulary that spell checkers dislike. `Pn` is how the checker splits `PnL`, which
+# is the trading term and appears wherever a position carries one.
+karman = "karman"
+Pn = "Pn"
+# cadCAD spells its own parameter this way; the reference model has to call it what it is called.
+supress = "supress"
+# French, in the title of a work the bibliography cites. A title is quoted, never corrected.
+sur = "sur"

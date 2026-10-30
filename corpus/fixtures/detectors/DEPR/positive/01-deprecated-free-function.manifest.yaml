@@ -1,0 +1,4 @@
+defect_class: DEPR
+location: { file: "01-deprecated-free-function.tolk", line: 2, column: 12 }
+description: "`stringCrc32(data)` is a deprecated free function — Tolk's own stdlib marks it @deprecated, in favor of `data.crc32()`"
+source: "ton-blockchain/ton, crypto/smartcont/tolk-stdlib/common.tolk (checked 2026-07-20) — see docs/REFERENCES.md's Tolk stdlib deprecations section"

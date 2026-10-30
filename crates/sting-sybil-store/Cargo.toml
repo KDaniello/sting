@@ -1,0 +1,19 @@
+[package]
+name = "sting-sybil-store"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "Partitioned columnar files on disk: one writer, one rule about what a partition is."
+
+[dependencies]
+sting-sybil-types = { workspace = true }
+arrow = { workspace = true }
+parquet = { workspace = true, features = ["arrow"] }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true

@@ -1,0 +1,4 @@
+defect_class: EPS
+location: { file: "02-unseeded-uint256.tolk", line: 2, column: 19 }
+description: "`random.uint256()` generates a fresh pseudo-random value with no preceding seed-changing call anywhere in the function — same-block replay risk, see eps.rs's own doc comment for the full mechanism"
+source: "sting's own addition (docs/PROJECT_REVIEW.md direction 5 session 2 Фаза 6)"

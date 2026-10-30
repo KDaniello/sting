@@ -1,0 +1,39 @@
+[profile.default]
+# A retried test is a test whose result nobody knows. A flaky one is a finding, not a nuisance
+# (AGENTS.md, "Tests").
+retries = 0
+fail-fast = false
+slow-timeout = { period = "60s", terminate-after = 5 }
+status-level = "fail"
+final-status-level = "slow"
+
+[profile.ci]
+retries = 0
+fail-fast = false
+failure-output = "immediate-final"
+status-level = "retry"
+
+# Tests that drive the real emulator or the real compiler hold a process and a library handle, and
+# they are slow by nature rather than by accident.
+[[profile.default.overrides]]
+filter = "package(sting-emulator) or package(sting-emulator-sys) or package(sting-tolkc)"
+slow-timeout = { period = "300s", terminate-after = 3 }
+
+# Anything that reaches the chain is rate-limited to ten requests a second by the key it uses, so it
+# runs alone and is given room rather than being called slow.
+[[profile.default.overrides]]
+filter = "test(/live/) or test(/real_/)"
+threads-required = 1
+slow-timeout = { period = "600s", terminate-after = 3 }
+
+# The column-store acceptance tests share one database, and the store is the thing they assert
+# about: two of them at once see each other's rows and fail for a reason that has nothing to do
+# with what they check. Their own module doc comments have said `--test-threads=1` since they were
+# written; this is that instruction, enforced rather than remembered.
+[test-groups]
+column-store = { max-threads = 1 }
+
+[[profile.default.overrides]]
+filter = "binary(clickhouse_acceptance)"
+test-group = "column-store"
+slow-timeout = { period = "300s", terminate-after = 3 }

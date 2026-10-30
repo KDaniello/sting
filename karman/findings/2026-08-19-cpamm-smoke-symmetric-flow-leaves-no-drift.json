@@ -1,0 +1,33 @@
+{
+  "name": "symmetric uninformed flow leaves the curve pool where it found it",
+  "registered": "2026-08-19",
+  "statement": "Across a sweep of the cpamm-smoke scenario, the median final token reserve drifts less than five hundred basis points from its opening value in either direction.",
+  "basis": "The population is a fair coin between buying and selling with a uniform size, so the flow carries no directional expectation. What remains is the mechanism's own rounding, which floors every output and therefore favours the pool by at most one base unit per swap: over five hundred ticks and five traders that is at most twenty-five hundred units against a reserve of a billion, or a fortieth of a basis point. Five hundred basis points is four orders of magnitude above that bound and is chosen to be reachable only by a defect, not by accumulation. A measurement outside it is a rounding direction taken the wrong way, an asymmetry in the population, or an arithmetic error, and the claim is refuted rather than the band widened.",
+  "applies_to": {
+    "scenario": "cpamm-smoke",
+    "seed": 42,
+    "n_runs": 1000,
+    "n_ticks": 500
+  },
+  "zones": [
+    {
+      "metric": "token_reserve",
+      "statistic": "drift_bps",
+      "at_least": "-500",
+      "at_most": "500",
+      "says": "confirmed"
+    },
+    {
+      "metric": "token_reserve",
+      "statistic": "drift_bps",
+      "at_most": "-501",
+      "says": "refuted"
+    },
+    {
+      "metric": "token_reserve",
+      "statistic": "drift_bps",
+      "at_least": "501",
+      "says": "refuted"
+    }
+  ]
+}

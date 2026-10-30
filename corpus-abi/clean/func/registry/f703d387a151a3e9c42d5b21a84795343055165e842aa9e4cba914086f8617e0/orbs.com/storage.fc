@@ -1,0 +1,55 @@
+#include "../../../node_modules/@layerzerolabs/layerzero-v2-ton/src/funC++/classlib.fc";
+
+;; Jetton opcodes
+#include "../token/op-codes.fc";
+
+;; required object name
+const int TokenAdmin::NAME = "tokenAdmin"u;
+
+;; field names
+const int TokenAdmin::minterContract = 0;
+const int TokenAdmin::admins = 1;
+const int TokenAdmin::superAdmin = 2;
+const int TokenAdmin::tentativeSuperAdmin = 3;
+const int TokenAdmin::initialized = 4;
+
+;; @owner manager
+cell TokenAdmin::New(int superAdmin) method_id {
+    return cl::declare(
+        TokenAdmin::NAME,
+        unsafeTuple([
+            [cl::t::address, NULLADDRESS],            ;; TokenAdmin::minterContract
+            [cl::t::dict256, cl::dict256::New()],     ;; TokenAdmin::admins
+            [cl::t::address, superAdmin],             ;; TokenAdmin::superAdmin
+            [cl::t::address, NULLADDRESS],            ;; TokenAdmin::tentativeSuperAdmin
+            [cl::t::bool, false]                      ;; TokenAdmin::initialized
+        ])
+    );
+}
+
+int getMinterContract() impure inline {
+    return getContractStorage().cl::get<address>(TokenAdmin::minterContract);
+}
+
+slice getMinterContractStd() impure inline {
+    return hashpartToBasechainAddressStd(
+        getContractStorage().cl::get<address>(TokenAdmin::minterContract)
+    );
+}
+
+;; Get the admin address for a given opcode
+int getOpcodeAdmin(int opcode) impure inline {
+    (int admin, _) = getContractStorage()
+        .cl::nestedDict256::get<uint256>(TokenAdmin::admins, opcode);
+
+    ;; admin == 0 == NULLADDRESS if not exist
+    return admin;
+}
+
+int getSuperAdmin() impure inline {
+    return getContractStorage().cl::get<address>(TokenAdmin::superAdmin);
+}
+
+int getTentativeSuperAdmin() impure inline {
+    return getContractStorage().cl::get<address>(TokenAdmin::tentativeSuperAdmin);
+}
