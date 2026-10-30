@@ -9,9 +9,6 @@ parsing, dataflow, an emulator, a method dictionary — and three surfaces that 
 | abi-layer | what this contract's storage, messages, get methods and error codes are | `abi-layer extract`, `sting-abi-service` |
 | scamcheck | which rug and scam signals a jetton or an NFT collection carries | `sting-scamcheck`, `gift_trust_check` |
 
-Nothing is published. There is no git remote, every crate carries `version = "0.0.0"` and
-`publish = false`, and a release is a decision taken later ([`docs/ROADMAP.md`](docs/ROADMAP.md) §2).
-
 ---
 
 ## 1. What it stands on
@@ -186,12 +183,3 @@ English is canonical and [`docs/ru/`](docs/ru/README.md) mirrors it heading for 
   order of work.
 - [`docs/DECISIONS.md`](docs/DECISIONS.md) — decisions taken, each with what it costs.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`AGENTS.md`](AGENTS.md) — what gets a change rejected.
-
-## 9. What this platform does not do
-
-It does not compile Tolk and does not decompile bytecode. It does not prove a contract correct: a
-detector produces a candidate, and only a deployment confirms one. It does not audit the chain itself —
-that is a separate direction with its own rules ([`docs/audit/README.md`](docs/audit/README.md)). It
-does not carry Tact as a first-class analysis target, because Tact is deprecated upstream and enters
-only through abi-layer's extractor. And it publishes nothing: every number here is measured on this
-tree, by this checkout, and none of it has been released.
