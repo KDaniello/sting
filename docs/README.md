@@ -23,6 +23,10 @@ documents answer one question only: how is it built, and why exactly this way.
 | [`audit/`](./audit/README.md) | how an external audit of this repository is run |
 | [`repo/`](./repo/ci.md) | what CI runs, and how a release is cut |
 
+Two names in these documents point outside the tree. `sybil/` is the Python side of the clustering
+contour, and `tools/ton-res` is the liteserver tool; neither is published here, and the Rust crates
+`sting-sybil-*` do not need them to build. A link to either is a description, not a path to follow.
+
 Working in the repository: [`../AGENTS.md`](../AGENTS.md) · [`../CONTRIBUTING.md`](../CONTRIBUTING.md).
 
 ## 2. What `sting` is, in three sentences

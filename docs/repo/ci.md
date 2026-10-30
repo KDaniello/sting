@@ -74,7 +74,7 @@ deterministic unit test in `crates/sting-fuzz`, which the offline gate already r
 It does not run the live tests. Anything that needs the network, a container or a key from `.env`
 stays behind `make test-live` and behind an `#[ignore]`, and a run of it is a human's decision.
 
-It does not guard the projects that have not merged yet. `karman/` and `sybil/` are
+It does not guard the projects that have not merged yet. `karman/` is
 outside the workspace, and no workflow here compiles them.
 
 It does not measure performance. Regression in speed or memory is caught by the benchmarks a human

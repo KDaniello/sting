@@ -15,7 +15,6 @@ extend-exclude = [
   # Separate workspaces, each with its own configuration and its own gate. The root check does not
   # reach into them.
   "karman/**",
-  "sybil/**",
 ]
 
 [default]
