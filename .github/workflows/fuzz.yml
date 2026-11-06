@@ -26,7 +26,7 @@ jobs:
       matrix:
         target: [fuzz_send_message, fuzz_tx_sequence]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@nightly
         with:
           components: llvm-tools
@@ -74,7 +74,7 @@ jobs:
         working-directory: crates/sting-fuzz
         continue-on-error: true
         run: cargo fuzz run ${{ matrix.target }} -- -max_total_time=60
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: steps.smoke_run.outcome == 'failure'
         with:
           name: fuzz-crash-${{ matrix.target }}
@@ -87,7 +87,7 @@ jobs:
       matrix:
         target: [fuzz_send_message, fuzz_tx_sequence]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@nightly
         with:
           components: llvm-tools
@@ -123,7 +123,7 @@ jobs:
         working-directory: crates/sting-fuzz
         continue-on-error: true
         run: cargo fuzz run ${{ matrix.target }} -- -max_total_time=1800
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: fuzz-nightly-${{ matrix.target }}

@@ -34,7 +34,7 @@ jobs:
             local_name: tolk.exe
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - name: Fetch native tolk compiler (${{ matrix.os }})
