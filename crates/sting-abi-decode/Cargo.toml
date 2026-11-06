@@ -12,7 +12,7 @@ workspace = true
 sting-abi-dictionary = { workspace = true }
 sting-address = { workspace = true }
 hex = { workspace = true }
-num-bigint = "0.4.8"
+num-bigint = "0.5.1"
 serde = { workspace = true }
 thiserror = { workspace = true }
 tonlib-core = { workspace = true }

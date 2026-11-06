@@ -15,4 +15,4 @@ serde_json = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
-jsonschema = "0.48.0"
+jsonschema = "0.60.2"

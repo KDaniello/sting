@@ -18,7 +18,7 @@ sting-tolkc = { workspace = true }
 sting-corpus = { workspace = true }
 sting-report = { workspace = true }
 base64 = { workspace = true }
-num-bigint = "0.4.8"
+num-bigint = "0.5.1"
 rayon = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
