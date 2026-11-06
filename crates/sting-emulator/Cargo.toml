@@ -29,7 +29,7 @@ module_name_repetitions = "allow"
 
 [dependencies]
 base64 = { workspace = true }
-num-bigint = "0.4.8"
+num-bigint = "0.5.1"
 serde = { workspace = true }
 serde_json = { workspace = true }
 sting-emulator-sys = { workspace = true }

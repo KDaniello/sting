@@ -10,6 +10,6 @@ workspace = true
 
 [dependencies]
 anyhow = "1.0.103"
-num-bigint = "0.4.8"
+num-bigint = "0.5.1"
 sting-address = { workspace = true }
 tonlib-core = { workspace = true }
